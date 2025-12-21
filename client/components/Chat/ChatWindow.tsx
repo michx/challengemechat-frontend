@@ -164,14 +164,14 @@ export function ChatWindow({
             disabled={isLoading}
             className="flex-1"
           />
-          <Button
+          <button
             onClick={handleSendMessage}
             disabled={isLoading || !input.trim()}
-            size="icon"
-            className="bg-primary hover:bg-primary/90"
+            className="flex items-center justify-center w-12 h-10 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1"
+            title="Send message"
           >
             <Send size={20} />
-          </Button>
+          </button>
         </div>
       </div>
     </div>
