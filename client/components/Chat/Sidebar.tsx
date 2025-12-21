@@ -125,22 +125,23 @@ export function Sidebar({
       <div className="border-t border-sidebar-border p-4 space-y-3">
         {/* Font Size Control */}
         <div>
-          <label className="text-xs font-semibold text-sidebar-foreground mb-2 block uppercase tracking-wider opacity-70">
+          <label className="text-xs font-semibold text-sidebar-foreground mb-2 block uppercase tracking-wider opacity-70 flex items-center gap-2">
+            <Type size={14} />
             Font Size
           </label>
           <div className="grid grid-cols-4 gap-2">
-            {FONT_SIZES.map((size) => (
+            {FONT_SIZES.map((size, index) => (
               <button
                 key={size}
                 onClick={() => onFontSizeChange?.(size)}
-                className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${
+                className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 shadow-sm ${
                   currentFontSize === size
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                    : "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-opacity-80"
+                    ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
+                    : "bg-gray-700 text-white hover:bg-gray-600"
                 }`}
                 title={`${size} font size`}
               >
-                {size === "sm" ? "S" : size === "base" ? "M" : size === "lg" ? "L" : "XL"}
+                {FONT_ICONS[index]}
               </button>
             ))}
           </div>
@@ -149,7 +150,7 @@ export function Sidebar({
         {/* Clear Chat Button */}
         <button
           onClick={onClearChat}
-          className="sidebar-button-secondary w-full flex items-center justify-center gap-2"
+          className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-700 text-white hover:bg-gray-600 shadow-md flex items-center justify-center gap-2 active:scale-95"
         >
           <Trash2 size={16} />
           <span>Clear Chat</span>
