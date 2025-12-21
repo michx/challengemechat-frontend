@@ -41,6 +41,9 @@ export function Sidebar({
   onModelSelect,
   onCategoryItemSelect,
   selectedModel,
+  onFontSizeChange,
+  onClearChat,
+  currentFontSize = "base",
 }: SidebarProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
