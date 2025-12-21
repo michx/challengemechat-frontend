@@ -2,16 +2,29 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Sidebar } from "@/components/Chat/Sidebar";
 import { ChatWindow } from "@/components/Chat/ChatWindow";
+import { UserMenu } from "@/components/Chat/UserMenu";
 import { Button } from "@/components/ui/button";
 
 export default function Index() {
   const [selectedModel, setSelectedModel] = useState("ChatGPT");
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">(
+    "base",
+  );
+  const [clearChatTrigger, setClearChatTrigger] = useState(0);
 
   const handleCategoryItemSelect = (item: string) => {
     setSelectedCategory(item);
     setMobileDrawerOpen(false);
+  };
+
+  const handleClearChat = () => {
+    setClearChatTrigger((prev) => prev + 1);
+  };
+
+  const handleLogout = () => {
+    alert("Logout functionality would be implemented here");
   };
 
   return (
