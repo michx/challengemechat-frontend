@@ -125,54 +125,30 @@
 
 @layer components {
   .chat-message-user {
-    @apply ml-auto w-fit max-w-xs bg-primary text-primary-foreground rounded-lg px-4 py-2 break-words;
+    @apply ml-auto w-fit max-w-xs bg-blue-600 text-white rounded-lg px-4 py-2 break-words shadow-md;
   }
 
   .chat-message-ai {
-    @apply mr-auto w-fit max-w-xs bg-secondary text-secondary-foreground rounded-lg px-4 py-2 break-words;
+    @apply mr-auto w-fit max-w-xs bg-gray-200 text-gray-900 rounded-lg px-4 py-2 break-words shadow-md;
   }
 
-  .sidebar-button {
-    @apply w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-left active:scale-95;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-    transform: translateY(0);
-  }
-
-  .sidebar-button:hover {
-    @apply -translate-y-1;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .sidebar-button:active {
-    @apply translate-y-0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  }
-
-  .sidebar-button-primary {
-    @apply sidebar-button bg-sidebar-primary text-sidebar-primary-foreground;
-  }
-
-  .sidebar-button-secondary {
-    @apply sidebar-button bg-sidebar-accent text-sidebar-accent-foreground;
-  }
-
-  /* 3D effect for regular buttons */
+  /* 3D effect for all buttons */
   button {
     position: relative;
   }
 
-  button:not(.sidebar-button):not([variant="ghost"]):not([variant="link"]) {
-    @apply transition-all duration-200;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  button:not([variant="ghost"]):not([variant="link"]) {
+    @apply transition-all duration-200 active:scale-95;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
     transform: translateY(0);
   }
 
-  button:not(.sidebar-button):not([variant="ghost"]):not([variant="link"]):hover {
+  button:not([variant="ghost"]):not([variant="link"]):hover:not(:disabled) {
     @apply -translate-y-1;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.15);
   }
 
-  button:not(.sidebar-button):not([variant="ghost"]):not([variant="link"]):active {
+  button:not([variant="ghost"]):not([variant="link"]):active {
     @apply translate-y-0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   }
