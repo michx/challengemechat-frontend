@@ -28,7 +28,12 @@ const MODELS = [
 ];
 
 const FONT_SIZES = ["sm", "base", "lg", "xl"] as const;
-const FONT_ICONS = ["A", "A", "A", "A"];
+const FONT_LABELS = [
+  { size: "sm", label: "S" },
+  { size: "base", label: "M" },
+  { size: "lg", label: "L" },
+  { size: "xl", label: "XL" },
+];
 
 const CATEGORIES = {
   Ethics: { items: ["Fairness", "Transparency", "Accountability", "Privacy", "Bias Detection"], icon: Shield },
