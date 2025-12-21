@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { ChevronDown, Trash2 } from "lucide-react";
+import {
+  ChevronDown,
+  Trash2,
+  Sparkles,
+  MessageCircle,
+  Brain,
+  Zap,
+  Shield,
+  AlertTriangle,
+  Type,
+} from "lucide-react";
 
 interface SidebarProps {
   onModelSelect: (model: string) => void;
@@ -10,31 +20,20 @@ interface SidebarProps {
   currentFontSize?: "sm" | "base" | "lg" | "xl";
 }
 
-const MODELS = ["Gemini", "ChatGPT", "Claude", "Custom Model"];
+const MODELS = [
+  { name: "Gemini", icon: Sparkles },
+  { name: "ChatGPT", icon: MessageCircle },
+  { name: "Claude", icon: Brain },
+  { name: "Custom Model", icon: Zap },
+];
+
 const FONT_SIZES = ["sm", "base", "lg", "xl"] as const;
+const FONT_ICONS = ["A", "A", "A", "A"];
 
 const CATEGORIES = {
-  Ethics: [
-    "Fairness",
-    "Transparency",
-    "Accountability",
-    "Privacy",
-    "Bias Detection",
-  ],
-  Cyber: [
-    "Threat Detection",
-    "Vulnerability Assessment",
-    "Incident Response",
-    "Security Hardening",
-    "Penetration Testing",
-  ],
-  Toxic: [
-    "Content Moderation",
-    "Toxicity Detection",
-    "Harmful Content Filter",
-    "Safe Mode",
-    "Sensitivity Analysis",
-  ],
+  Ethics: { items: ["Fairness", "Transparency", "Accountability", "Privacy", "Bias Detection"], icon: Shield },
+  Cyber: { items: ["Threat Detection", "Vulnerability Assessment", "Incident Response", "Security Hardening", "Penetration Testing"], icon: Zap },
+  Toxic: { items: ["Content Moderation", "Toxicity Detection", "Harmful Content Filter", "Safe Mode", "Sensitivity Analysis"], icon: AlertTriangle },
 };
 
 export function Sidebar({
