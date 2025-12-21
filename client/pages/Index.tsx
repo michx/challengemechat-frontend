@@ -35,28 +35,39 @@ export default function Index() {
           onModelSelect={setSelectedModel}
           onCategoryItemSelect={handleCategoryItemSelect}
           selectedModel={selectedModel}
+          onFontSizeChange={setFontSize}
+          onClearChat={handleClearChat}
+          currentFontSize={fontSize}
         />
       </div>
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
+        {/* Desktop Header - Right Side */}
+        <div className="hidden md:flex items-center justify-end border-b border-border px-6 py-4 bg-background">
+          <UserMenu onLogout={handleLogout} />
+        </div>
+
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between border-b border-border px-4 py-3 bg-background">
           <h1 className="text-lg font-semibold text-foreground">
             {selectedModel}
           </h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
-            className="md:hidden"
-          >
-            {mobileDrawerOpen ? (
-              <X size={24} />
-            ) : (
-              <Menu size={24} />
-            )}
-          </Button>
+          <div className="flex items-center gap-3">
+            <UserMenu onLogout={handleLogout} />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
+              className="md:hidden"
+            >
+              {mobileDrawerOpen ? (
+                <X size={24} />
+              ) : (
+                <Menu size={24} />
+              )}
+            </Button>
+          </div>
         </div>
 
         {/* Mobile Sidebar Overlay */}
@@ -74,6 +85,9 @@ export default function Index() {
                 }}
                 onCategoryItemSelect={handleCategoryItemSelect}
                 selectedModel={selectedModel}
+                onFontSizeChange={setFontSize}
+                onClearChat={handleClearChat}
+                currentFontSize={fontSize}
               />
             </div>
           </>
@@ -84,6 +98,8 @@ export default function Index() {
           <ChatWindow
             selectedModel={selectedModel}
             selectedCategory={selectedCategory}
+            fontSize={fontSize}
+            onClearChat={handleClearChat}
           />
         </div>
       </div>
