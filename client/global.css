@@ -103,8 +103,12 @@
     @apply border-border;
   }
 
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 
   :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
@@ -116,5 +120,27 @@
   code {
     overflow-x: auto;
     white-space: pre;
+  }
+}
+
+@layer components {
+  .chat-message-user {
+    @apply ml-auto w-fit max-w-xs bg-primary text-primary-foreground rounded-lg px-4 py-2 break-words;
+  }
+
+  .chat-message-ai {
+    @apply mr-auto w-fit max-w-xs bg-secondary text-secondary-foreground rounded-lg px-4 py-2 break-words;
+  }
+
+  .sidebar-button {
+    @apply w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 text-left;
+  }
+
+  .sidebar-button-primary {
+    @apply sidebar-button bg-sidebar-primary text-sidebar-primary-foreground hover:bg-opacity-90;
+  }
+
+  .sidebar-button-secondary {
+    @apply sidebar-button bg-sidebar-accent text-sidebar-accent-foreground hover:bg-opacity-80;
   }
 }
