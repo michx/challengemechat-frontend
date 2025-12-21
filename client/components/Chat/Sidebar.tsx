@@ -135,18 +135,18 @@ export function Sidebar({
             Font Size
           </label>
           <div className="grid grid-cols-4 gap-2">
-            {FONT_SIZES.map((size, index) => (
+            {FONT_LABELS.map(({ size: fontSize, label }) => (
               <button
-                key={size}
-                onClick={() => onFontSizeChange?.(size)}
+                key={fontSize}
+                onClick={() => onFontSizeChange?.(fontSize)}
                 className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 shadow-sm ${
-                  currentFontSize === size
+                  currentFontSize === fontSize
                     ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
                     : "bg-gray-700 text-white hover:bg-gray-600"
                 }`}
-                title={`${size} font size`}
+                title={`${fontSize} font size`}
               >
-                {FONT_ICONS[index]}
+                {label}
               </button>
             ))}
           </div>
