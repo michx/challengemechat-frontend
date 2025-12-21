@@ -133,15 +133,48 @@
   }
 
   .sidebar-button {
-    @apply w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 text-left;
+    @apply w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-left active:scale-95;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transform: translateY(0);
+  }
+
+  .sidebar-button:hover {
+    @apply -translate-y-1;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-button:active {
+    @apply translate-y-0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   }
 
   .sidebar-button-primary {
-    @apply sidebar-button bg-sidebar-primary text-sidebar-primary-foreground hover:bg-opacity-90;
+    @apply sidebar-button bg-sidebar-primary text-sidebar-primary-foreground;
   }
 
   .sidebar-button-secondary {
-    @apply sidebar-button bg-sidebar-accent text-sidebar-accent-foreground hover:bg-opacity-80;
+    @apply sidebar-button bg-sidebar-accent text-sidebar-accent-foreground;
+  }
+
+  /* 3D effect for regular buttons */
+  button {
+    position: relative;
+  }
+
+  button:not(.sidebar-button):not([variant="ghost"]):not([variant="link"]) {
+    @apply transition-all duration-200;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transform: translateY(0);
+  }
+
+  button:not(.sidebar-button):not([variant="ghost"]):not([variant="link"]):hover {
+    @apply -translate-y-1;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  button:not(.sidebar-button):not([variant="ghost"]):not([variant="link"]):active {
+    @apply translate-y-0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   }
 
   .delay-100 {
