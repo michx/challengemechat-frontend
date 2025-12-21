@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Sidebar } from "@/components/Chat/Sidebar";
 import { ChatWindow } from "@/components/Chat/ChatWindow";
@@ -6,6 +7,7 @@ import { UserMenu } from "@/components/Chat/UserMenu";
 import { Button } from "@/components/ui/button";
 
 export default function Index() {
+  const navigate = useNavigate();
   const [selectedModel, setSelectedModel] = useState("ChatGPT");
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -24,7 +26,9 @@ export default function Index() {
   };
 
   const handleLogout = () => {
-    alert("Logout functionality would be implemented here");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
+    navigate("/login");
   };
 
   return (
