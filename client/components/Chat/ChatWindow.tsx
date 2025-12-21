@@ -14,7 +14,7 @@ interface ChatWindowProps {
   selectedModel: string;
   selectedCategory?: string;
   fontSize: "sm" | "base" | "lg" | "xl";
-  onClearChat?: () => void;
+  onClearChat?: number;
 }
 
 export function ChatWindow({
@@ -45,6 +45,20 @@ export function ChatWindow({
       });
     }
   }, [selectedCategory]);
+
+  useEffect(() => {
+    if (onClearChat !== undefined && onClearChat > 0) {
+      setMessages([
+        {
+          id: "1",
+          content: `Hi! I'm using ${selectedModel}. How can I help you today?`,
+          role: "ai",
+          timestamp: new Date(),
+        },
+      ]);
+      setInput("");
+    }
+  }, [onClearChat, selectedModel]);
 
   useEffect(() => {
     if (scrollContainerRef.current) {
