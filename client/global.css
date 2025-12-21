@@ -143,4 +143,12 @@
   .sidebar-button-secondary {
     @apply sidebar-button bg-sidebar-accent text-sidebar-accent-foreground hover:bg-opacity-80;
   }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
 }
