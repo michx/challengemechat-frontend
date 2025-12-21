@@ -27,13 +27,12 @@ const MODELS = [
   { name: "Custom Model", icon: Zap },
 ];
 
-const FONT_SIZES = ["sm", "base", "lg", "xl"] as const;
 const FONT_LABELS = [
   { size: "sm", label: "S" },
   { size: "base", label: "M" },
   { size: "lg", label: "L" },
   { size: "xl", label: "XL" },
-];
+] as const;
 
 const CATEGORIES = {
   Ethics: { items: ["Fairness", "Transparency", "Accountability", "Privacy", "Bias Detection"], icon: Shield },
