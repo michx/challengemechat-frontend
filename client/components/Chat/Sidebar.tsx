@@ -54,17 +54,18 @@ export function Sidebar({
           Models
         </h3>
         <div className="space-y-2">
-          {MODELS.map((model) => (
+          {MODELS.map(({ name, icon: IconComponent }) => (
             <button
-              key={model}
-              onClick={() => onModelSelect(model)}
-              className={`sidebar-button-secondary w-full ${
-                selectedModel === model
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : ""
+              key={name}
+              onClick={() => onModelSelect(name)}
+              className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                selectedModel === name
+                  ? "bg-blue-600 text-white shadow-lg hover:bg-blue-700"
+                  : "bg-gray-700 text-white hover:bg-gray-600 shadow-md"
               }`}
             >
-              {model}
+              <IconComponent size={16} />
+              <span>{name}</span>
             </button>
           ))}
         </div>
