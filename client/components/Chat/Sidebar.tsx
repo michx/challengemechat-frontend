@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Trash2 } from "lucide-react";
 
 interface SidebarProps {
   onModelSelect: (model: string) => void;
   onCategoryItemSelect: (item: string) => void;
   selectedModel: string;
+  onFontSizeChange?: (size: "sm" | "base" | "lg" | "xl") => void;
+  onClearChat?: () => void;
+  currentFontSize?: "sm" | "base" | "lg" | "xl";
 }
 
 const MODELS = ["Gemini", "ChatGPT", "Claude", "Custom Model"];
+const FONT_SIZES = ["sm", "base", "lg", "xl"] as const;
 
 const CATEGORIES = {
   Ethics: [
