@@ -117,6 +117,41 @@ export function Sidebar({
           ))}
         </div>
       </div>
+
+      {/* Footer Section - Font Size and Clear Chat */}
+      <div className="border-t border-sidebar-border p-4 space-y-3">
+        {/* Font Size Control */}
+        <div>
+          <label className="text-xs font-semibold text-sidebar-foreground mb-2 block uppercase tracking-wider opacity-70">
+            Font Size
+          </label>
+          <div className="grid grid-cols-4 gap-2">
+            {FONT_SIZES.map((size) => (
+              <button
+                key={size}
+                onClick={() => onFontSizeChange?.(size)}
+                className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${
+                  currentFontSize === size
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                    : "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-opacity-80"
+                }`}
+                title={`${size} font size`}
+              >
+                {size === "sm" ? "S" : size === "base" ? "M" : size === "lg" ? "L" : "XL"}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Clear Chat Button */}
+        <button
+          onClick={onClearChat}
+          className="sidebar-button-secondary w-full flex items-center justify-center gap-2"
+        >
+          <Trash2 size={16} />
+          <span>Clear Chat</span>
+        </button>
+      </div>
     </div>
   );
 }
