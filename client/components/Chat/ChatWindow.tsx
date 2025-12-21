@@ -13,11 +13,15 @@ interface Message {
 interface ChatWindowProps {
   selectedModel: string;
   selectedCategory?: string;
+  fontSize: "sm" | "base" | "lg" | "xl";
+  onClearChat?: () => void;
 }
 
 export function ChatWindow({
   selectedModel,
   selectedCategory,
+  fontSize,
+  onClearChat,
 }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
