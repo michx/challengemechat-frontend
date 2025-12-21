@@ -77,7 +77,7 @@ export function Sidebar({
           Categories
         </h3>
         <div className="space-y-2">
-          {Object.entries(CATEGORIES).map(([category, items]) => (
+          {Object.entries(CATEGORIES).map(([category, { items, icon: IconComponent }]) => (
             <div key={category}>
               <button
                 onClick={() =>
@@ -85,9 +85,12 @@ export function Sidebar({
                     expandedCategory === category ? null : category,
                   )
                 }
-                className="sidebar-button-secondary w-full flex items-center justify-between group"
+                className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-700 text-white hover:bg-gray-600 shadow-md flex items-center justify-between group"
               >
-                <span>{category}</span>
+                <span className="flex items-center gap-2">
+                  <IconComponent size={16} />
+                  {category}
+                </span>
                 <ChevronDown
                   size={16}
                   className={`transition-transform duration-200 ${
@@ -98,7 +101,7 @@ export function Sidebar({
 
               {/* Submenu */}
               {expandedCategory === category && (
-                <div className="mt-2 ml-2 space-y-1 border-l border-sidebar-border pl-3">
+                <div className="mt-2 ml-2 space-y-1 border-l-2 border-blue-500 pl-3">
                   {items.map((item) => (
                     <button
                       key={item}
@@ -106,7 +109,7 @@ export function Sidebar({
                         onCategoryItemSelect(item);
                         setExpandedCategory(null);
                       }}
-                      className="block w-full text-left px-3 py-1.5 text-sm rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150"
+                      className="block w-full text-left px-3 py-1.5 text-sm rounded-md text-white bg-gray-600 hover:bg-gray-500 transition-colors duration-150 shadow-sm"
                     >
                       {item}
                     </button>
