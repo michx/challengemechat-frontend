@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Sidebar } from "@/components/Chat/Sidebar";
 import { ChatWindow } from "@/components/Chat/ChatWindow";
+import { RightSidebar } from "@/components/Chat/RightSidebar";
 import { UserMenu } from "@/components/Chat/UserMenu";
 import { Button } from "@/components/ui/button";
 
@@ -33,7 +34,7 @@ export default function Index() {
 
   return (
     <div className="h-screen flex bg-background overflow-hidden">
-      {/* Desktop Sidebar */}
+      {/* Desktop Left Sidebar */}
       <div className="hidden md:block w-64 border-r border-border flex-shrink-0">
         <Sidebar
           onModelSelect={setSelectedModel}
@@ -97,14 +98,20 @@ export default function Index() {
           </>
         )}
 
-        {/* Chat Window */}
-        <div className="flex-1 flex flex-col min-w-0">
-          <ChatWindow
-            selectedModel={selectedModel}
-            selectedCategory={selectedCategory}
-            fontSize={fontSize}
-            onClearChat={handleClearChat}
-          />
+        {/* Chat Window and Right Sidebar Container */}
+        <div className="flex-1 flex min-w-0 overflow-hidden">
+          {/* Chat Window */}
+          <div className="flex-1 flex flex-col min-w-0">
+            <ChatWindow
+              selectedModel={selectedModel}
+              selectedCategory={selectedCategory}
+              fontSize={fontSize}
+              onClearChat={handleClearChat}
+            />
+          </div>
+
+          {/* Right Sidebar */}
+          <RightSidebar selectedCategory={selectedCategory} />
         </div>
       </div>
     </div>
