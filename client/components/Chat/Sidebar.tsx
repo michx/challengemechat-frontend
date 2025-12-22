@@ -106,20 +106,27 @@ export function Sidebar({
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [currentSelectedModel, setCurrentSelectedModel] = useState(selectedModel);
 
+  useEffect(() => {
+    setCurrentSelectedModel(selectedModel);
+  }, [selectedModel]);
+
   return (
     <div className="h-full bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border flex flex-col">
-      {/* Models Section */}
+      {/* Providers Section */}
       <div className="p-4 border-b border-sidebar-border">
         <h3 className="text-xs font-semibold text-sidebar-foreground mb-3 uppercase tracking-wider opacity-70 bg-yellow-300 px-3 py-2 rounded-lg">
-          Models
+          AI Provider
         </h3>
         <div className="space-y-2">
-          {MODELS.map(({ name, icon: IconComponent }) => (
+          {PROVIDERS.map(({ name, id, icon: IconComponent }) => (
             <button
-              key={name}
-              onClick={() => onModelSelect(name)}
+              key={id}
+              onClick={() => {
+                const defaultModel = PROVIDER_MODELS[id][0].value;
+                onModelSelect(id, defaultModel);
+              }}
               className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                selectedModel === name
+                selectedProvider === id
                   ? "bg-blue-600 text-white shadow-lg hover:bg-blue-700"
                   : "bg-gray-700 text-white hover:bg-gray-600 shadow-md"
               }`}
@@ -129,6 +136,30 @@ export function Sidebar({
             </button>
           ))}
         </div>
+
+        {/* Model Selection for Selected Provider */}
+        {selectedProvider && PROVIDER_MODELS[selectedProvider] && (
+          <div className="mt-4 pt-4 border-t border-sidebar-border">
+            <label className="text-xs font-semibold text-sidebar-foreground mb-2 uppercase tracking-wider opacity-70 block">
+              Model
+            </label>
+            <select
+              value={currentSelectedModel}
+              onChange={(e) => {
+                const newModel = e.target.value;
+                setCurrentSelectedModel(newModel);
+                onModelSelect(selectedProvider, newModel);
+              }}
+              className="w-full px-3 py-2 rounded-lg text-sm bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
+            >
+              {PROVIDER_MODELS[selectedProvider].map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       {/* Categories Section */}
