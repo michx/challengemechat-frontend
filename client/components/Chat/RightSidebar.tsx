@@ -4,11 +4,15 @@ interface RightSidebarProps {
   selectedCategory?: string;
 }
 
-const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string; details: string[] }> = {
+const CATEGORY_EXPLANATIONS: Record<
+  string,
+  { title: string; description: string; details: string[] }
+> = {
   // Ethics category
-  "Fairness": {
+  Fairness: {
     title: "Fairness Analysis",
-    description: "Analyze and ensure ethical fairness in AI responses and decision-making processes.",
+    description:
+      "Analyze and ensure ethical fairness in AI responses and decision-making processes.",
     details: [
       "Detect bias in algorithms and outputs",
       "Ensure equal treatment across all user groups",
@@ -16,9 +20,10 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
       "Evaluate representation and inclusion",
     ],
   },
-  "Transparency": {
+  Transparency: {
     title: "Transparency & Explainability",
-    description: "Ensure AI decisions and responses are clear, understandable, and explainable.",
+    description:
+      "Ensure AI decisions and responses are clear, understandable, and explainable.",
     details: [
       "Explain AI reasoning and logic",
       "Document decision-making processes",
@@ -26,9 +31,10 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
       "Enable user understanding of AI behavior",
     ],
   },
-  "Accountability": {
+  Accountability: {
     title: "Accountability",
-    description: "Establish clear responsibility and oversight mechanisms for AI systems.",
+    description:
+      "Establish clear responsibility and oversight mechanisms for AI systems.",
     details: [
       "Track AI system performance",
       "Monitor compliance with standards",
@@ -36,9 +42,10 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
       "Enable audit trails and reviews",
     ],
   },
-  "Privacy": {
+  Privacy: {
     title: "Privacy Protection",
-    description: "Safeguard user data and ensure privacy compliance in all AI operations.",
+    description:
+      "Safeguard user data and ensure privacy compliance in all AI operations.",
     details: [
       "Implement data encryption",
       "Control access to sensitive information",
@@ -60,7 +67,8 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
   // Cyber category
   "Threat Detection": {
     title: "Threat Detection",
-    description: "Identify and analyze potential security threats and vulnerabilities.",
+    description:
+      "Identify and analyze potential security threats and vulnerabilities.",
     details: [
       "Monitor for suspicious activities",
       "Detect unauthorized access attempts",
@@ -70,7 +78,8 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
   },
   "Vulnerability Assessment": {
     title: "Vulnerability Assessment",
-    description: "Evaluate system weaknesses and security gaps comprehensively.",
+    description:
+      "Evaluate system weaknesses and security gaps comprehensively.",
     details: [
       "Scan for known vulnerabilities",
       "Test security configurations",
@@ -100,7 +109,8 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
   },
   "Penetration Testing": {
     title: "Penetration Testing",
-    description: "Simulate attacks to identify security weaknesses before attackers do.",
+    description:
+      "Simulate attacks to identify security weaknesses before attackers do.",
     details: [
       "Conduct authorized security tests",
       "Identify exploitable vulnerabilities",
@@ -112,7 +122,8 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
   // Toxic category
   "Content Moderation": {
     title: "Content Moderation",
-    description: "Review and filter inappropriate or harmful content automatically.",
+    description:
+      "Review and filter inappropriate or harmful content automatically.",
     details: [
       "Detect offensive language",
       "Flag inappropriate content",
@@ -132,7 +143,8 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
   },
   "Harmful Content Filter": {
     title: "Harmful Content Filter",
-    description: "Prevent distribution of content that could cause harm or offense.",
+    description:
+      "Prevent distribution of content that could cause harm or offense.",
     details: [
       "Filter violent content",
       "Block sexually explicit material",
@@ -142,7 +154,8 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
   },
   "Safe Mode": {
     title: "Safe Mode",
-    description: "Enable restricted mode for safer interactions with sensitive content.",
+    description:
+      "Enable restricted mode for safer interactions with sensitive content.",
     details: [
       "Reduce adult content exposure",
       "Enable family-friendly filtering",
@@ -152,7 +165,8 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
   },
   "Sensitivity Analysis": {
     title: "Sensitivity Analysis",
-    description: "Evaluate content sensitivity and adjust responses appropriately.",
+    description:
+      "Evaluate content sensitivity and adjust responses appropriately.",
     details: [
       "Assess content sensitivity levels",
       "Adapt responses for audiences",
@@ -164,7 +178,8 @@ const CATEGORY_EXPLANATIONS: Record<string, { title: string; description: string
 
 const DEFAULT_EXPLANATION = {
   title: "Welcome to AI Chat Hub",
-  description: "Select a category from the left sidebar to explore different AI capabilities and features.",
+  description:
+    "Select a category from the left sidebar to explore different AI capabilities and features.",
   details: [
     "Ethics: Ensure fair, transparent, and accountable AI",
     "Cyber: Protect systems from threats and vulnerabilities",
@@ -173,9 +188,10 @@ const DEFAULT_EXPLANATION = {
 };
 
 export function RightSidebar({ selectedCategory }: RightSidebarProps) {
-  const explanation = selectedCategory && CATEGORY_EXPLANATIONS[selectedCategory]
-    ? CATEGORY_EXPLANATIONS[selectedCategory]
-    : DEFAULT_EXPLANATION;
+  const explanation =
+    selectedCategory && CATEGORY_EXPLANATIONS[selectedCategory]
+      ? CATEGORY_EXPLANATIONS[selectedCategory]
+      : DEFAULT_EXPLANATION;
 
   return (
     <div className="hidden lg:block w-80 bg-gradient-to-b from-blue-50 to-indigo-50 border-l border-border flex flex-col overflow-hidden">
@@ -183,7 +199,9 @@ export function RightSidebar({ selectedCategory }: RightSidebarProps) {
       <div className="border-b border-border px-6 py-4 bg-white">
         <div className="flex items-start gap-2">
           <Info size={20} className="text-blue-600 flex-shrink-0 mt-0.5" />
-          <h2 className="text-lg font-bold text-gray-900">{explanation.title}</h2>
+          <h2 className="text-lg font-bold text-gray-900">
+            {explanation.title}
+          </h2>
         </div>
       </div>
 
@@ -198,7 +216,9 @@ export function RightSidebar({ selectedCategory }: RightSidebarProps) {
 
         {/* Details List */}
         <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Key Points</h3>
+          <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Key Points
+          </h3>
           <ul className="space-y-2">
             {explanation.details.map((detail, index) => (
               <li key={index} className="flex gap-3 text-sm">
@@ -215,7 +235,10 @@ export function RightSidebar({ selectedCategory }: RightSidebarProps) {
         <div className="mt-auto pt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
           <p className="text-xs text-blue-900 flex gap-2">
             <AlertCircle size={14} className="flex-shrink-0 mt-0.5" />
-            <span>Select different category items to see their specific explanations.</span>
+            <span>
+              Select different category items to see their specific
+              explanations.
+            </span>
           </p>
         </div>
       </div>

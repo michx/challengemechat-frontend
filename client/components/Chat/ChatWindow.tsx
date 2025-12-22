@@ -129,7 +129,9 @@ export function ChatWindow({
                   : "chat-message-ai"
               }`}
             >
-              <p className={`text-${fontSize} leading-relaxed`}>{message.content}</p>
+              <p className={`text-${fontSize} leading-relaxed`}>
+                {message.content}
+              </p>
               <p className="text-xs opacity-70 mt-1">
                 {message.timestamp.toLocaleTimeString([], {
                   hour: "2-digit",

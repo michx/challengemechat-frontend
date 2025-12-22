@@ -12,9 +12,7 @@ export default function Index() {
   const [selectedModel, setSelectedModel] = useState("ChatGPT");
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">(
-    "base",
-  );
+  const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">("base");
   const [clearChatTrigger, setClearChatTrigger] = useState(0);
 
   const handleCategoryItemSelect = (item: string) => {
@@ -66,11 +64,7 @@ export default function Index() {
               onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
               className="md:hidden"
             >
-              {mobileDrawerOpen ? (
-                <X size={24} />
-              ) : (
-                <Menu size={24} />
-              )}
+              {mobileDrawerOpen ? <X size={24} /> : <Menu size={24} />}
             </Button>
           </div>
         </div>

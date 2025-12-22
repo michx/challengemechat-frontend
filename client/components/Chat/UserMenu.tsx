@@ -33,9 +33,7 @@ export function UserMenu({ onLogout }: UserMenuProps) {
           <div className="absolute top-12 right-0 z-50 w-48 bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
               <p className="text-sm font-semibold text-gray-900">User Menu</p>
-              <p className="text-xs text-gray-600 mt-1">
-                user@example.com
-              </p>
+              <p className="text-xs text-gray-600 mt-1">user@example.com</p>
             </div>
 
             <button
