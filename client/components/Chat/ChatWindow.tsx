@@ -110,12 +110,14 @@ export function ChatWindow({
       if (!response.ok) {
         const errorData = (await response.json()) as { error?: string };
         throw new Error(
-          errorData.error ||
-            `HTTP error! status: ${response.status}`
+          errorData.error || `HTTP error! status: ${response.status}`,
         );
       }
 
-      const data = (await response.json()) as { message: string; provider: string };
+      const data = (await response.json()) as {
+        message: string;
+        provider: string;
+      };
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
         content: data.message,
@@ -157,7 +159,8 @@ export function ChatWindow({
           Chat with {selectedModel}
         </h2>
         <p className="text-sm text-muted-foreground mt-1">
-          Provider: {selectedProvider.charAt(0).toUpperCase() + selectedProvider.slice(1)}
+          Provider:{" "}
+          {selectedProvider.charAt(0).toUpperCase() + selectedProvider.slice(1)}
           {selectedCategory && ` • Category: ${selectedCategory}`}
         </p>
       </div>

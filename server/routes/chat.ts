@@ -15,7 +15,7 @@ interface ChatRequest {
 async function callOpenAI(
   apiKey: string,
   model: string,
-  messages: ChatMessage[]
+  messages: ChatMessage[],
 ) {
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -44,7 +44,7 @@ async function callOpenAI(
 async function callGemini(
   apiKey: string,
   model: string,
-  messages: ChatMessage[]
+  messages: ChatMessage[],
 ) {
   const lastMessage = messages[messages.length - 1];
 
@@ -66,7 +66,7 @@ async function callGemini(
           },
         ],
       }),
-    }
+    },
   );
 
   if (!response.ok) {
@@ -82,7 +82,7 @@ async function callGemini(
 async function callClaude(
   apiKey: string,
   model: string,
-  messages: ChatMessage[]
+  messages: ChatMessage[],
 ) {
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -111,7 +111,7 @@ async function callClaude(
 async function callCustomAPI(
   endpoint: string,
   headers: string,
-  messages: ChatMessage[]
+  messages: ChatMessage[],
 ) {
   let parsedHeaders: Record<string, string> = {};
 
@@ -138,7 +138,10 @@ async function callCustomAPI(
     throw new Error(`Custom API error: ${response.statusText}`);
   }
 
-  const data = (await response.json()) as { message?: string; content?: string };
+  const data = (await response.json()) as {
+    message?: string;
+    content?: string;
+  };
   return data.message || data.content || "No response from API";
 }
 
@@ -165,7 +168,7 @@ export const handleChat: RequestHandler = async (req, res) => {
         aiResponse = await callOpenAI(
           keys.openaiKey,
           model || models.openaiModel || "gpt-4o",
-          messages
+          messages,
         );
         break;
 
@@ -177,7 +180,7 @@ export const handleChat: RequestHandler = async (req, res) => {
         aiResponse = await callGemini(
           keys.geminiKey,
           model || models.geminiModel || "gemini-2.0-flash",
-          messages
+          messages,
         );
         break;
 
@@ -189,7 +192,7 @@ export const handleChat: RequestHandler = async (req, res) => {
         aiResponse = await callClaude(
           keys.claudeKey,
           model || models.claudeModel || "claude-3-5-sonnet-20241022",
-          messages
+          messages,
         );
         break;
 
@@ -201,7 +204,7 @@ export const handleChat: RequestHandler = async (req, res) => {
         aiResponse = await callCustomAPI(
           keys.customEndpoint,
           keys.customHeaders || "",
-          messages
+          messages,
         );
         break;
 

@@ -30,7 +30,10 @@ const PROVIDERS = [
   { name: "Custom", id: "custom", icon: Zap },
 ];
 
-const PROVIDER_MODELS: Record<string, Array<{ label: string; value: string }>> = {
+const PROVIDER_MODELS: Record<
+  string,
+  Array<{ label: string; value: string }>
+> = {
   openai: [
     { label: "GPT-4o", value: "gpt-4o" },
     { label: "GPT-4 Turbo", value: "gpt-4-turbo" },
@@ -48,9 +51,7 @@ const PROVIDER_MODELS: Record<string, Array<{ label: string; value: string }>> =
     { label: "Claude 3 Sonnet", value: "claude-3-sonnet-20240229" },
     { label: "Claude 3 Haiku", value: "claude-3-haiku-20240307" },
   ],
-  custom: [
-    { label: "Custom Endpoint", value: "custom" },
-  ],
+  custom: [{ label: "Custom Endpoint", value: "custom" }],
 };
 
 const FONT_LABELS = [
@@ -104,7 +105,8 @@ export function Sidebar({
 }: SidebarProps) {
   const navigate = useNavigate();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  const [currentSelectedModel, setCurrentSelectedModel] = useState(selectedModel);
+  const [currentSelectedModel, setCurrentSelectedModel] =
+    useState(selectedModel);
 
   useEffect(() => {
     setCurrentSelectedModel(selectedModel);

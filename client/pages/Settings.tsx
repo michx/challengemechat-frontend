@@ -47,13 +47,15 @@ export default function Settings() {
   const [apiKeys, setApiKeys] = useState<APIKeys>(() => {
     try {
       const saved = localStorage.getItem("apiKeys");
-      return saved ? JSON.parse(saved) : {
-        openaiKey: "",
-        geminiKey: "",
-        claudeKey: "",
-        customEndpoint: "",
-        customHeaders: "",
-      };
+      return saved
+        ? JSON.parse(saved)
+        : {
+            openaiKey: "",
+            geminiKey: "",
+            claudeKey: "",
+            customEndpoint: "",
+            customHeaders: "",
+          };
     } catch {
       return {
         openaiKey: "",
@@ -116,9 +118,7 @@ export default function Settings() {
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to save settings"
-      );
+      setError(err instanceof Error ? err.message : "Failed to save settings");
     }
   };
 
@@ -328,7 +328,9 @@ export default function Settings() {
           {saved && (
             <div className="p-3 bg-green-50 border border-green-200 rounded-lg mb-6 flex items-center gap-2">
               <Check size={18} className="text-green-600" />
-              <p className="text-sm text-green-700">Settings saved successfully!</p>
+              <p className="text-sm text-green-700">
+                Settings saved successfully!
+              </p>
             </div>
           )}
 
@@ -345,8 +347,9 @@ export default function Settings() {
         {/* Info Card */}
         <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
           <p className="text-sm text-blue-900">
-            <strong>Note:</strong> API keys are stored locally in your browser and
-            sent securely to the server. Never share your API keys with others.
+            <strong>Note:</strong> API keys are stored locally in your browser
+            and sent securely to the server. Never share your API keys with
+            others.
           </p>
         </div>
       </div>
