@@ -12,6 +12,7 @@ interface Message {
 
 interface ChatWindowProps {
   selectedModel: string;
+  selectedProvider: string;
   selectedCategory?: string;
   fontSize: "sm" | "base" | "lg" | "xl";
   onClearChat?: number;
