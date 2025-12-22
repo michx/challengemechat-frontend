@@ -87,12 +87,10 @@ export default function Index() {
             />
             <div className="fixed left-0 top-16 bottom-0 w-64 bg-sidebar-background border-r border-sidebar-border z-50 md:hidden overflow-y-auto">
               <Sidebar
-                onModelSelect={(model) => {
-                  setSelectedModel(model);
-                  setMobileDrawerOpen(false);
-                }}
+                onModelSelect={handleModelSelect}
                 onCategoryItemSelect={handleCategoryItemSelect}
                 selectedModel={selectedModel}
+                selectedProvider={selectedProvider}
                 onFontSizeChange={setFontSize}
                 onClearChat={handleClearChat}
                 currentFontSize={fontSize}
