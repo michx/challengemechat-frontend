@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ChevronDown,
   Trash2,
@@ -9,23 +9,49 @@ import {
   Shield,
   AlertTriangle,
   Type,
+  Settings,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
-  onModelSelect: (model: string) => void;
+  onModelSelect: (provider: string, model: string) => void;
   onCategoryItemSelect: (item: string) => void;
   selectedModel: string;
+  selectedProvider: string;
   onFontSizeChange?: (size: "sm" | "base" | "lg" | "xl") => void;
   onClearChat?: () => void;
   currentFontSize?: "sm" | "base" | "lg" | "xl";
 }
 
-const MODELS = [
-  { name: "Gemini", icon: Sparkles },
-  { name: "ChatGPT", icon: MessageCircle },
-  { name: "Claude", icon: Brain },
-  { name: "Custom Model", icon: Zap },
+const PROVIDERS = [
+  { name: "ChatGPT", id: "openai", icon: MessageCircle },
+  { name: "Gemini", id: "gemini", icon: Sparkles },
+  { name: "Claude", id: "claude", icon: Brain },
+  { name: "Custom", id: "custom", icon: Zap },
 ];
+
+const PROVIDER_MODELS: Record<string, Array<{ label: string; value: string }>> = {
+  openai: [
+    { label: "GPT-4o", value: "gpt-4o" },
+    { label: "GPT-4 Turbo", value: "gpt-4-turbo" },
+    { label: "GPT-4", value: "gpt-4" },
+    { label: "GPT-3.5 Turbo", value: "gpt-3.5-turbo" },
+  ],
+  gemini: [
+    { label: "Gemini 2.0 Flash", value: "gemini-2.0-flash" },
+    { label: "Gemini 1.5 Pro", value: "gemini-1.5-pro" },
+    { label: "Gemini 1.5 Flash", value: "gemini-1.5-flash" },
+  ],
+  claude: [
+    { label: "Claude 3.5 Sonnet", value: "claude-3-5-sonnet-20241022" },
+    { label: "Claude 3 Opus", value: "claude-3-opus-20240229" },
+    { label: "Claude 3 Sonnet", value: "claude-3-sonnet-20240229" },
+    { label: "Claude 3 Haiku", value: "claude-3-haiku-20240307" },
+  ],
+  custom: [
+    { label: "Custom Endpoint", value: "custom" },
+  ],
+};
 
 const FONT_LABELS = [
   { size: "sm", label: "S" },
@@ -71,11 +97,14 @@ export function Sidebar({
   onModelSelect,
   onCategoryItemSelect,
   selectedModel,
+  selectedProvider,
   onFontSizeChange,
   onClearChat,
   currentFontSize = "base",
 }: SidebarProps) {
+  const navigate = useNavigate();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [currentSelectedModel, setCurrentSelectedModel] = useState(selectedModel);
 
   return (
     <div className="h-full bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border flex flex-col">
