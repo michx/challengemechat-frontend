@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   ChevronDown,
   Trash2,
@@ -105,12 +105,7 @@ export function Sidebar({
 }: SidebarProps) {
   const navigate = useNavigate();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  const [currentSelectedModel, setCurrentSelectedModel] =
-    useState(selectedModel);
-
-  useEffect(() => {
-    setCurrentSelectedModel(selectedModel);
-  }, [selectedModel]);
+  const [openModelMenu, setOpenModelMenu] = useState<string | null>(null);
 
   return (
     <div className="h-full bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border flex flex-col">
@@ -121,47 +116,55 @@ export function Sidebar({
         </h3>
         <div className="space-y-2">
           {PROVIDERS.map(({ name, id, icon: IconComponent }) => (
-            <button
-              key={id}
-              onClick={() => {
-                const defaultModel = PROVIDER_MODELS[id][0].value;
-                onModelSelect(id, defaultModel);
-              }}
-              className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                selectedProvider === id
-                  ? "bg-blue-600 text-white shadow-lg hover:bg-blue-700"
-                  : "bg-gray-700 text-white hover:bg-gray-600 shadow-md"
-              }`}
-            >
-              <IconComponent size={16} />
-              <span>{name}</span>
-            </button>
+            <div key={id} className="relative">
+              <button
+                onClick={() =>
+                  setOpenModelMenu(openModelMenu === id ? null : id)
+                }
+                className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                  selectedProvider === id
+                    ? "bg-blue-600 text-white shadow-lg hover:bg-blue-700"
+                    : "bg-gray-700 text-white hover:bg-gray-600 shadow-md"
+                }`}
+              >
+                <IconComponent size={16} />
+                <span>{name}</span>
+                <ChevronDown
+                  size={14}
+                  className={`ml-auto transition-transform duration-200 ${
+                    openModelMenu === id ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Model Selection Pop-up Menu */}
+              {openModelMenu === id && (
+                <div className="absolute left-2 right-2 top-full mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50">
+                  {PROVIDER_MODELS[id].map((model, index) => (
+                    <button
+                      key={model.value}
+                      onClick={() => {
+                        onModelSelect(id, model.value);
+                        setOpenModelMenu(null);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                        selectedModel === model.value
+                          ? "bg-blue-500 text-white"
+                          : "text-gray-100 hover:bg-gray-700"
+                      } ${index === 0 ? "rounded-t-lg" : ""} ${
+                        index === PROVIDER_MODELS[id].length - 1
+                          ? "rounded-b-lg"
+                          : ""
+                      }`}
+                    >
+                      {model.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </div>
-
-        {/* Model Selection for Selected Provider */}
-        {selectedProvider && PROVIDER_MODELS[selectedProvider] && (
-          <div className="mt-4 pt-4 border-t border-sidebar-border">
-            <label className="text-xs font-semibold text-sidebar-foreground mb-2 uppercase tracking-wider opacity-70 block">
-              Model
-            </label>
-            <select
-              value={currentSelectedModel}
-              onChange={(e) => {
-                const newModel = e.target.value;
-                setCurrentSelectedModel(newModel);
-                onModelSelect(selectedProvider, newModel);
-              }}
-              className="w-full px-3 py-2 rounded-lg text-sm bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
-            >
-              {PROVIDER_MODELS[selectedProvider].map(({ label, value }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
       </div>
 
       {/* Categories Section */}
