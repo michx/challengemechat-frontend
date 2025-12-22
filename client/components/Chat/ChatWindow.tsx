@@ -157,7 +157,8 @@ export function ChatWindow({
           Chat with {selectedModel}
         </h2>
         <p className="text-sm text-muted-foreground mt-1">
-          {selectedCategory && `Category: ${selectedCategory}`}
+          Provider: {selectedProvider.charAt(0).toUpperCase() + selectedProvider.slice(1)}
+          {selectedCategory && ` • Category: ${selectedCategory}`}
         </p>
       </div>
 
