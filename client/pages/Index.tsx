@@ -43,9 +43,10 @@ export default function Index() {
       {/* Desktop Left Sidebar */}
       <div className="hidden md:block w-64 border-r border-border flex-shrink-0">
         <Sidebar
-          onModelSelect={setSelectedModel}
+          onModelSelect={handleModelSelect}
           onCategoryItemSelect={handleCategoryItemSelect}
           selectedModel={selectedModel}
+          selectedProvider={selectedProvider}
           onFontSizeChange={setFontSize}
           onClearChat={handleClearChat}
           currentFontSize={fontSize}
