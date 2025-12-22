@@ -20,6 +20,7 @@ interface ChatWindowProps {
 
 export function ChatWindow({
   selectedModel,
+  selectedProvider,
   selectedCategory,
   fontSize,
   onClearChat,
@@ -34,6 +35,7 @@ export function ChatWindow({
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -58,6 +60,7 @@ export function ChatWindow({
         },
       ]);
       setInput("");
+      setError("");
     }
   }, [onClearChat, selectedModel]);
 
@@ -81,17 +84,62 @@ export function ChatWindow({
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+    setError("");
 
-    setTimeout(() => {
+    try {
+      // Prepare messages for API
+      const apiMessages = messages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      }));
+      apiMessages.push({
+        role: "user",
+        content: userMessage.content,
+      });
+
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: apiMessages,
+          provider: selectedProvider,
+          model: selectedModel,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as { error?: string };
+        throw new Error(
+          errorData.error ||
+            `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const data = (await response.json()) as { message: string; provider: string };
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: `I received your message about "${userMessage.content}" using ${selectedModel}. This is a demo response.`,
+        content: data.message,
         role: "ai",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiResponse]);
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to get response";
+      setError(errorMessage);
+      console.error("Chat error:", err);
+
+      // Add error message to chat
+      const errorMessage_final: Message = {
+        id: (Date.now() + 1).toString(),
+        content: `Error: ${errorMessage}. Please check your API keys in Settings.`,
+        role: "ai",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage_final]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
