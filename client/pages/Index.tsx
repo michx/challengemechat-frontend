@@ -9,11 +9,18 @@ import { Button } from "@/components/ui/button";
 
 export default function Index() {
   const navigate = useNavigate();
-  const [selectedModel, setSelectedModel] = useState("ChatGPT");
+  const [selectedProvider, setSelectedProvider] = useState("openai");
+  const [selectedModel, setSelectedModel] = useState("gpt-4o");
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">("base");
   const [clearChatTrigger, setClearChatTrigger] = useState(0);
+
+  const handleModelSelect = (provider: string, model: string) => {
+    setSelectedProvider(provider);
+    setSelectedModel(model);
+    setMobileDrawerOpen(false);
+  };
 
   const handleCategoryItemSelect = (item: string) => {
     setSelectedCategory(item);
@@ -27,6 +34,7 @@ export default function Index() {
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPhone");
     navigate("/login");
   };
 
