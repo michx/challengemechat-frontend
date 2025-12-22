@@ -240,6 +240,15 @@ export function Sidebar({
           </div>
         </div>
 
+        {/* Settings Button */}
+        <button
+          onClick={() => navigate("/settings")}
+          className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-purple-600 text-white hover:bg-purple-700 shadow-md flex items-center justify-center gap-2 active:scale-95"
+        >
+          <Settings size={16} />
+          <span>Settings</span>
+        </button>
+
         {/* Clear Chat Button */}
         <button
           onClick={onClearChat}
