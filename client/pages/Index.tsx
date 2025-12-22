@@ -105,9 +105,10 @@ export default function Index() {
           <div className="flex-1 flex flex-col min-w-0">
             <ChatWindow
               selectedModel={selectedModel}
+              selectedProvider={selectedProvider}
               selectedCategory={selectedCategory}
               fontSize={fontSize}
-              onClearChat={handleClearChat}
+              onClearChat={clearChatTrigger}
             />
           </div>
 
