@@ -34,7 +34,7 @@ export default function Login() {
 
     if (!validatePhone(phone)) {
       setError(
-        "Please enter a valid phone number (e.g., +1234567890 or 1234567890)"
+        "Please enter a valid phone number (e.g., +1234567890 or 1234567890)",
       );
       return;
     }
@@ -56,7 +56,9 @@ export default function Login() {
       setStep("otp");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to send OTP. Please try again."
+        err instanceof Error
+          ? err.message
+          : "Failed to send OTP. Please try again.",
       );
     } finally {
       setIsLoading(false);
