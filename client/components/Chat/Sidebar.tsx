@@ -108,7 +108,7 @@ export function Sidebar({
   const [openModelMenu, setOpenModelMenu] = useState<string | null>(null);
 
   return (
-    <div className="h-full bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border flex flex-col">
+    <div className="h-full bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border flex flex-col shadow-[5px_0_30px_rgba(0,0,0,0.3)] relative z-20">
       {/* Providers Section */}
       <div className="p-4 border-b border-sidebar-border">
         <h3 className="text-xs font-semibold text-sidebar-foreground mb-3 uppercase tracking-wider opacity-70 bg-yellow-300 px-3 py-2 rounded-lg">
@@ -139,22 +139,18 @@ export function Sidebar({
 
               {/* Model Selection Pop-up Menu */}
               {openModelMenu === id && (
-                <div className="absolute left-2 right-2 top-full mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50">
-                  {PROVIDER_MODELS[id].map((model, index) => (
-                    <button
+                <div className="mt-2 ml-2 space-y-1 border-l-2 border-blue-500 pl-3">
+                {PROVIDER_MODELS[id].map((model) => (
+                   <button
                       key={model.value}
                       onClick={() => {
                         onModelSelect(id, model.value);
                         setOpenModelMenu(null);
                       }}
-                      className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                      className={`block w-full text-left px-3 py-1.5 text-sm rounded-md text-white transition-colors duration-150 shadow-sm ${
                         selectedModel === model.value
-                          ? "bg-blue-500 text-white"
-                          : "text-gray-100 hover:bg-gray-700"
-                      } ${index === 0 ? "rounded-t-lg" : ""} ${
-                        index === PROVIDER_MODELS[id].length - 1
-                          ? "rounded-b-lg"
-                          : ""
+                        ? "bg-blue-600 hover:bg-blue-500"
+                        : "bg-gray-600 hover:bg-gray-500"
                       }`}
                     >
                       {model.label}

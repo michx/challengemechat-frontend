@@ -38,7 +38,12 @@ export default function Login() {
       );
       return;
     }
-
+    // Development Bypass: Skip OTP for specific test number
+    if (phone === "+19999999999") {
+      setStep("email-password");
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
@@ -78,6 +83,7 @@ export default function Login() {
       setError("OTP must be 6 digits");
       return;
     }
+
 
     setIsLoading(true);
 
