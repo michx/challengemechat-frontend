@@ -72,7 +72,7 @@ export default function Index() {
             onClearChat={handleClearChat}
             currentFontSize={fontSize}
           />
-    <</div>
+    </div>
 
 
         {/* Mobile Sidebar Overlay */}
