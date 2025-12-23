@@ -56,7 +56,8 @@ export default function Index() {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Desktop Header - Right Side */}
-        <div className="hidden md:flex items-center justify-end border-b border-border px-6 py-4 bg-background">
+        <div className="hidden md:flex items-center justify-between border-b border-border px-6 py-4 bg-background">
+          <h1 className="text-xl font-bold text-foreground">AI Chat Hub</h1>
           <UserMenu onLogout={handleLogout} />
         </div>
 
