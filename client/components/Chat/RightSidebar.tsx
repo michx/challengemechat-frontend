@@ -45,22 +45,28 @@ export function RightSidebar({ selectedCategory }: RightSidebarProps) {
             {explanation.description}
           </p>
         </div>
-
+        {selectedItem ? (
+            <div className="h-64 overflow-y-auto p-3 bg-white border border-gray-200 rounded-md shadow-inner text-sm text-gray-700 whitespace-pre-wrap">
+              {selectedItem.text}
+            </div>
+          ) : (
+            <ul className="space-y-2">
+              {explanation.details.map((detail, index) => (
+                <li key={index} className="flex gap-3 text-sm">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
+                  </div>
+                  <span className="text-gray-700">{detail}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         {/* Details List */}
         <div className="space-y-2">
           <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
-            Key Points
-          </h3>
-          <ul className="space-y-2">
-            {explanation.details.map((detail, index) => (
-              <li key={index} className="flex gap-3 text-sm">
-                <div className="flex-shrink-0 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
-                </div>
-                <span className="text-gray-700">{detail}</span>
-              </li>
-            ))}
-          </ul>
+          {selectedItem ? "Category Text" : "Key Points"}
+         </h3>
+
         </div>
 
         {/* Info Box */}
