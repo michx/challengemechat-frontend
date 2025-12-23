@@ -148,8 +148,9 @@ export function Sidebar({
                       expandedCategory === group.name ? null : group.name,
                      )
                   }
-                  className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-700 text-white hover:bg-gray-600 shadow-md flex items-center justify-between group"
-                >
+                  className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-white shadow-md flex items-center justify-between group ${
+                    group.color || "bg-gray-700 hover:bg-gray-600"
+                  }`}              >
                   <span className="flex items-center gap-2">
                   <group.icon size={16} />
                     {group.name}
