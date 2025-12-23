@@ -6,6 +6,9 @@ interface APIKeys {
   openaiKey: string;
   geminiKey: string;
   claudeKey: string;
+  prismaAirsKey: string;
+  prismaAirsProfileName: string;
+  prismaAirsProfileId: string;
   customEndpoint: string;
   customHeaders: string;
 }
@@ -55,6 +58,9 @@ export default function Settings() {
             claudeKey: "",
             customEndpoint: "",
             customHeaders: "",
+            prismaAirsKey: "",
+            prismaAirsProfileName: "",
+            prismaAirsProfileId: "",
           };
     } catch {
       return {
@@ -63,6 +69,9 @@ export default function Settings() {
         claudeKey: "",
         customEndpoint: "",
         customHeaders: "",
+        prismaAirsKey: "",
+        prismaAirsProfileName: "",
+        prismaAirsProfileId: "",
       };
     }
   });
@@ -80,6 +89,7 @@ export default function Settings() {
     openai: false,
     gemini: false,
     claude: false,
+    prismaAirs: false,   
   });
 
   const [saved, setSaved] = useState(false);
@@ -315,6 +325,70 @@ export default function Settings() {
                 rows={3}
               />
             </div>
+           {/* Prisma Cloud AI Runtime Security */}
+           <div className="mt-8 pt-8 border-t border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Prisma Cloud AI Runtime Security
+              </h3>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  x-pan-token (API Key)
+                </label>
+                <div className="relative">
+                  <input
+                    type={showKeys.prismaAirs ? "text" : "password"}
+                    value={apiKeys.prismaAirsKey}
+                    onChange={(e) =>
+                      handleKeyChange("prismaAirsKey", e.target.value)
+                    }
+                    placeholder="Enter your Prisma Cloud API Key"
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                  />
+                  <button
+                    onClick={() =>
+                      setShowKeys((prev) => ({
+                        ...prev,
+                        prismaAirs: !prev.prismaAirs,
+                      }))
+                    }
+                    className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+                  >
+                    {showKeys.prismaAirs ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Profile Name
+                  </label>
+                  <input
+                    type="text"
+                    value={apiKeys.prismaAirsProfileName}
+                    onChange={(e) =>
+                      handleKeyChange("prismaAirsProfileName", e.target.value)
+                    }
+                    placeholder="e.g., My-Security-Profile"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Profile ID
+                  </label>
+                  <input
+                    type="text"
+                    value={apiKeys.prismaAirsProfileId}
+                    onChange={(e) =>
+                      handleKeyChange("prismaAirsProfileId", e.target.value)
+                    }
+                    placeholder="Optional if Name is provided"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                  />
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* Error Message */}
