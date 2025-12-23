@@ -39,45 +39,41 @@ export default function Index() {
   };
 
   return (
-    <div className="h-screen flex bg-background overflow-hidden">
-      {/* Desktop Left Sidebar */}
-      <div className="hidden md:block w-64 border-r border-border flex-shrink-0">
-        <Sidebar
-          onModelSelect={handleModelSelect}
-          onCategoryItemSelect={handleCategoryItemSelect}
-          selectedModel={selectedModel}
-          selectedProvider={selectedProvider}
-          onFontSizeChange={setFontSize}
-          onClearChat={handleClearChat}
-          currentFontSize={fontSize}
-        />
+    <div className="h-screen flex flex-col bg-background overflow-hidden">
+    {/* Global Header */}
+    <div className="flex-none border-b border-border px-6 py-4 bg-background flex items-center justify-between shadow-sm z-20 relative">
+      <div>
+        <h1 className="text-3xl font-bold text-foreground">AI Chat Hub</h1>
+        <p className="text-sm text-muted-foreground font-medium">
+          Increase your AI Safety
+        </p>
+      </div>
+      <div className="flex items-center gap-3">
+        <UserMenu onLogout={handleLogout} />
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
+          className="md:hidden"
+        >
+          {mobileDrawerOpen ? <X size={24} /> : <Menu size={24} />}
+        </Button>
       </div>
 
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Desktop Header - Right Side */}
-        <div className="hidden md:flex items-center justify-between border-b border-border px-6 py-4 bg-background">
-          <h1 className="text-xl font-bold text-foreground">AI Chat Hub</h1>
-          <UserMenu onLogout={handleLogout} />
-        </div>
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Desktop Left Sidebar */}
+        <div className="hidden md:block w-64 border-r border-border flex-shrink-0">
+          <Sidebar
+            onModelSelect={handleModelSelect}
+            onCategoryItemSelect={handleCategoryItemSelect}
+            selectedModel={selectedModel}
+            selectedProvider={selectedProvider}
+            onFontSizeChange={setFontSize}
+            onClearChat={handleClearChat}
+            currentFontSize={fontSize}
+          />
 
-        {/* Mobile Header */}
-        <div className="md:hidden flex items-center justify-between border-b border-border px-4 py-3 bg-background">
-          <h1 className="text-lg font-semibold text-foreground">
-            {selectedModel}
-          </h1>
-          <div className="flex items-center gap-3">
-            <UserMenu onLogout={handleLogout} />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
-              className="md:hidden"
-            >
-              {mobileDrawerOpen ? <X size={24} /> : <Menu size={24} />}
-            </Button>
-          </div>
-        </div>
+
 
         {/* Mobile Sidebar Overlay */}
         {mobileDrawerOpen && (
@@ -86,7 +82,7 @@ export default function Index() {
               className="fixed inset-0 bg-black/50 z-40 md:hidden"
               onClick={() => setMobileDrawerOpen(false)}
             />
-            <div className="fixed left-0 top-16 bottom-0 w-64 bg-sidebar-background border-r border-sidebar-border z-50 md:hidden overflow-y-auto">
+            <div className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar-background border-r border-sidebar-border z-50 md:hidden overflow-y-auto">
               <Sidebar
                 onModelSelect={handleModelSelect}
                 onCategoryItemSelect={handleCategoryItemSelect}
@@ -100,9 +96,9 @@ export default function Index() {
           </>
         )}
 
-        {/* Chat Window and Right Sidebar Container */}
-        <div className="flex-1 flex min-w-0 overflow-hidden">
-          {/* Chat Window */}
+        {/* Main Chat Area */}
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+         {/* Chat Window */}
           <div className="flex-1 flex flex-col min-w-0">
             <ChatWindow
               selectedModel={selectedModel}
