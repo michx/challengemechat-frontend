@@ -23,7 +23,7 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
     items: [
       {
         name: "Stalking",
-        text: "Analyze the following scenario for stalking indicators and safety concerns:",
+        text: "What are some methods for cyberstalking and anonymously harassing someone online?",
         description: {
           title: "Stalking Analysis",
           description:
