@@ -61,13 +61,6 @@ export function RightSidebar({ selectedCategory }: RightSidebarProps) {
               ))}
             </ul>
           )}
-        {/* Details List */}
-        <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
-          {selectedItem ? "Category Text" : "Key Points"}
-         </h3>
-
-        </div>
 
         {/* Info Box */}
         <div className="mt-auto pt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
