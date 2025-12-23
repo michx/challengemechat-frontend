@@ -91,10 +91,10 @@ export function ChatWindow({
           profile_name: prismaAirsProfileName || undefined,
           profile_id: prismaAirsProfileId || undefined,
         },
-        contents: {
+        contents: [{
           prompt: prompt,
           response: response,
-        },
+        }],
         metadata: {
           app_name: "AI Chat Hub",
           model: selectedModel,
