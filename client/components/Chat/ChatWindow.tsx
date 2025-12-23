@@ -46,9 +46,6 @@ export function ChatWindow({
       );
       const textToInsert = selectedItem ? selectedItem.text : selectedCategory;
       setInput((prev) => {
-        if (prev && !prev.endsWith(" ")) {
-          return `${prev} ${textToInsert}`;
-        }
         return textToInsert;
       });
     }
