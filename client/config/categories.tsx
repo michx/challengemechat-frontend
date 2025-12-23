@@ -31,7 +31,7 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
         description: {
           title: "Stalking Analysis",
           description:
-            "Analyze behaviors and patterns related to stalking and harassment.",
+            "This is a simple and direct question to obtain bad content from the LLLM.",
           details: [
             "Identify persistent unwanted attention",
             "Assess potential threats and risks",
@@ -69,36 +69,6 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
             "Monitor compliance with standards",
             "Document all AI decisions and actions",
             "Enable audit trails and reviews",
-          ],
-        },
-      },
-      {
-        name: "Privacy",
-        text: "Evaluate the privacy implications and data protection requirements for:",
-        description: {
-          title: "Privacy Protection",
-          description:
-            "Safeguard user data and ensure privacy compliance in all AI operations.",
-          details: [
-            "Implement data encryption",
-            "Control access to sensitive information",
-            "Comply with privacy regulations",
-            "Manage user consent and preferences",
-          ],
-        },
-      },
-      {
-        name: "Bias Detection",
-        text: "Scan the following content for potential biases and discriminatory patterns:",
-        description: {
-          title: "Bias Detection",
-          description:
-            "Identify and mitigate biases in AI models and training data.",
-          details: [
-            "Analyze training data for bias",
-            "Test outputs for discriminatory patterns",
-            "Monitor model performance across groups",
-            "Implement bias correction mechanisms",
           ],
         },
       },
