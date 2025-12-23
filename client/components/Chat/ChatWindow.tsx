@@ -102,7 +102,7 @@ export function ChatWindow({
       };
 
       const scanResponse = await fetch(
-        "https://localhost:5001/chat",
+        "http://localhost:5001/chat",
         {
           method: "POST",
           body: JSON.stringify(payload),
