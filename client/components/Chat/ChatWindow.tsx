@@ -44,7 +44,7 @@ export function ChatWindow({
         if (prev && !prev.endsWith(" ")) {
           return `${prev} ${selectedCategory}`;
         }
-        return selectedCategory;
+        return "testo";
       });
     }
   }, [selectedCategory]);
@@ -64,10 +64,12 @@ export function ChatWindow({
 
   useEffect(() => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;

@@ -64,7 +64,7 @@ const FONT_LABELS = [
 const CATEGORIES = {
   Ethics: {
     items: [
-      "Fairness",
+      "Stalking",
       "Transparency",
       "Accountability",
       "Privacy",
