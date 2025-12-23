@@ -173,7 +173,7 @@ export function Sidebar({
                           onCategoryItemSelect(item.name);
                           setExpandedCategory(null);
                         }}
-                        className="block w-full text-left px-3 py-1.5 text-sm rounded-md text-white bg-gray-600 hover:bg-gray-500 transition-colors duration-150 shadow-sm"
+                        className={'block w-full text-left px-3 py-1.5 text-sm rounded-md text-white bg-gray-600 hover:bg-gray-500 transition-colors duration-150 shadow-sm  ${group.color || "bg-gray-700 hover:bg-gray-600"}>'}
                       >
                         {item.name}
                       </button>
