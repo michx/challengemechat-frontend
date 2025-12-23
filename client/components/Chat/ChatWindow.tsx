@@ -107,6 +107,7 @@ export function ChatWindow({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin":"false"
             "x-pan-token": prismaAirsKey,
           },
           body: JSON.stringify(payload),
