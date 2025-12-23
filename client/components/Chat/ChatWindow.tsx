@@ -105,9 +105,6 @@ export function ChatWindow({
         "https://service.api.aisecurity.paloaltonetworks.com/v1/scan/sync/request",
         {
           method: "POST",
-          headers: {
-            "x-pan-token": prismaAirsKey,
-          },
           body: JSON.stringify(payload),
         }
       );
