@@ -1,180 +1,11 @@
 import { AlertCircle, Info } from "lucide-react";
+import { CATEGORY_GROUPS } from "@/config/categories";
 
 interface RightSidebarProps {
   selectedCategory?: string;
 }
 
-const CATEGORY_EXPLANATIONS: Record<
-  string,
-  { title: string; description: string; details: string[] }
-> = {
-  // Ethics category
-  Fairness: {
-    title: "Fairness Analysis",
-    description:
-      "Analyze and ensure ethical fairness in AI responses and decision-making processes.",
-    details: [
-      "Detect bias in algorithms and outputs",
-      "Ensure equal treatment across all user groups",
-      "Identify discriminatory patterns",
-      "Evaluate representation and inclusion",
-    ],
-  },
-  Transparency: {
-    title: "Transparency & Explainability",
-    description:
-      "Ensure AI decisions and responses are clear, understandable, and explainable.",
-    details: [
-      "Explain AI reasoning and logic",
-      "Document decision-making processes",
-      "Provide clear output justifications",
-      "Enable user understanding of AI behavior",
-    ],
-  },
-  Accountability: {
-    title: "Accountability",
-    description:
-      "Establish clear responsibility and oversight mechanisms for AI systems.",
-    details: [
-      "Track AI system performance",
-      "Monitor compliance with standards",
-      "Document all AI decisions and actions",
-      "Enable audit trails and reviews",
-    ],
-  },
-  Privacy: {
-    title: "Privacy Protection",
-    description:
-      "Safeguard user data and ensure privacy compliance in all AI operations.",
-    details: [
-      "Implement data encryption",
-      "Control access to sensitive information",
-      "Comply with privacy regulations",
-      "Manage user consent and preferences",
-    ],
-  },
-  "Bias Detection": {
-    title: "Bias Detection",
-    description: "Identify and mitigate biases in AI models and training data.",
-    details: [
-      "Analyze training data for bias",
-      "Test outputs for discriminatory patterns",
-      "Monitor model performance across groups",
-      "Implement bias correction mechanisms",
-    ],
-  },
 
-  // Cyber category
-  "Threat Detection": {
-    title: "Threat Detection",
-    description:
-      "Identify and analyze potential security threats and vulnerabilities.",
-    details: [
-      "Monitor for suspicious activities",
-      "Detect unauthorized access attempts",
-      "Identify malware and intrusions",
-      "Analyze attack patterns and trends",
-    ],
-  },
-  "Vulnerability Assessment": {
-    title: "Vulnerability Assessment",
-    description:
-      "Evaluate system weaknesses and security gaps comprehensively.",
-    details: [
-      "Scan for known vulnerabilities",
-      "Test security configurations",
-      "Identify weak authentication methods",
-      "Evaluate infrastructure security",
-    ],
-  },
-  "Incident Response": {
-    title: "Incident Response",
-    description: "Manage and mitigate active security incidents and breaches.",
-    details: [
-      "Develop incident response plans",
-      "Coordinate emergency response",
-      "Contain and isolate threats",
-      "Document and analyze incidents",
-    ],
-  },
-  "Security Hardening": {
-    title: "Security Hardening",
-    description: "Strengthen systems and defenses against potential attacks.",
-    details: [
-      "Apply security patches and updates",
-      "Implement advanced security controls",
-      "Configure secure defaults",
-      "Reduce attack surface area",
-    ],
-  },
-  "Penetration Testing": {
-    title: "Penetration Testing",
-    description:
-      "Simulate attacks to identify security weaknesses before attackers do.",
-    details: [
-      "Conduct authorized security tests",
-      "Identify exploitable vulnerabilities",
-      "Test security controls effectiveness",
-      "Generate detailed security reports",
-    ],
-  },
-
-  // Toxic category
-  "Content Moderation": {
-    title: "Content Moderation",
-    description:
-      "Review and filter inappropriate or harmful content automatically.",
-    details: [
-      "Detect offensive language",
-      "Flag inappropriate content",
-      "Apply content policies consistently",
-      "Protect user experience quality",
-    ],
-  },
-  "Toxicity Detection": {
-    title: "Toxicity Detection",
-    description: "Identify toxic, harmful, or abusive language and behavior.",
-    details: [
-      "Analyze text for toxic patterns",
-      "Identify harassment and hate speech",
-      "Detect abusive language",
-      "Score toxicity levels",
-    ],
-  },
-  "Harmful Content Filter": {
-    title: "Harmful Content Filter",
-    description:
-      "Prevent distribution of content that could cause harm or offense.",
-    details: [
-      "Filter violent content",
-      "Block sexually explicit material",
-      "Prevent dangerous instructions",
-      "Protect vulnerable users",
-    ],
-  },
-  "Safe Mode": {
-    title: "Safe Mode",
-    description:
-      "Enable restricted mode for safer interactions with sensitive content.",
-    details: [
-      "Reduce adult content exposure",
-      "Enable family-friendly filtering",
-      "Restrict access to sensitive topics",
-      "Create safer browsing experience",
-    ],
-  },
-  "Sensitivity Analysis": {
-    title: "Sensitivity Analysis",
-    description:
-      "Evaluate content sensitivity and adjust responses appropriately.",
-    details: [
-      "Assess content sensitivity levels",
-      "Adapt responses for audiences",
-      "Handle controversial topics carefully",
-      "Balance openness with safety",
-    ],
-  },
-};
 
 const DEFAULT_EXPLANATION = {
   title: "Welcome to AI Chat Hub",
@@ -188,10 +19,11 @@ const DEFAULT_EXPLANATION = {
 };
 
 export function RightSidebar({ selectedCategory }: RightSidebarProps) {
-  const explanation =
-    selectedCategory && CATEGORY_EXPLANATIONS[selectedCategory]
-      ? CATEGORY_EXPLANATIONS[selectedCategory]
-      : DEFAULT_EXPLANATION;
+  const selectedItem = CATEGORY_GROUPS.flatMap((g) => g.items).find(
+    (i) => i.name === selectedCategory,
+  );
+
+  const explanation = selectedItem ? selectedItem.description : DEFAULT_EXPLANATION;
 
   return (
     <div className="hidden lg:block w-80 bg-gradient-to-b from-blue-50 to-indigo-50 border-l border-border flex flex-col overflow-hidden">

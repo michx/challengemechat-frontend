@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send } from "lucide-react";
+import { CATEGORY_GROUPS } from "@/config/categories";
 
 interface Message {
   id: string;
@@ -40,11 +41,15 @@ export function ChatWindow({
 
   useEffect(() => {
     if (selectedCategory) {
+      const selectedItem = CATEGORY_GROUPS.flatMap((g) => g.items).find(
+        (i) => i.name === selectedCategory,
+      );
+      const textToInsert = selectedItem ? selectedItem.text : selectedCategory;
       setInput((prev) => {
         if (prev && !prev.endsWith(" ")) {
-          return `${prev} ${selectedCategory}`;
+          return `${prev} ${textToInsert}`;
         }
-        return "testo";
+        return textToInsert;
       });
     }
   }, [selectedCategory]);

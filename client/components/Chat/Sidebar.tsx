@@ -12,6 +12,8 @@ import {
   Settings,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { CATEGORY_GROUPS } from "@/config/categories";
+
 
 interface SidebarProps {
   onModelSelect: (provider: string, model: string) => void;
@@ -61,38 +63,6 @@ const FONT_LABELS = [
   { size: "xl", label: "XL" },
 ] as const;
 
-const CATEGORIES = {
-  Ethics: {
-    items: [
-      "Stalking",
-      "Transparency",
-      "Accountability",
-      "Privacy",
-      "Bias Detection",
-    ],
-    icon: Shield,
-  },
-  Cyber: {
-    items: [
-      "Threat Detection",
-      "Vulnerability Assessment",
-      "Incident Response",
-      "Security Hardening",
-      "Penetration Testing",
-    ],
-    icon: Zap,
-  },
-  Toxic: {
-    items: [
-      "Content Moderation",
-      "Toxicity Detection",
-      "Harmful Content Filter",
-      "Safe Mode",
-      "Sensitivity Analysis",
-    ],
-    icon: AlertTriangle,
-  },
-};
 
 export function Sidebar({
   onModelSelect,
@@ -169,42 +139,42 @@ export function Sidebar({
           Categories
         </h3>
         <div className="space-y-2">
-          {Object.entries(CATEGORIES).map(
-            ([category, { items, icon: IconComponent }]) => (
-              <div key={category}>
+        {CATEGORY_GROUPS.map(
+            (group) => (
+              <div key={group.name}>
                 <button
                   onClick={() =>
                     setExpandedCategory(
-                      expandedCategory === category ? null : category,
-                    )
+                      expandedCategory === group.name ? null : group.name,
+                     )
                   }
                   className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-700 text-white hover:bg-gray-600 shadow-md flex items-center justify-between group"
                 >
                   <span className="flex items-center gap-2">
-                    <IconComponent size={16} />
-                    {category}
+                  <group.icon size={16} />
+                    {group.name}
                   </span>
                   <ChevronDown
                     size={16}
                     className={`transition-transform duration-200 ${
-                      expandedCategory === category ? "rotate-180" : ""
+                      expandedCategory === group.name ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {/* Submenu */}
-                {expandedCategory === category && (
+                {expandedCategory === group.name && (
                   <div className="mt-2 ml-2 space-y-1 border-l-2 border-blue-500 pl-3">
-                    {items.map((item) => (
+                    {group.items.map((item) => (
                       <button
-                        key={item}
+                        key={item.name}
                         onClick={() => {
-                          onCategoryItemSelect(item);
+                          onCategoryItemSelect(item.name);
                           setExpandedCategory(null);
                         }}
                         className="block w-full text-left px-3 py-1.5 text-sm rounded-md text-white bg-gray-600 hover:bg-gray-500 transition-colors duration-150 shadow-sm"
                       >
-                        {item}
+                        {item.name}
                       </button>
                     ))}
                   </div>
