@@ -59,7 +59,7 @@ export default function Index() {
           {mobileDrawerOpen ? <X size={24} /> : <Menu size={24} />}
         </Button>
       </div>
-
+    </div>
       <div className="flex-1 flex overflow-hidden relative">
         {/* Desktop Left Sidebar */}
         <div className="hidden md:block w-64 border-r border-border flex-shrink-0">
