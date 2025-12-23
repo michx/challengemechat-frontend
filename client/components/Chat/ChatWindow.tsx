@@ -91,7 +91,7 @@ export function ChatWindow({
           profile_name: prismaAirsProfileName || undefined,
           profile_id: prismaAirsProfileId || undefined,
         },
-        content: {
+        contents: {
           prompt: prompt,
           response: response,
         },
