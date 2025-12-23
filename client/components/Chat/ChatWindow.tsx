@@ -105,6 +105,7 @@ export function ChatWindow({
         "https://service.api.aisecurity.paloaltonetworks.com/v1/scan/sync/request",
         {
           method: "POST",
+          mode: 'same-origin',
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin":"*"
