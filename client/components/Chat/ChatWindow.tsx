@@ -102,7 +102,7 @@ export function ChatWindow({
       };
 
       const scanResponse = await fetch(
-        "https://service.api.aisecurity.paloaltonetworks.com/v1/scan/sync/request",
+        "https://localhost:5001/chat",
         {
           method: "POST",
           body: JSON.stringify(payload),
@@ -114,7 +114,7 @@ export function ChatWindow({
       
       // Return status based on response (simplified check)
       // Assuming a non-empty 'threats' array or specific verdict indicates a threat
-      return data.action && data.action=="allow" ? "safe" : "threat";
+      return data.sec_response && data.response=="good" ? "safe" : "threat";
     } catch (error) {
       console.error("Security scan failed:", error);
       return "error";
