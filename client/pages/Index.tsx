@@ -93,7 +93,7 @@ export default function Index() {
                 currentFontSize={fontSize}
               />
             </div>
-          
+            </>
         )}
 
         {/* Main Chat Area */}
@@ -114,6 +114,7 @@ export default function Index() {
           <RightSidebar selectedCategory={selectedCategory} />
         </div>
       </div>
-
+      </div>
+    </div>
   );
 }
