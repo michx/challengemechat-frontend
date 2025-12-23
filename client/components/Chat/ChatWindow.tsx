@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send } from "lucide-react";
+import { Send, ShieldCheck, ShieldAlert } from "lucide-react";
 import { CATEGORY_GROUPS } from "@/config/categories";
 
 interface Message {
@@ -9,6 +9,7 @@ interface Message {
   content: string;
   role: "user" | "ai";
   timestamp: Date;
+  securityStatus?: "safe" | "threat" | "error";
 }
 
 interface ChatWindowProps {
@@ -73,6 +74,58 @@ export function ChatWindow({
     }
   }, [messages, isLoading]);
 
+  const performSecurityScan = async (prompt: string, response: string) => {
+    try {
+      const savedKeys = localStorage.getItem("apiKeys");
+      if (!savedKeys) return;
+      
+      const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId } = JSON.parse(savedKeys);
+      
+      if (!prismaAirsKey || (!prismaAirsProfileName && !prismaAirsProfileId)) {
+        console.warn("Prisma AIRS credentials missing. Skipping security scan.");
+        return;
+      }
+
+      const payload = {
+        ai_profile: {
+          profile_name: prismaAirsProfileName || undefined,
+          profile_id: prismaAirsProfileId || undefined,
+        },
+        content: {
+          prompt: prompt,
+          response: response,
+        },
+        metadata: {
+          app_name: "AI Chat Hub",
+          model: selectedModel,
+        },
+      };
+
+      const scanResponse = await fetch(
+        "https://service.api.aisecurity.paloaltonetworks.com/v1/scan/sync/request",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-pan-token": prismaAirsKey,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const data = await scanResponse.json();
+      console.log("Security Scan Result:", data);
+      
+      // Return status based on response (simplified check)
+      // Assuming a non-empty 'threats' array or specific verdict indicates a threat
+      return data.threats && data.threats.length > 0 ? "threat" : "safe";
+    } catch (error) {
+      console.error("Security scan failed:", error);
+      return "error";
+    }
+  };
+
+
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
@@ -127,6 +180,17 @@ export function ChatWindow({
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiResponse]);
+
+      // Perform Security Scan
+      performSecurityScan(userMessage.content, aiResponse.content).then((status) => {
+        if (status) {
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiResponse.id ? { ...msg, securityStatus: status as any } : msg
+            )
+          );
+        }
+      });
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to get response";
@@ -187,6 +251,16 @@ export function ChatWindow({
               <p className={`text-${fontSize} leading-relaxed`}>
                 {message.content}
               </p>
+              {message.securityStatus && (
+                <div className={`mt-2 flex items-center gap-1 text-xs ${
+                  message.securityStatus === "threat" ? "text-red-500" : "text-green-500"
+                }`}>
+                  {message.securityStatus === "threat" ? <ShieldAlert size={12} /> : <ShieldCheck size={12} />}
+                  <span className="uppercase font-bold">
+                    {message.securityStatus === "threat" ? "Threat Detected" : "Verified Safe"}
+                  </span>
+                </div>
+              )}
               <p className="text-xs opacity-70 mt-1">
                 {message.timestamp.toLocaleTimeString([], {
                   hour: "2-digit",
