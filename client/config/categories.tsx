@@ -22,7 +22,7 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
   {
     name: "Ethics",
     icon: Shield,
-    color: "bg-emerald-600 hover:bg-emerald-500",
+    color: "bg-gray-700 text-white hover:bg-gray-600",
     items: [
       {
         name: "Stalking #1",
@@ -107,7 +107,7 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
   {
     name: "Cyber",
     icon: Zap,
-    color: "bg-violet-600 hover:bg-violet-500",
+    color: "bg-gray-700 text-white hover:bg-gray-600",
     items: [
       {
         name: "Threat Detection",
@@ -189,7 +189,7 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
   {
     name: "Toxic",
     icon: AlertTriangle,
-    color: "bg-rose-600 hover:bg-rose-500",
+    color: "bg-gray-700 text-white hover:bg-gray-600",
     items: [
       {
         name: "Content Moderation",
