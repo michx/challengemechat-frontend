@@ -252,6 +252,7 @@ export function Sidebar({
 
         {/* Clear Chat Button */}
         <button
+          type="button"        
           onClick={onClearChat}
           className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-700 text-white hover:bg-gray-600 shadow-md flex items-center justify-center gap-2 active:scale-95"
         >

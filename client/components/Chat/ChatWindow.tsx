@@ -50,18 +50,16 @@ export function ChatWindow({
   }, [selectedCategory]);
 
   useEffect(() => {
-    if (onClearChat !== undefined && onClearChat > 0) {
-      setMessages([
-        {
-          id: "1",
-          content: `Hi! I'm using ${selectedModel}. How can I help you today?`,
-          role: "ai",
-          timestamp: new Date(),
-        },
-      ]);
-      setInput("");
-      setError("");
-    }
+    setMessages([
+      {
+        id: "1",
+        content: `Hi! I'm using ${selectedModel}. How can I help you today?`,
+        role: "ai",
+        timestamp: new Date(),
+      },
+    ]);
+    setInput("");
+    setError("");
   }, [onClearChat, selectedModel]);
 
   useEffect(() => {
