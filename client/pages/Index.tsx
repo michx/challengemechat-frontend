@@ -114,6 +114,6 @@ export default function Index() {
           <RightSidebar selectedCategory={selectedCategory} />
         </div>
       </div>
-    </div>
+
   );
 }
