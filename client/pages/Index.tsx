@@ -93,7 +93,7 @@ export default function Index() {
                 currentFontSize={fontSize}
               />
             </div>
-          </>
+          
         )}
 
         {/* Main Chat Area */}
@@ -109,7 +109,6 @@ export default function Index() {
                 onClearChat={clearChatTrigger}
               />
             </div>
-          </div>
 
           {/* Right Sidebar */}
           <RightSidebar selectedCategory={selectedCategory} />
