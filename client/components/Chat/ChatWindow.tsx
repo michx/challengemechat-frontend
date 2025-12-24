@@ -243,7 +243,7 @@ export function ChatWindow({
           >
            {message.role === "ai" && (
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mt-1">
-                <Bot size={18} className="text-blue-600" />
+                <Bot size={24} className="text-blue-600" />
               </div>
             )}            
             <div
@@ -275,7 +275,7 @@ export function ChatWindow({
             </div>
             {message.role === "user" && (
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mt-1">
-                <User size={18} className="text-indigo-600" />
+                <User size={24} className="text-indigo-600" />
               </div>
             )}            
           </div>
@@ -284,7 +284,7 @@ export function ChatWindow({
         {isLoading && (
           <div className="flex justify-start items-start gap-3">
           <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mt-1">
-            <Bot size={18} className="text-blue-600" />
+            <Bot size={24} className="text-blue-600" />
           </div>
             <div className="chat-message-ai">
               <div className="flex gap-2">
