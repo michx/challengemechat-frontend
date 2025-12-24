@@ -246,7 +246,7 @@ export function ChatWindow({
                 message.role === "user"
                   ? "chat-message-user"
                   : "chat-message-ai"
-              }`}
+                } max-w-[80%]`}
             >
               <p className={`text-${fontSize} leading-relaxed`}>
                 {message.content}
