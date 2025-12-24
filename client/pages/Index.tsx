@@ -16,6 +16,8 @@ export default function Index() {
   const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">("base");
   const [clearChatTrigger, setClearChatTrigger] = useState(0);
   const [chatState, setChatState] = useState({ isLoading: false, isScanning: false });
+  const [scanResult, setScanResult] = useState<any>(null);
+
 
   const handleModelSelect = (provider: string, model: string) => {
     setSelectedProvider(provider);
@@ -109,6 +111,7 @@ export default function Index() {
                 fontSize={fontSize}
                 onClearChat={clearChatTrigger}
                 onStateChange={setChatState}
+                onScanComplete={setScanResult}
               />
             </div>
 
@@ -117,6 +120,7 @@ export default function Index() {
             selectedCategory={selectedCategory} 
             isLoading={chatState.isLoading}
             isScanning={chatState.isScanning}
+            scanResult={scanResult}
           />
         </div>
       </div>

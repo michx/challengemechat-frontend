@@ -19,6 +19,7 @@ interface ChatWindowProps {
   fontSize: "sm" | "base" | "lg" | "xl";
   onClearChat?: number;
   onStateChange?: (state: { isLoading: boolean; isScanning: boolean }) => void;
+  onScanComplete?: (result: any) => void;
 }
 
 export function ChatWindow({
@@ -123,9 +124,7 @@ export function ChatWindow({
       const data = await scanResponse.json();
       console.log("Security Scan Result:", data);
       
-      // Return status based on response (simplified check)
-      // Assuming a non-empty 'threats' array or specific verdict indicates a threat
-      return data.action && data.action=="allow" ? "safe" : "threat";
+      return data;
     } catch (error) {
       console.error("Security scan failed:", error);
       return "error";
@@ -192,11 +191,13 @@ export function ChatWindow({
       setIsScanning(true);
 
       // Perform Security Scan
-      const status = await performSecurityScan(userMessage.content, aiResponse.content);
-      if (status) {
+      const scanResult = await performSecurityScan(userMessage.content, aiResponse.content);
+      if (scanResult && scanResult !== "error") {
+        onScanComplete?.(scanResult);
+        const status = scanResult.action && scanResult.action === "allow" ? "safe" : "threat";
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === aiResponse.id ? { ...msg, securityStatus: status as any } : msg
+            msg.id === aiResponse.id ? { ...msg, securityStatus: status } : msg
           )
         );
       }
