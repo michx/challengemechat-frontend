@@ -29,6 +29,7 @@ export function ChatWindow({
   fontSize,
   onClearChat,
   onStateChange,
+  onScanComplete,
 }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
