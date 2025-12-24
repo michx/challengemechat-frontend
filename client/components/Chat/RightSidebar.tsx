@@ -1,8 +1,10 @@
-import { AlertCircle, Info } from "lucide-react";
+import { AlertCircle, Info, Loader2, Scan } from "lucide-react";
 import { CATEGORY_GROUPS } from "@/config/categories";
 
 interface RightSidebarProps {
   selectedCategory?: string;
+  isLoading?: boolean;
+  isScanning?: boolean;
 }
 
 
@@ -18,7 +20,7 @@ const DEFAULT_EXPLANATION = {
   ],
 };
 
-export function RightSidebar({ selectedCategory }: RightSidebarProps) {
+export function RightSidebar({ selectedCategory, isLoading, isScanning }: RightSidebarProps) {
   const selectedItem = CATEGORY_GROUPS.flatMap((g) => g.items).find(
     (i) => i.name === selectedCategory,
   );
@@ -26,7 +28,7 @@ export function RightSidebar({ selectedCategory }: RightSidebarProps) {
   const explanation = selectedItem ? selectedItem.description : DEFAULT_EXPLANATION;
 
   return (
-    <div className="hidden lg:block w-80 bg-gradient-to-b from-blue-50 to-indigo-50 border-l border-border flex flex-col overflow-hidden">
+    <div className="hidden lg:block w-80 bg-gradient-to-b from-blue-50 to-indigo-50 border-l border-border flex flex-col overflow-hidden relative">
       {/* Header */}
       <div className="border-b border-border px-6 py-4 bg-white">
         <div className="flex items-start gap-2">
@@ -73,6 +75,22 @@ export function RightSidebar({ selectedCategory }: RightSidebarProps) {
           </p>
         </div>
       </div>
+      {/* Status Indicator */}
+      {(isLoading || isScanning) && (
+        <div className="absolute bottom-6 right-6 z-20 flex items-center gap-2 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-full shadow-lg border border-border animate-in fade-in slide-in-from-bottom-2">
+          {isLoading ? (
+            <>
+              <Loader2 size={16} className="text-blue-600 animate-spin" />
+              <span className="text-xs font-medium text-blue-600">Generating...</span>
+            </>
+          ) : (
+            <>
+              <Scan size={16} className="text-purple-600 animate-pulse" />
+              <span className="text-xs font-medium text-purple-600">Scanning...</span>
+            </>
+          )}
+        </div>
+      )}      
     </div>
   );
 }

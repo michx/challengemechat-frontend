@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, ShieldCheck, ShieldAlert, Bot, User, Loader2, Scan } from "lucide-react";
+import { Send, ShieldCheck, ShieldAlert, Bot, User } from "lucide-react";
 import { CATEGORY_GROUPS } from "@/config/categories";
 
 interface Message {
@@ -18,6 +18,7 @@ interface ChatWindowProps {
   selectedCategory?: string;
   fontSize: "sm" | "base" | "lg" | "xl";
   onClearChat?: number;
+  onStateChange?: (state: { isLoading: boolean; isScanning: boolean }) => void;
 }
 
 export function ChatWindow({
@@ -26,6 +27,7 @@ export function ChatWindow({
   selectedCategory,
   fontSize,
   onClearChat,
+  onStateChange,
 }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -74,6 +76,10 @@ export function ChatWindow({
       });
     }
   }, [messages, isLoading]);
+
+  useEffect(() => {
+    onStateChange?.({ isLoading, isScanning });
+  }, [isLoading, isScanning, onStateChange]);
 
   const performSecurityScan = async (prompt: string, response: string) => {
     try {
@@ -184,7 +190,7 @@ export function ChatWindow({
       setMessages((prev) => [...prev, aiResponse]);
       setIsLoading(false);
       setIsScanning(true);
-      
+
       // Perform Security Scan
       const status = await performSecurityScan(userMessage.content, aiResponse.content);
       if (status) {
@@ -301,22 +307,6 @@ export function ChatWindow({
         )}
       </div>
 
-      {/* Status Indicator */}
-      {(isLoading || isScanning) && (
-        <div className="absolute bottom-24 right-6 z-20 flex items-center gap-2 bg-background/95 backdrop-blur-sm px-3 py-2 rounded-full shadow-lg border border-border animate-in fade-in slide-in-from-bottom-2">
-          {isLoading ? (
-            <>
-              <Loader2 size={16} className="text-blue-600 animate-spin" />
-              <span className="text-xs font-medium text-blue-600">Generating...</span>
-            </>
-          ) : (
-            <>
-              <Scan size={16} className="text-purple-600 animate-pulse" />
-              <span className="text-xs font-medium text-purple-600">Scanning...</span>
-            </>
-          )}
-        </div>
-      )}
 
       {/* Input Area */}
       <div className="border-t border-border p-6 bg-background">

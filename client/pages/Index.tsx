@@ -15,6 +15,7 @@ export default function Index() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">("base");
   const [clearChatTrigger, setClearChatTrigger] = useState(0);
+  const [chatState, setChatState] = useState({ isLoading: false, isScanning: false });
 
   const handleModelSelect = (provider: string, model: string) => {
     setSelectedProvider(provider);
@@ -107,11 +108,16 @@ export default function Index() {
                 selectedCategory={selectedCategory}
                 fontSize={fontSize}
                 onClearChat={clearChatTrigger}
+                onStateChange={setChatState}
               />
             </div>
 
           {/* Right Sidebar */}
-          <RightSidebar selectedCategory={selectedCategory} />
+          <RightSidebar 
+            selectedCategory={selectedCategory} 
+            isLoading={chatState.isLoading}
+            isScanning={chatState.isScanning}
+          />
         </div>
       </div>
       </div>
