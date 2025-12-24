@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, ShieldCheck, ShieldAlert, Bot, User } from "lucide-react";
+import { Send, ShieldCheck, ShieldAlert, Bot, User, Loader2, Scan } from "lucide-react";
 import { CATEGORY_GROUPS } from "@/config/categories";
 
 interface Message {
@@ -37,6 +37,7 @@ export function ChatWindow({
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState("");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -139,6 +140,7 @@ export function ChatWindow({
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+    setIsScanning(false);
     setError("");
 
     try {
@@ -182,15 +184,14 @@ export function ChatWindow({
       setMessages((prev) => [...prev, aiResponse]);
 
       // Perform Security Scan
-      performSecurityScan(userMessage.content, aiResponse.content).then((status) => {
-        if (status) {
-          setMessages((prev) =>
-            prev.map((msg) =>
-              msg.id === aiResponse.id ? { ...msg, securityStatus: status as any } : msg
-            )
-          );
-        }
-      });
+      const status = await performSecurityScan(userMessage.content, aiResponse.content);
+      if (status) {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === aiResponse.id ? { ...msg, securityStatus: status as any } : msg
+          )
+        );
+      }
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to get response";
@@ -207,6 +208,7 @@ export function ChatWindow({
       setMessages((prev) => [...prev, errorMessage_final]);
     } finally {
       setIsLoading(false);
+      setIsScanning(false);
     }
   };
 
@@ -218,7 +220,7 @@ export function ChatWindow({
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-background relative">
       {/* Header */}
       <div className="border-b border-border px-6 py-4">
         <h2 className="text-lg font-semibold text-foreground">
@@ -297,6 +299,23 @@ export function ChatWindow({
         )}
       </div>
 
+      {/* Status Indicator */}
+      {(isLoading || isScanning) && (
+        <div className="absolute bottom-24 right-6 z-20 flex items-center gap-2 bg-background/95 backdrop-blur-sm px-3 py-2 rounded-full shadow-lg border border-border animate-in fade-in slide-in-from-bottom-2">
+          {isLoading ? (
+            <>
+              <Loader2 size={16} className="text-blue-600 animate-spin" />
+              <span className="text-xs font-medium text-blue-600">Generating...</span>
+            </>
+          ) : (
+            <>
+              <Scan size={16} className="text-purple-600 animate-pulse" />
+              <span className="text-xs font-medium text-purple-600">Scanning...</span>
+            </>
+          )}
+        </div>
+      )}
+      
       {/* Input Area */}
       <div className="border-t border-border p-6 bg-background">
         <div className="flex gap-3">
