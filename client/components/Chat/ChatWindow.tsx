@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, ShieldCheck, ShieldAlert } from "lucide-react";
+import { Send, ShieldCheck, ShieldAlert, Bot, User } from "lucide-react";
 import { CATEGORY_GROUPS } from "@/config/categories";
 
 interface Message {
@@ -239,8 +239,13 @@ export function ChatWindow({
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+            className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} items-start gap-3`}
           >
+           {message.role === "ai" && (
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mt-1">
+                <Bot size={18} className="text-blue-600" />
+              </div>
+            )}            
             <div
               className={`${
                 message.role === "user"
@@ -268,11 +273,19 @@ export function ChatWindow({
                 })}
               </p>
             </div>
+            {message.role === "user" && (
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mt-1">
+                <User size={18} className="text-indigo-600" />
+              </div>
+            )}            
           </div>
         ))}
 
         {isLoading && (
-          <div className="flex justify-start">
+          <div className="flex justify-start items-start gap-3">
+          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mt-1">
+            <Bot size={18} className="text-blue-600" />
+          </div>
             <div className="chat-message-ai">
               <div className="flex gap-2">
                 <div className="w-2 h-2 rounded-full bg-secondary-foreground animate-bounce"></div>
