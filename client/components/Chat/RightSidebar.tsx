@@ -41,7 +41,7 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 flex flex-col">
         {/* Description */}
         <div>
           <p className="text-sm text-gray-700 leading-relaxed">
@@ -65,17 +65,6 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
             </ul>
           )}
 
-        {/* Info Box */}
-        <div className="mt-auto pt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
-          <p className="text-xs text-blue-900 flex gap-2">
-            <AlertCircle size={14} className="flex-shrink-0 mt-0.5" />
-            <span>
-              Select different category items to see their specific
-              explanations.
-            </span>
-          </p>
-        </div>
-      </div>
 
         {/* Chat Status Section */}
         {scanResult && (
@@ -121,6 +110,18 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
             )}
           </div>
         )}
+        
+        {/* Info Box */}
+        <div className="mt-auto pt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
+          <p className="text-xs text-blue-900 flex gap-2">
+            <AlertCircle size={14} className="flex-shrink-0 mt-0.5" />
+            <span>
+              Select different category items to see their specific
+              explanations.
+            </span>
+          </p>
+        </div>
+      </div>
 
       {/* Status Indicator */}
       {(isLoading || isScanning) && (
