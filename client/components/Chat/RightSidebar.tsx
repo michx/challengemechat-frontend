@@ -81,12 +81,12 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning }: RightS
           {isLoading ? (
             <>
               <Loader2 size={16} className="text-blue-600 animate-spin" />
-              <span className="text-xs font-medium text-blue-600">Generating...</span>
+              <span className="text-xs font-medium text-blue-600">Receiving response...</span>
             </>
           ) : (
             <>
               <Scan size={16} className="text-purple-600 animate-pulse" />
-              <span className="text-xs font-medium text-purple-600">Scanning...</span>
+              <span className="text-xs font-medium text-purple-600">Scanning with Palo Alto Networks...</span>
             </>
           )}
         </div>
