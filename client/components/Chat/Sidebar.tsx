@@ -81,7 +81,7 @@ export function Sidebar({
     <div className="h-full bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border flex flex-col shadow-[5px_0_30px_rgba(0,0,0,0.3)] relative z-20">
       {/* Providers Section */}
       <div className="p-4 border-b border-sidebar-border">
-        <h3 className="text-xs font-semibold text-sidebar-foreground mb-3 uppercase tracking-wider opacity-70 bg-yellow-300 px-3 py-2 rounded-lg">
+        <h3 className="text-xs font-semibold text-sidebar-foreground mb-3 uppercase tracking-wider opacity-70 bg-red-700 px-3 py-2 rounded-lg">
           AI Provider
         </h3>
         <div className="space-y-2">
@@ -135,7 +135,7 @@ export function Sidebar({
 
       {/* Categories Section */}
       <div className="flex-1 p-4 overflow-y-auto">
-        <h3 className="text-xs font-semibold text-sidebar-foreground mb-3 uppercase tracking-wider opacity-70 bg-red-400 px-3 py-2 rounded-lg">
+        <h3 className="text-xs font-semibold text-sidebar-foreground mb-3 uppercase tracking-wider opacity-70 bg-red-700 px-3 py-2 rounded-lg">
           Categories
         </h3>
         <div className="space-y-2">
