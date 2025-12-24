@@ -182,7 +182,9 @@ export function ChatWindow({
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiResponse]);
-
+      setIsLoading(false);
+      setIsScanning(true);
+      
       // Perform Security Scan
       const status = await performSecurityScan(userMessage.content, aiResponse.content);
       if (status) {
@@ -315,7 +317,7 @@ export function ChatWindow({
           )}
         </div>
       )}
-      
+
       {/* Input Area */}
       <div className="border-t border-border p-6 bg-background">
         <div className="flex gap-3">
