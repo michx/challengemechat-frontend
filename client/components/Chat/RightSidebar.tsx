@@ -72,7 +72,7 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
             <h3 className="text-sm font-bold text-gray-900 mb-3">Chat Status</h3>
             
             {/* Good Status */}
-            {scanResult.action === "allow" && scanResult.response === "benign" && (
+            {scanResult.action === "allow" && scanResult.category === "benign" && (
               <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
                 <CheckCircle size={20} className="text-green-600" />
                 <span className="text-sm font-medium text-green-800">Status: Good</span>
@@ -80,7 +80,7 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
             )}
 
             {/* Warning Status */}
-            {scanResult.action === "allow" && scanResult.response === "malicious" && (
+            {scanResult.action === "allow" && scanResult.category === "malicious" && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <AlertTriangle size={20} className="text-yellow-600" />
@@ -95,7 +95,7 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
             )}
 
             {/* Alarm Status */}
-            {scanResult.action !== "allow" && scanResult.response === "malicious" && (
+            {scanResult.action !== "allow" && scanResult.category === "malicious" && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
                   <Siren size={20} className="text-red-600" />
@@ -110,7 +110,7 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
             )}
           </div>
         )}
-        
+
         {/* Info Box */}
         <div className="mt-auto pt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
           <p className="text-xs text-blue-900 flex gap-2">
