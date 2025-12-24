@@ -118,7 +118,7 @@ export function ChatWindow({
       
       // Return status based on response (simplified check)
       // Assuming a non-empty 'threats' array or specific verdict indicates a threat
-      return data.sec_response && data.response=="good" ? "safe" : "threat";
+      return data.action && data.action=="allow" ? "safe" : "threat";
     } catch (error) {
       console.error("Security scan failed:", error);
       return "error";
