@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Save, Eye, EyeOff, Check } from "lucide-react";
+import { Save, Eye, EyeOff, Check } from "lucide-react";
 
 interface APIKeys {
   openaiKey: string;
@@ -136,16 +136,10 @@ export default function Settings() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <button
-            onClick={() => navigate("/")}
-            className="p-2 hover:bg-white rounded-lg transition"
-          >
-            <ArrowLeft size={24} className="text-gray-700" />
-          </button>
+        <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
         </div>
-
+        <div className="mb-8 text-center">
         {/* Settings Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           {/* API Keys Section */}

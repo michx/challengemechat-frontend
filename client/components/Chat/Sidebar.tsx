@@ -217,7 +217,7 @@ export function Sidebar({
         {/* Settings Button */}
         <button
           onClick={() => setIsSettingsOpen(true)}
-          className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-purple-600 text-white hover:bg-red-300 shadow-md flex items-center justify-center gap-2 active:scale-95"
+          className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-red-300 text-white hover:bg-red-300 shadow-md flex items-center justify-center gap-2 active:scale-95"
         >
           <SettingsIcon size={16} />
           <span>Settings</span>
