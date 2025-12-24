@@ -139,7 +139,6 @@ export default function Settings() {
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
         </div>
-        <div className="mb-8 text-center">
         {/* Settings Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           {/* API Keys Section */}
