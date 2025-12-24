@@ -67,49 +67,47 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
 
 
         {/* Chat Status Section */}
-        {scanResult && (
-          <div className="mt-4 border-t border-gray-200 pt-4">
-            <h3 className="text-sm font-bold text-gray-900 mb-3">Chat Status</h3>
-            
-            {/* Good Status */}
-            {scanResult.action === "allow" && scanResult.category === "benign" && (
-              <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
-                <CheckCircle size={20} className="text-green-600" />
-                <span className="text-sm font-medium text-green-800">Status: Good</span>
-              </div>
-            )}
+        <div className="mt-4 border-t border-gray-200 pt-4">
+          <h3 className="text-sm font-bold text-gray-900 mb-3">Chat Status</h3>
+          
+          {/* Good Status */}
+          {(!scanResult || (scanResult.action === "allow" && scanResult.category === "benign")) && (
+            <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+              <CheckCircle size={20} className="text-green-600" />
+              <span className="text-sm font-medium text-green-800">Status: Good</span>
+            </div>
+          )}
 
-            {/* Warning Status */}
-            {scanResult.action === "allow" && scanResult.category === "malicious" && (
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <AlertTriangle size={20} className="text-yellow-600" />
-                  <span className="text-sm font-medium text-yellow-800">Status: Warning</span>
-                </div>
-                <div className="text-xs text-gray-700 bg-gray-50 p-2 rounded border border-gray-200">
-                  <p className="font-semibold mb-1">Detections:</p>
-                  <p>Prompt: {JSON.stringify(scanResult.prompt_detected || "None")}</p>
-                  <p>Response: {JSON.stringify(scanResult.response_detected || "None")}</p>
-                </div>
+          {/* Warning Status */}
+          {scanResult && scanResult.action === "allow" && scanResult.category === "malicious" && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <AlertTriangle size={20} className="text-yellow-600" />
+                <span className="text-sm font-medium text-yellow-800">Status: Warning</span>
               </div>
-            )}
+              <div className="text-xs text-gray-700 bg-gray-50 p-2 rounded border border-gray-200">
+                <p className="font-semibold mb-1">Detections:</p>
+                <p>Prompt: {JSON.stringify(scanResult.prompt_detected || "None")}</p>
+                <p>Response: {JSON.stringify(scanResult.response_detected || "None")}</p>
+              </div>
+            </div>
+          )}
 
-            {/* Alarm Status */}
-            {scanResult.action !== "allow" && scanResult.category === "malicious" && (
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                  <Siren size={20} className="text-red-600" />
-                  <span className="text-sm font-medium text-red-800">Status: Alarm</span>
-                </div>
-                <div className="text-xs text-gray-700 bg-gray-50 p-2 rounded border border-gray-200">
-                  <p className="font-semibold mb-1">Detections:</p>
-                  <p>Prompt: {JSON.stringify(scanResult.prompt_detected || "None")}</p>
-                  <p>Response: {JSON.stringify(scanResult.response_detected || "None")}</p>
-                </div>
+          {/* Alarm Status */}
+          {scanResult && scanResult.action !== "allow" && scanResult.category === "malicious" && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <Siren size={20} className="text-red-600" />
+                <span className="text-sm font-medium text-red-800">Status: Alarm</span>
               </div>
-            )}
-          </div>
-        )}
+              <div className="text-xs text-gray-700 bg-gray-50 p-2 rounded border border-gray-200">
+                <p className="font-semibold mb-1">Detections:</p>
+                <p>Prompt: {JSON.stringify(scanResult.prompt_detected || "None")}</p>
+                <p>Response: {JSON.stringify(scanResult.response_detected || "None")}</p>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Info Box */}
         <div className="mt-auto pt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
