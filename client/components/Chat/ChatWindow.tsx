@@ -263,9 +263,9 @@ export function ChatWindow({
                   : "chat-message-ai"
                 } max-w-[80%]`}
             >
-              <p className={`text-${fontSize} leading-relaxed`}>
+              <div className={`text-${fontSize} leading-relaxed whitespace-pre-wrap break-words`}>
                 {message.content}
-              </p>
+              </div>
               {message.securityStatus && (
                 <div className={`mt-2 flex items-center gap-1 text-xs ${
                   message.securityStatus === "threat" ? "text-red-500" : "text-green-500"
