@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, ShieldCheck, ShieldAlert, Bot, User } from "lucide-react";
+import { Send, ShieldCheck, ShieldAlert, Bot, User, ChevronDown, MessageCircle, Sparkles, Brain, Zap } from "lucide-react";
 import { CATEGORY_GROUPS } from "@/config/categories";
 
 interface Message {
@@ -20,7 +20,39 @@ interface ChatWindowProps {
   onClearChat?: number;
   onStateChange?: (state: { isLoading: boolean; isScanning: boolean }) => void;
   onScanComplete?: (result: any) => void;
+  onModelSelect: (provider: string, model: string) => void;
 }
+
+const PROVIDERS = [
+  { name: "ChatGPT", id: "openai", icon: MessageCircle },
+  { name: "Gemini", id: "gemini", icon: Sparkles },
+  { name: "Claude", id: "claude", icon: Brain },
+  { name: "Custom", id: "custom", icon: Zap },
+];
+
+const PROVIDER_MODELS: Record<
+  string,
+  Array<{ label: string; value: string }>
+> = {
+  openai: [
+    { label: "GPT-4o", value: "gpt-4o" },
+    { label: "GPT-4 Turbo", value: "gpt-4-turbo" },
+    { label: "GPT-4", value: "gpt-4" },
+    { label: "GPT-3.5 Turbo", value: "gpt-3.5-turbo" },
+  ],
+  gemini: [
+    { label: "Gemini 2.0 Flash", value: "gemini-2.0-flash" },
+    { label: "Gemini 1.5 Pro", value: "gemini-1.5-pro" },
+    { label: "Gemini 1.5 Flash", value: "gemini-1.5-flash" },
+  ],
+  claude: [
+    { label: "Claude 3.5 Sonnet", value: "claude-3-5-sonnet-20241022" },
+    { label: "Claude 3 Opus", value: "claude-3-opus-20240229" },
+    { label: "Claude 3 Sonnet", value: "claude-3-sonnet-20240229" },
+    { label: "Claude 3 Haiku", value: "claude-3-haiku-20240307" },
+  ],
+  custom: [{ label: "Custom Endpoint", value: "custom" }],
+};
 
 export function ChatWindow({
   selectedModel,
@@ -30,6 +62,7 @@ export function ChatWindow({
   onClearChat,
   onStateChange,
   onScanComplete, 
+  onModelSelect,
 }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -44,6 +77,8 @@ export function ChatWindow({
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState("");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isModelMenuOpen, setIsModelMenuOpen] = useState(false);
+  const [expandedProvider, setExpandedProvider] = useState<string | null>(null);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -322,10 +357,56 @@ export function ChatWindow({
               disabled={isLoading}
               className="w-full pr-40"
             />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-100 text-gray-500 text-xs px-3 py-1.5 rounded-full border border-gray-200 font-medium pointer-events-none select-none flex items-center gap-1.5 max-w-[150px]">
+            <button
+              onClick={() => setIsModelMenuOpen(!isModelMenuOpen)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-1.5 rounded-full border border-gray-200 font-medium select-none flex items-center gap-1.5 max-w-[180px] transition-colors"
+            >
               <Bot size={12} className="flex-shrink-0" />
               <span className="truncate">{selectedModel}</span>
-            </div>
+              <ChevronDown size={12} className="flex-shrink-0 opacity-50" />
+            </button>
+
+            {/* Model Selection Menu */}
+            {isModelMenuOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setIsModelMenuOpen(false)} />
+                <div className="absolute bottom-full right-0 mb-2 w-64 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden z-50 flex flex-col max-h-[400px]">
+                  <div className="p-2 bg-gray-50 border-b border-gray-100 font-semibold text-xs text-gray-500 uppercase tracking-wider">
+                    Select Model
+                  </div>
+                  <div className="overflow-y-auto p-1">
+                    {PROVIDERS.map(({ name, id, icon: IconComponent }) => (
+                      <div key={id} className="mb-1">
+                        <button
+                          onClick={() => setExpandedProvider(expandedProvider === id ? null : id)}
+                          className={`w-full px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors ${selectedProvider === id ? "bg-blue-50 text-blue-700" : "hover:bg-gray-100 text-gray-700"}`}
+                        >
+                          <IconComponent size={16} />
+                          <span>{name}</span>
+                          <ChevronDown size={14} className={`ml-auto transition-transform ${expandedProvider === id ? "rotate-180" : ""}`} />
+                        </button>
+                        {expandedProvider === id && (
+                          <div className="ml-4 mt-1 space-y-1 border-l-2 border-gray-100 pl-2">
+                            {PROVIDER_MODELS[id].map((model) => (
+                              <button
+                                key={model.value}
+                                onClick={() => {
+                                  onModelSelect(id, model.value);
+                                  setIsModelMenuOpen(false);
+                                }}
+                                className={`block w-full text-left px-3 py-1.5 text-xs rounded-md transition-colors ${selectedModel === model.value ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}
+                              >
+                                {model.label}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           <button
             onClick={handleSendMessage}

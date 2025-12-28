@@ -72,10 +72,7 @@ export default function Index() {
         {/* Desktop Left Sidebar */}
         <div className="hidden md:block w-64 border-r border-border flex-shrink-0">
           <Sidebar
-            onModelSelect={handleModelSelect}
             onCategoryItemSelect={handleCategoryItemSelect}
-            selectedModel={selectedModel}
-            selectedProvider={selectedProvider}
             onFontSizeChange={setFontSize}
             onClearChat={handleClearChat}
             currentFontSize={fontSize}
@@ -92,10 +89,7 @@ export default function Index() {
             />
             <div className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar-background border-r border-sidebar-border z-50 md:hidden overflow-y-auto">
               <Sidebar
-                onModelSelect={handleModelSelect}
                 onCategoryItemSelect={handleCategoryItemSelect}
-                selectedModel={selectedModel}
-                selectedProvider={selectedProvider}
                 onFontSizeChange={setFontSize}
                 onClearChat={handleClearChat}
                 currentFontSize={fontSize}
@@ -117,6 +111,7 @@ export default function Index() {
                 onClearChat={clearChatTrigger}
                 onStateChange={setChatState}
                 onScanComplete={setScanResult}
+                onModelSelect={handleModelSelect}
               />
             </div>
 
