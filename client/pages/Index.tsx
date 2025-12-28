@@ -6,6 +6,7 @@ import { ChatWindow } from "@/components/Chat/ChatWindow";
 import { RightSidebar } from "@/components/Chat/RightSidebar";
 import { UserMenu } from "@/components/Chat/UserMenu";
 import { Button } from "@/components/ui/button";
+import SettingsPage from "./Settings";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function Index() {
   const [clearChatTrigger, setClearChatTrigger] = useState(0);
   const [chatState, setChatState] = useState({ isLoading: false, isScanning: false });
   const [scanResult, setScanResult] = useState<any>(null);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
 
   const handleModelSelect = (provider: string, model: string) => {
@@ -52,7 +54,10 @@ export default function Index() {
         </p>
       </div>
       <div className="flex items-center gap-3">
-        <UserMenu onLogout={handleLogout} />
+        <UserMenu 
+          onLogout={handleLogout} 
+          onOpenSettings={() => setIsSettingsOpen(true)}
+        />
         <Button
           variant="ghost"
           size="icon"
@@ -125,6 +130,24 @@ export default function Index() {
         </div>
       </div>
       </div>
+      {/* Settings Modal */}
+      {isSettingsOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-6">
+          <div className="bg-background w-full max-w-5xl h-[85vh] rounded-xl shadow-2xl overflow-hidden relative flex flex-col border border-border animate-in fade-in zoom-in-95 duration-200">
+            <div className="absolute top-4 right-4 z-50">
+              <button
+                onClick={() => setIsSettingsOpen(false)}
+                className="p-2 rounded-full bg-secondary hover:bg-secondary/80 text-foreground transition-colors shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto bg-background">
+              <SettingsPage />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

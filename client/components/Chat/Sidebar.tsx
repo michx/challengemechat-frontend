@@ -9,12 +9,9 @@ import {
   Shield,
   AlertTriangle,
   Type,
-  Settings as SettingsIcon,
-  X,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { CATEGORY_GROUPS } from "@/config/categories";
- import SettingsPage from "../../pages/Settings";
 
 interface SidebarProps {
   onModelSelect: (provider: string, model: string) => void;
@@ -77,7 +74,6 @@ export function Sidebar({
   const navigate = useNavigate();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [openModelMenu, setOpenModelMenu] = useState<string | null>(null);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
     <div className="h-full bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border flex flex-col shadow-[5px_0_30px_rgba(0,0,0,0.3)] relative z-20">
@@ -214,15 +210,6 @@ export function Sidebar({
           </div>
         </div>
 
-        {/* Settings Button */}
-        <button
-          onClick={() => setIsSettingsOpen(true)}
-          className="w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-red-300 text-white hover:bg-red-300 shadow-md flex items-center justify-center gap-2 active:scale-95"
-        >
-          <SettingsIcon size={16} />
-          <span>Settings</span>
-        </button>
-
         {/* Clear Chat Button */}
         <button
           type="button"        
@@ -233,24 +220,6 @@ export function Sidebar({
           <span>Clear Chat</span>
         </button>
       </div>
-           {/* Settings Modal */}
-           {isSettingsOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-6">
-          <div className="bg-background w-full max-w-5xl h-[85vh] rounded-xl shadow-2xl overflow-hidden relative flex flex-col border border-border animate-in fade-in zoom-in-95 duration-200">
-            <div className="absolute top-4 right-4 z-50">
-              <button
-                onClick={() => setIsSettingsOpen(false)}
-                className="p-2 rounded-full bg-secondary hover:bg-secondary/80 text-foreground transition-colors shadow-sm"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto bg-background">
-              <SettingsPage />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
