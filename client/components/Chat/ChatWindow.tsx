@@ -29,7 +29,7 @@ export function ChatWindow({
   fontSize,
   onClearChat,
   onStateChange,
-  onScanComplete,
+  onScanComplete, 
 }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -313,14 +313,20 @@ export function ChatWindow({
       {/* Input Area */}
       <div className="border-t border-border p-6 bg-background">
         <div className="flex gap-3">
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Type your message..."
-            disabled={isLoading}
-            className="flex-1"
-          />
+          <div className="relative flex-1">
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Type your message..."
+              disabled={isLoading}
+              className="w-full pr-40"
+            />
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-100 text-gray-500 text-xs px-3 py-1.5 rounded-full border border-gray-200 font-medium pointer-events-none select-none flex items-center gap-1.5 max-w-[150px]">
+              <Bot size={12} className="flex-shrink-0" />
+              <span className="truncate">{selectedModel}</span>
+            </div>
+          </div>
           <button
             onClick={handleSendMessage}
             disabled={isLoading || !input.trim()}
