@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Settings } from "lucide-react";
 
 interface UserMenuProps {
   onLogout?: () => void;
+  onOpenSettings?: () => void;
 }
 
-export function UserMenu({ onLogout }: UserMenuProps) {
+export function UserMenu({ onLogout, onOpenSettings }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
     onLogout?.();
+    setIsOpen(false);
+  };
+
+  const handleSettings = () => {
+    onOpenSettings?.();
     setIsOpen(false);
   };
 
@@ -35,6 +41,14 @@ export function UserMenu({ onLogout }: UserMenuProps) {
               <p className="text-sm font-semibold text-gray-900">User Menu</p>
               <p className="text-xs text-gray-600 mt-1">user@example.com</p>
             </div>
+
+            <button
+              onClick={handleSettings}
+              className="w-full px-4 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 transition-colors duration-150 flex items-center gap-2 active:scale-95"
+            >
+              <Settings size={16} />
+              <span>Settings</span>
+            </button>
 
             <button
               onClick={handleLogout}
