@@ -6,6 +6,7 @@ interface APIKeys {
   openaiKey: string;
   geminiKey: string;
   claudeKey: string;
+  huggingfaceKey: string;
   prismaAirsKey: string;
   prismaAirsProfileName: string;
   prismaAirsProfileId: string;
@@ -56,6 +57,7 @@ export default function Settings() {
             openaiKey: "",
             geminiKey: "",
             claudeKey: "",
+            huggingfaceKey: "",
             customEndpoint: "",
             customHeaders: "",
             prismaAirsKey: "",
@@ -67,6 +69,7 @@ export default function Settings() {
         openaiKey: "",
         geminiKey: "",
         claudeKey: "",
+        huggingfaceKey: "",
         customEndpoint: "",
         customHeaders: "",
         prismaAirsKey: "",
@@ -89,6 +92,7 @@ export default function Settings() {
     openai: false,
     gemini: false,
     claude: false,
+    huggingface: false,
     prismaAirs: false,   
   });
 
@@ -289,6 +293,41 @@ export default function Settings() {
                   </option>
                 ))}
               </select>
+        </div>
+
+        {/* HuggingFace */}
+        <div className="mb-6">
+          <label className="block text-sm font-semibold text-gray-900 mb-2">
+            HuggingFace API Key
+          </label>
+          <div className="relative mb-3">
+            <input
+              type={showKeys.huggingface ? "text" : "password"}
+              value={apiKeys.huggingfaceKey}
+              onChange={(e) => handleKeyChange("huggingfaceKey", e.target.value)}
+              placeholder="hf_..."
+              className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+            />
+            <button
+              onClick={() =>
+                setShowKeys((prev) => ({ ...prev, huggingface: !prev.huggingface }))
+              }
+              className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+            >
+              {showKeys.huggingface ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+          <p className="text-xs text-gray-500 mb-2">
+            Get your API key from{" "}
+            <a
+              href="https://huggingface.co/settings/tokens"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              huggingface.co
+            </a>
+          </p>
             </div>
 
             {/* Custom API */}

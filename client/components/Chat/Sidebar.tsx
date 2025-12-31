@@ -51,7 +51,10 @@ const PROVIDER_MODELS: Record<
     { label: "Claude 3 Sonnet", value: "claude-3-sonnet-20240229" },
     { label: "Claude 3 Haiku", value: "claude-3-haiku-20240307" },
   ],
-  custom: [{ label: "Custom Endpoint", value: "custom" }],
+  custom: [
+    { label: "HuggingFace malicious", value: "huggingface-malicious" },
+    { label: "Custom Endpoint", value: "custom" },
+  ],
 };
 
 const FONT_LABELS = [
