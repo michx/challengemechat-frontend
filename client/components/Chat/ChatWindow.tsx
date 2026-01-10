@@ -160,6 +160,10 @@ export function ChatWindow({
         content: userMessage.content,
       });
 
+      // Get API keys from local storage
+      const savedKeys = localStorage.getItem("apiKeys");
+      const apiKeys = savedKeys ? JSON.parse(savedKeys) : {};
+
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -167,6 +171,16 @@ export function ChatWindow({
           messages: apiMessages,
           provider: selectedProvider,
           model: selectedModel,
+          apiKey: 
+            selectedProvider === "openai" ? apiKeys.openaiKey :
+            selectedProvider === "gemini" ? apiKeys.geminiKey :
+            selectedProvider === "claude" ? apiKeys.claudeKey :
+            selectedModel === "huggingface-malicious" ? apiKeys.huggingfaceKey : undefined,
+          sshConfig: selectedModel === "vulnerable-agent" ? {
+            host: apiKeys.vulnerableAgentHost,
+            username: apiKeys.vulnerableAgentUser,
+            privateKey: apiKeys.vulnerableAgentKey,
+          } : undefined,
         }),
       });
 
