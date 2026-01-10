@@ -53,6 +53,7 @@ const PROVIDER_MODELS: Record<
   ],
   custom: [
     { label: "HuggingFace malicious", value: "huggingface-malicious" },
+    { label: "Vulnerable Agent", value: "vulnerable-agent" },
     { label: "Custom Endpoint", value: "custom" },
   ],
 };
