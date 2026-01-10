@@ -7,9 +7,6 @@ interface APIKeys {
   geminiKey: string;
   claudeKey: string;
   huggingfaceKey: string;
-  vulnerableAgentHost: string;
-  vulnerableAgentUser: string;
-  vulnerableAgentKey: string;
   prismaAirsKey: string;
   prismaAirsProfileName: string;
   prismaAirsProfileId: string;
@@ -58,9 +55,6 @@ export default function Settings() {
         geminiKey: "",
         claudeKey: "",
         huggingfaceKey: "",
-        vulnerableAgentHost: "35.240.16.73",
-        vulnerableAgentUser: "",
-        vulnerableAgentKey: "",
         customEndpoint: "",
         customHeaders: "",
         prismaAirsKey: "",
@@ -75,9 +69,6 @@ export default function Settings() {
         geminiKey: "",
         claudeKey: "",
         huggingfaceKey: "",
-        vulnerableAgentHost: "35.240.16.73",
-        vulnerableAgentUser: "",
-        vulnerableAgentKey: "",
         customEndpoint: "",
         customHeaders: "",
         prismaAirsKey: "",
@@ -336,47 +327,6 @@ export default function Settings() {
               huggingface.co
             </a>
           </p>
-            </div>
-
-            {/* Vulnerable Agent (MCP) */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Vulnerable Agent (MCP over SSH)
-              </label>
-              <div className="grid grid-cols-1 gap-4 mb-3">
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">Host</label>
-                  <input
-                    type="text"
-                    value={apiKeys.vulnerableAgentHost}
-                    onChange={(e) => handleKeyChange("vulnerableAgentHost", e.target.value)}
-                    placeholder="35.240.16.73"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">Username</label>
-                  <input
-                    type="text"
-                    value={apiKeys.vulnerableAgentUser}
-                    onChange={(e) => handleKeyChange("vulnerableAgentUser", e.target.value)}
-                    placeholder="ssh user"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">Private Key</label>
-                  <div className="relative">
-                    <textarea
-                      value={apiKeys.vulnerableAgentKey}
-                      onChange={(e) => handleKeyChange("vulnerableAgentKey", e.target.value)}
-                      placeholder="-----BEGIN OPENSSH PRIVATE KEY-----"
-                      rows={3}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition font-mono text-xs"
-                    />
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Custom API */}

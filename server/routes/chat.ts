@@ -45,7 +45,11 @@ export const handleChat = async (req: Request, res: Response) => {
       return;
     }
 
-    res.status(501).json({ error: "Provider not implemented in this backend handler" });
+    // Default fallback for other providers (mock response or implement actual API calls here)
+    res.json({ 
+        message: `Echo from backend: ${lastMessage} (Provider: ${provider})`, 
+        provider 
+    });
 
   } catch (error) {
     console.error("Chat handler error:", error);

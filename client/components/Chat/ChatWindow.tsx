@@ -164,25 +164,29 @@ export function ChatWindow({
       const savedKeys = localStorage.getItem("apiKeys");
       const apiKeys = savedKeys ? JSON.parse(savedKeys) : {};
 
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: apiMessages,
-          provider: selectedProvider,
-          model: selectedModel,
-          apiKey: 
-            selectedProvider === "openai" ? apiKeys.openaiKey :
-            selectedProvider === "gemini" ? apiKeys.geminiKey :
-            selectedProvider === "claude" ? apiKeys.claudeKey :
-            selectedModel === "huggingface-malicious" ? apiKeys.huggingfaceKey : undefined,
-          sshConfig: selectedModel === "vulnerable-agent" ? {
-            host: apiKeys.vulnerableAgentHost,
-            username: apiKeys.vulnerableAgentUser,
-            privateKey: apiKeys.vulnerableAgentKey,
-          } : undefined,
-        }),
-      });
+      let response;
+      if (selectedModel === "vulnerable-agent") {
+        response = await fetch("/ssh", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: userMessage.content }),
+        });
+      } else {
+        response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: apiMessages,
+            provider: selectedProvider,
+            model: selectedModel,
+            apiKey: 
+              selectedProvider === "openai" ? apiKeys.openaiKey :
+              selectedProvider === "gemini" ? apiKeys.geminiKey :
+              selectedProvider === "claude" ? apiKeys.claudeKey :
+              selectedModel === "huggingface-malicious" ? apiKeys.huggingfaceKey : undefined,
+          }),
+        });
+      }
 
       if (!response.ok) {
         const errorData = (await response.json()) as { error?: string };
@@ -191,13 +195,10 @@ export function ChatWindow({
         );
       }
 
-      const data = (await response.json()) as {
-        message: string;
-        provider: string;
-      };
+      const data = await response.json();
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.message,
+        content: data.message || data.response || JSON.stringify(data),
         role: "ai",
         timestamp: new Date(),
       };
