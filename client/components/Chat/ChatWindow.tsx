@@ -166,7 +166,7 @@ export function ChatWindow({
 
       let response;
       if (selectedModel === "vulnerable-agent") {
-        response = await fetch("/ssh", {
+        response = await fetch("http://127.0.0.1:5001/ssh", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ prompt: userMessage.content }),
