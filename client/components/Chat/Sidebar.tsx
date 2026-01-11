@@ -46,10 +46,8 @@ const PROVIDER_MODELS: Record<
     { label: "Gemini 2.5 Flash", value: "gemini-2.5-flash" },
   ],
   claude: [
-    { label: "Claude 3.5 Sonnet", value: "claude-3-5-sonnet-20241022" },
-    { label: "Claude 3 Opus", value: "claude-3-opus-20240229" },
-    { label: "Claude 3 Sonnet", value: "claude-3-sonnet-20240229" },
-    { label: "Claude 3 Haiku", value: "claude-3-haiku-20240307" },
+    { label: "Claude 4 Opus", value: "claude-opus-4-20250514" },
+    { label: "Claude 3.7 Sonnet", value: "claude-3-7-sonnet-20250219" },
   ],
   custom: [
     { label: "HuggingFace malicious", value: "huggingface-malicious" },
