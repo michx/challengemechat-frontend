@@ -1,58 +1,156 @@
 import { Request, Response } from "express";
-import { Client } from "ssh2";
 
 export const handleChat = async (req: Request, res: Response) => {
+  const { messages, provider, model, apiKey } = req.body;
+
+  if (!apiKey && provider !== "custom") {
+    return res.status(400).json({ error: "API Key is missing. Please configure it in Settings." });
+  }
+
   try {
-    const { messages, provider, model, apiKey, sshConfig } = req.body;
-    const lastMessage = messages[messages.length - 1]?.content;
+    let result;
 
-    if (!lastMessage) {
-      return res.status(400).json({ error: "Message is required" });
+    switch (provider) {
+      case "openai":
+        result = await handleOpenAI(messages, model, apiKey);
+        break;
+      case "claude":
+        result = await handleClaude(messages, model, apiKey);
+        break;
+      case "gemini":
+        result = await handleGemini(messages, model, apiKey);
+        break;
+      case "custom":
+        if (model === "huggingface-malicious") {
+          // Using a standard uncensored/instruct model as a proxy for the "malicious" intent test
+          result = await handleHuggingFace(messages, "mistralai/Mistral-7B-Instruct-v0.2", apiKey);
+        } else {
+          return res.status(501).json({ error: "Custom provider logic not fully implemented" });
+        }
+        break;
+      default:
+        return res.status(400).json({ error: `Provider ${provider} not supported` });
     }
 
-    // Handle Vulnerable Agent via SSH
-    if (model === "vulnerable-agent" && sshConfig) {
-      const conn = new Client();
-      let responseData = "";
+    res.json(result);
 
-      conn.on("ready", () => {
-        // Execute the prompt as a command on the remote server
-        conn.exec(lastMessage, (err, stream) => {
-          if (err) {
-            conn.end();
-            return res.status(500).json({ error: "SSH Execution Error: " + err.message });
-          }
-          
-          stream.on("close", (code: any, signal: any) => {
-            conn.end();
-            res.json({ message: responseData || "Command executed (no output).", provider: "vulnerable-agent" });
-          }).on("data", (data: any) => {
-            responseData += data.toString();
-          }).stderr.on("data", (data: any) => {
-            responseData += data.toString();
-          });
-        });
-      }).on("error", (err) => {
-        console.error("SSH Connection Error:", err);
-        res.status(500).json({ error: "SSH Connection Error: " + err.message });
-      }).connect({
-        host: sshConfig.host,
-        port: 22,
-        username: sshConfig.username,
-        privateKey: sshConfig.privateKey,
-        readyTimeout: 20000, // 20 seconds timeout
-      });
-      return;
-    }
-
-    // Default fallback for other providers (mock response or implement actual API calls here)
-    res.json({ 
-        message: `Echo from backend: ${lastMessage} (Provider: ${provider})`, 
-        provider 
+  } catch (error: any) {
+    console.error("Chat API Error:", error);
+    res.status(500).json({ 
+      error: error.message || "Internal Server Error",
+      details: error.toString()
     });
-
-  } catch (error) {
-    console.error("Chat handler error:", error);
-    res.status(500).json({ error: "Internal server error" });
   }
 };
+
+async function handleOpenAI(messages: any[], model: string, apiKey: string) {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error?.message || `OpenAI Error: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return { message: data.choices[0].message.content };
+}
+
+async function handleClaude(messages: any[], model: string, apiKey: string) {
+  const systemMessage = messages.find((m: any) => m.role === "system")?.content;
+  const conversationMessages = messages
+    .filter((m: any) => m.role !== "system")
+    .map((m: any) => ({
+      role: m.role === "ai" ? "assistant" : m.role,
+      content: m.content,
+    }));
+
+  const body: any = {
+    model,
+    messages: conversationMessages,
+    max_tokens: 1024,
+  };
+
+  if (systemMessage) {
+    body.system = systemMessage;
+  }
+
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error?.message || `Claude Error: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return { message: data.content[0].text };
+}
+
+async function handleGemini(messages: any[], model: string, apiKey: string) {
+  const contents = messages.map((m: any) => ({
+    role: m.role === "ai" ? "model" : "user",
+    parts: [{ text: m.content }],
+  }));
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents }),
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error?.message || `Gemini Error: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return { message: data.candidates?.[0]?.content?.parts?.[0]?.text || "No response" };
+}
+
+async function handleHuggingFace(messages: any[], model: string, apiKey: string) {
+  const lastMessage = messages[messages.length - 1].content;
+  
+  const response = await fetch(
+    `https://api-inference.huggingface.co/models/${model}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({ 
+        inputs: lastMessage,
+        parameters: { max_new_tokens: 512, return_full_text: false }
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || `HuggingFace Error: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  const generatedText = Array.isArray(data) ? data[0].generated_text : data.generated_text;
+  return { message: generatedText };
+}
