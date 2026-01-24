@@ -133,7 +133,7 @@ async function handleGemini(messages: any[], model: string, apiKey: string) {
 async function handleOllama(messages: any[], model: string, endpoint: string) {
   const url = endpoint || "http://localhost:11434";
   
-  const response = await fetch(`${url}/api/chat`, {
+  const response = await fetch(`${url}/api/generate`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
