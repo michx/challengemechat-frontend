@@ -53,7 +53,7 @@ const PROVIDER_MODELS: Record<
   ],
   ollama: [
     { label: "Llama 3", value: "llama3" },
-    { label: "Mistral", value: "mistral" },
+    { label: "Qwen2", value: "qwen2:latest" },
     { label: "Gemma 3", value: "gemma3:latest" },
     { label: "Phi 3", value: "phi3" },
   ],
