@@ -132,6 +132,7 @@ async function handleGemini(messages: any[], model: string, apiKey: string) {
 
 async function handleOllama(messages: any[], model: string, endpoint: string) {
   const url = endpoint || "http://localhost:11434";
+  const lastMessage = messages[messages.length - 1].content;
   
   const response = await fetch(`${url}/api/generate`, {
     method: "POST",
@@ -140,7 +141,7 @@ async function handleOllama(messages: any[], model: string, endpoint: string) {
     },
     body: JSON.stringify({
       model,
-      messages,
+      prompt: lastMessage,
       stream: false,
     }),
   });
@@ -151,7 +152,7 @@ async function handleOllama(messages: any[], model: string, endpoint: string) {
   }
 
   const data = await response.json();
-  return { message: data.message.content };
+  return { message: data.response };
 }
 
 async function handleHuggingFace(messages: any[], model: string, apiKey: string) {
