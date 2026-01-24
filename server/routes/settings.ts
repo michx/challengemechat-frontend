@@ -5,6 +5,7 @@ interface APIKeys {
   geminiKey?: string;
   claudeKey?: string;
   customEndpoint?: string;
+  ollamaEndpoint?: string;
   customHeaders?: string;
 }
 
@@ -12,6 +13,7 @@ interface ModelSelection {
   openaiModel?: string;
   geminiModel?: string;
   claudeModel?: string;
+  ollamaModel?: string;
 }
 
 // In-memory storage for API keys (in production, use a secure database)
@@ -45,6 +47,9 @@ export const saveAPIKeys: RequestHandler = async (req, res) => {
     if (keys.claudeKey) {
       process.env.CLAUDE_API_KEY = keys.claudeKey;
     }
+    if (keys.ollamaEndpoint) {
+      process.env.OLLAMA_ENDPOINT = keys.ollamaEndpoint;
+    }
     if (keys.customEndpoint) {
       process.env.CUSTOM_API_ENDPOINT = keys.customEndpoint;
     }
@@ -74,6 +79,7 @@ export const getAPIKeys: RequestHandler = async (req, res) => {
         geminiKey: keys.geminiKey ? "***configured***" : "",
         claudeKey: keys.claudeKey ? "***configured***" : "",
         customEndpoint: keys.customEndpoint || "",
+        ollamaEndpoint: keys.ollamaEndpoint || "",
       },
       models,
     });

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Save, Eye, EyeOff, Check, Bot, Shield, Globe } from "lucide-react";
+import { Save, Eye, EyeOff, Check, Bot, Shield, Globe, Database } from "lucide-react";
 
 interface APIKeys {
   openaiKey: string;
@@ -8,6 +8,7 @@ interface APIKeys {
   claudeKey: string;
   huggingfaceKey: string;
   prismaAirsKey: string;
+  ollamaEndpoint: string;
   prismaAirsProfileName: string;
   prismaAirsProfileId: string;
   customEndpoint: string;
@@ -18,12 +19,14 @@ interface ModelSelection {
   openaiModel: string;
   geminiModel: string;
   claudeModel: string;
+  ollamaModel: string;
 }
 
 const DEFAULT_MODELS: ModelSelection = {
   openaiModel: "gpt-4o",
   geminiModel: "gemini-2.0-flash",
   claudeModel: "claude-3-5-sonnet-20241022",
+  ollamaModel: "llama3",
 };
 
 const PROVIDER_MODELS = {
@@ -44,6 +47,12 @@ const PROVIDER_MODELS = {
     { label: "Claude 3 Sonnet", value: "claude-3-sonnet-20240229" },
     { label: "Claude 3 Haiku", value: "claude-3-haiku-20240307" },
   ],
+  ollama: [
+    { label: "Llama 3", value: "llama3" },
+    { label: "Mistral", value: "mistral" },
+    { label: "Gemma", value: "gemma" },
+    { label: "Phi 3", value: "phi3" },
+  ],
 };
 
 export default function Settings() {
@@ -54,6 +63,7 @@ export default function Settings() {
         openaiKey: "",
         geminiKey: "",
         claudeKey: "",
+        ollamaEndpoint: "http://localhost:11434",
         huggingfaceKey: "",
         customEndpoint: "",
         customHeaders: "",
@@ -68,6 +78,7 @@ export default function Settings() {
         openaiKey: "",
         geminiKey: "",
         claudeKey: "",
+        ollamaEndpoint: "http://localhost:11434",
         huggingfaceKey: "",
         customEndpoint: "",
         customHeaders: "",
@@ -295,6 +306,37 @@ export default function Settings() {
                     <p className="text-xs text-gray-500">
                       Get key from <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">console.anthropic.com</a>
                     </p>
+                  </div>
+                </div>
+
+                {/* Ollama */}
+                <div className="pt-6 border-t border-gray-100">
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Ollama (Local)
+                  </label>
+                  <div className="space-y-3">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={apiKeys.ollamaEndpoint}
+                        onChange={(e) => handleKeyChange("ollamaEndpoint", e.target.value)}
+                        placeholder="http://localhost:11434"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                      />
+                    </div>
+                    <select
+                      value={models.ollamaModel}
+                      onChange={(e) =>
+                        handleModelChange("ollamaModel", e.target.value)
+                      }
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-gray-50"
+                    >
+                      {PROVIDER_MODELS.ollama.map((model) => (
+                        <option key={model.value} value={model.value}>
+                          {model.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 

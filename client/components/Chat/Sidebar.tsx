@@ -9,6 +9,7 @@ import {
   Shield,
   AlertTriangle,
   Type,
+  Database,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { CATEGORY_GROUPS } from "@/config/categories";
@@ -27,6 +28,7 @@ const PROVIDERS = [
   { name: "ChatGPT", id: "openai", icon: MessageCircle },
   { name: "Gemini", id: "gemini", icon: Sparkles },
   { name: "Claude", id: "claude", icon: Brain },
+  { name: "Ollama", id: "ollama", icon: Database },
   { name: "Custom", id: "custom", icon: Zap },
 ];
 
@@ -48,6 +50,12 @@ const PROVIDER_MODELS: Record<
   claude: [
     { label: "Claude 4 Opus", value: "claude-opus-4-20250514" },
     { label: "Claude 3.7 Sonnet", value: "claude-3-7-sonnet-20250219" },
+  ],
+  ollama: [
+    { label: "Llama 3", value: "llama3" },
+    { label: "Mistral", value: "mistral" },
+    { label: "Gemma", value: "gemma" },
+    { label: "Phi 3", value: "phi3" },
   ],
   custom: [
     { label: "HuggingFace malicious", value: "huggingface-malicious" },

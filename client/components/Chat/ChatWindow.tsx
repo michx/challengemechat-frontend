@@ -184,6 +184,7 @@ export function ChatWindow({
               selectedProvider === "gemini" ? apiKeys.geminiKey :
               selectedProvider === "claude" ? apiKeys.claudeKey :
               selectedModel === "huggingface-malicious" ? apiKeys.huggingfaceKey : undefined,
+            endpoint: selectedProvider === "ollama" ? apiKeys.ollamaEndpoint : undefined,
           }),
         });
       }

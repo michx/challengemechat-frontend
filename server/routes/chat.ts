@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 
 export const handleChat = async (req: Request, res: Response) => {
-  const { messages, provider, model, apiKey } = req.body;
+  const { messages, provider, model, apiKey, endpoint } = req.body;
 
-  if (!apiKey && provider !== "custom") {
+  if (!apiKey && provider !== "custom" && provider !== "ollama") {
     return res.status(400).json({ error: "API Key is missing. Please configure it in Settings." });
   }
 
@@ -19,6 +19,9 @@ export const handleChat = async (req: Request, res: Response) => {
         break;
       case "gemini":
         result = await handleGemini(messages, model, apiKey);
+        break;
+      case "ollama":
+        result = await handleOllama(messages, model, endpoint);
         break;
       case "custom":
         if (model === "huggingface-malicious") {
@@ -125,6 +128,30 @@ async function handleGemini(messages: any[], model: string, apiKey: string) {
 
   const data = await response.json();
   return { message: data.candidates?.[0]?.content?.parts?.[0]?.text || "No response" };
+}
+
+async function handleOllama(messages: any[], model: string, endpoint: string) {
+  const url = endpoint || "http://localhost:11434";
+  
+  const response = await fetch(`${url}/api/chat`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      stream: false,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Ollama Error: ${response.statusText} - ${errorText}`);
+  }
+
+  const data = await response.json();
+  return { message: data.message.content };
 }
 
 async function handleHuggingFace(messages: any[], model: string, apiKey: string) {
