@@ -6,7 +6,7 @@ export const handleChat = async (req: Request, res: Response) => {
   if (!apiKey && provider !== "custom" && provider !== "ollama") {
     return res.status(400).json({ error: "API Key is missing. Please configure it in Settings." });
   }
-
+ 
   try {
     let result;
 
