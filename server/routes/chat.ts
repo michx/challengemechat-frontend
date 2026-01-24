@@ -132,16 +132,21 @@ async function handleGemini(messages: any[], model: string, apiKey: string) {
 
 async function handleOllama(messages: any[], model: string, endpoint: string) {
   const url = endpoint || "http://localhost:11434";
-  const lastMessage = messages[messages.length - 1].content;
   
-  const response = await fetch(`${url}/api/generate`, {
+  // Map messages to ensure correct roles for OpenAI compatibility
+  const formattedMessages = messages.map((m: any) => ({
+    role: m.role === "ai" ? "assistant" : m.role,
+    content: m.content,
+  }));
+
+  const response = await fetch(`${url}/v1/chat/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       model,
-      prompt: lastMessage,
+      messages: formattedMessages,
       stream: false,
     }),
   });
@@ -152,7 +157,7 @@ async function handleOllama(messages: any[], model: string, endpoint: string) {
   }
 
   const data = await response.json();
-  return { message: data.response };
+  return { message: data.choices[0].message.content };
 }
 
 async function handleHuggingFace(messages: any[], model: string, apiKey: string) {
