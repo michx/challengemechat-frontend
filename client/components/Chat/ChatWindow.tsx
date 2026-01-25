@@ -88,7 +88,10 @@ export function ChatWindow({
       const savedKeys = localStorage.getItem("apiKeys");
       if (!savedKeys) return;
       
-      const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId } = JSON.parse(savedKeys);
+      const parsedKeys = JSON.parse(savedKeys);
+      if (parsedKeys.enableSecurityCheck === false) return;
+
+      const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId } = parsedKeys;
       
       if (!prismaAirsKey || (!prismaAirsProfileName && !prismaAirsProfileId)) {
         console.warn("Prisma AIRS credentials missing. Skipping security scan.");

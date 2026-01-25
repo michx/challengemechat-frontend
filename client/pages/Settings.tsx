@@ -13,6 +13,7 @@ interface APIKeys {
   prismaAirsProfileId: string;
   customEndpoint: string;
   customHeaders: string;
+  enableSecurityCheck: boolean;
 }
 
 interface ModelSelection {
@@ -70,6 +71,7 @@ export default function Settings() {
         prismaAirsKey: "",
         prismaAirsProfileName: "",
         prismaAirsProfileId: "",
+        enableSecurityCheck: true,
       };
       const saved = localStorage.getItem("apiKeys");
       return saved ? { ...defaults, ...JSON.parse(saved) } : defaults;
@@ -85,6 +87,7 @@ export default function Settings() {
         prismaAirsKey: "",
         prismaAirsProfileName: "",
         prismaAirsProfileId: "",
+        enableSecurityCheck: true,
       };
     }
   });
@@ -109,7 +112,7 @@ export default function Settings() {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
 
-  const handleKeyChange = (provider: keyof APIKeys, value: string) => {
+  const handleKeyChange = (provider: keyof APIKeys, value: string | boolean) => {
     setApiKeys((prev) => ({ ...prev, [provider]: value }));
     setError("");
   };
@@ -422,6 +425,31 @@ export default function Settings() {
                 <div className="p-3 bg-blue-50 text-blue-800 text-xs rounded-lg mb-4">
                   Configure Prisma Cloud AI Runtime Security to scan prompts and responses for threats.
                 </div>
+
+                <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900">
+                      Enable Security Scan
+                    </label>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      Automatically scan prompts and responses
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleKeyChange("enableSecurityCheck", !apiKeys.enableSecurityCheck)}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${
+                      apiKeys.enableSecurityCheck ? "bg-blue-600" : "bg-gray-200"
+                    }`}
+                    type="button"
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        apiKeys.enableSecurityCheck ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2">
                     x-pan-token (API Key)
