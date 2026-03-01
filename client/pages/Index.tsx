@@ -44,7 +44,7 @@ export default function Index() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-background overflow-hidden font-mono">
+    <div className="h-screen flex flex-col bg-background overflow-hidden font-mono dark">
     {/* Global Header */}
     <div className="flex-none border-b border-border px-4 py-2 bg-background flex items-center justify-between z-20 relative">
       <div className="flex items-center gap-4">

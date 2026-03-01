@@ -250,18 +250,6 @@ export function ChatWindow({
 
   return (
     <div className="flex flex-col h-full bg-background relative">
-      {/* Header */}
-      <div className="border-b border-border px-6 py-4">
-        <h2 className="text-lg font-semibold text-foreground">
-          Chat with {selectedModel}
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Provider:{" "}
-          {selectedProvider.charAt(0).toUpperCase() + selectedProvider.slice(1)}
-          {selectedCategory && ` • Category: ${selectedCategory}`}
-        </p>
-      </div>
-
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}
