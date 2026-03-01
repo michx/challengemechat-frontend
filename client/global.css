@@ -133,6 +133,10 @@
     @apply mr-auto w-fit max-w-xs bg-gray-200 text-gray-900 rounded-lg px-4 py-2 break-words shadow-md;
   }
 
+  .dark .chat-message-ai {
+    @apply bg-secondary text-secondary-foreground;
+  }
+
   /* 3D effect for all buttons */
   button {
     position: relative;

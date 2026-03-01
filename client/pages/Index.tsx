@@ -113,7 +113,14 @@ export default function Index() {
         )}
 
         {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
+        <div
+          className="flex-1 flex flex-col min-w-0 overflow-hidden"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.pexels.com/photos/163100/matrix-wallpaper-163100.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
         <div className="flex-1 flex min-w-0 overflow-hidden">
             {/* Chat Window */}
             <div className="flex-1 flex flex-col min-w-0">
