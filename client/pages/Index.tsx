@@ -44,16 +44,24 @@ export default function Index() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-background overflow-hidden">
+    <div className="h-screen flex flex-col bg-background overflow-hidden font-mono">
     {/* Global Header */}
-    <div className="flex-none border-b border-border px-6 py-4 bg-background flex items-center justify-between shadow-sm z-20 relative">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">AI Chat Hub</h1>
-        <p className="text-sm text-muted-foreground font-medium">
-          Increase your AI Safety
-        </p>
+    <div className="flex-none border-b border-border px-4 py-2 bg-background flex items-center justify-between z-20 relative">
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 px-2 py-1 bg-primary/10 border border-primary/20">
+            <div className="w-2 h-2 bg-green-500 animate-pulse" />
+            <span className="text-xs font-bold tracking-widest text-primary">NET_ACTIVE</span>
+        </div>
+        <h1 className="text-xl font-bold text-foreground tracking-tight uppercase">
+            ZEN<span className="text-primary">_</span>HUB
+            <span className="text-xs text-muted-foreground ml-2 font-normal">v2.0.4</span>
+        </h1>
       </div>
       <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-6 text-xs text-muted-foreground border-r border-border pr-6 mr-2">
+            <span className="flex items-center gap-1">SECURE_CONN</span>
+            <span className="flex items-center gap-1">ENCRYPTED</span>
+        </div>
         <UserMenu 
           onLogout={handleLogout} 
           onOpenSettings={() => setIsSettingsOpen(true)}
@@ -105,7 +113,7 @@ export default function Index() {
         )}
 
         {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
         <div className="flex-1 flex min-w-0 overflow-hidden">
             {/* Chat Window */}
             <div className="flex-1 flex flex-col min-w-0">
@@ -133,7 +141,7 @@ export default function Index() {
       {/* Settings Modal */}
       {isSettingsOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-6">
-          <div className="bg-background w-full max-w-5xl h-[85vh] rounded-xl shadow-2xl overflow-hidden relative flex flex-col border border-border animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-background w-full max-w-5xl h-[85vh] shadow-2xl overflow-hidden relative flex flex-col border border-border animate-in fade-in zoom-in-95 duration-200 rounded-none">
             <div className="absolute top-4 right-4 z-50">
               <button
                 onClick={() => setIsSettingsOpen(false)}
