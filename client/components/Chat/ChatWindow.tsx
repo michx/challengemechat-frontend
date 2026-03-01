@@ -249,7 +249,7 @@ export function ChatWindow({
   };
 
   return (
-    <div className="flex flex-col h-full bg-background relative">
+    <div className="flex flex-col h-full bg-transparent relative">
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}
@@ -261,8 +261,8 @@ export function ChatWindow({
             className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} items-start gap-3`}
           >
            {message.role === "ai" && (
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mt-1">
-                <Bot size={24} className="text-blue-600" />
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-900/20 border border-green-500/30 flex items-center justify-center mt-1">
+                <Bot size={24} className="text-green-500" />
               </div>
             )}            
             <div
@@ -293,8 +293,8 @@ export function ChatWindow({
               </p>
             </div>
             {message.role === "user" && (
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mt-1">
-                <User size={24} className="text-indigo-600" />
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-900/20 border border-green-500/30 flex items-center justify-center mt-1">
+                <User size={24} className="text-green-500" />
               </div>
             )}            
           </div>
@@ -302,14 +302,14 @@ export function ChatWindow({
 
         {isLoading && (
           <div className="flex justify-start items-start gap-3">
-          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mt-1">
-            <Bot size={24} className="text-blue-600" />
+          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-900/20 border border-green-500/30 flex items-center justify-center mt-1">
+            <Bot size={24} className="text-green-500" />
           </div>
             <div className="chat-message-ai">
               <div className="flex gap-2">
-                <div className="w-2 h-2 rounded-full bg-secondary-foreground animate-bounce"></div>
-                <div className="w-2 h-2 rounded-full bg-secondary-foreground animate-bounce delay-100"></div>
-                <div className="w-2 h-2 rounded-full bg-secondary-foreground animate-bounce delay-200"></div>
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-bounce"></div>
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-bounce delay-100"></div>
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-bounce delay-200"></div>
               </div>
             </div>
           </div>
@@ -318,7 +318,7 @@ export function ChatWindow({
 
 
       {/* Input Area */}
-      <div className="border-t border-border p-6 bg-background">
+      <div className="border-t border-green-900/30 p-6 bg-black/60 backdrop-blur-md">
         <div className="flex gap-3">
           <div className="relative flex-1">
             <Input
@@ -327,9 +327,9 @@ export function ChatWindow({
               onKeyDown={handleKeyDown}
               placeholder="Type your message..."
               disabled={isLoading}
-              className="w-full pr-40"
+              className="w-full pr-40 bg-black/40 border-green-500/30 text-green-400 placeholder:text-green-700/50 focus-visible:ring-green-500/50 font-mono"
             />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-100 text-gray-500 text-xs px-3 py-1.5 rounded-full border border-gray-200 font-medium pointer-events-none select-none flex items-center gap-1.5 max-w-[150px]">
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-green-900/30 text-green-400 text-xs px-3 py-1.5 rounded-full border border-green-500/30 font-medium pointer-events-none select-none flex items-center gap-1.5 max-w-[150px]">
               <Bot size={12} className="flex-shrink-0" />
               <span className="truncate">{selectedModel}</span>
             </div>
@@ -337,7 +337,7 @@ export function ChatWindow({
           <button
             onClick={handleSendMessage}
             disabled={isLoading || !input.trim()}
-            className="flex items-center justify-center w-12 h-10 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1"
+            className="flex items-center justify-center w-12 h-10 rounded-lg bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1"
             title="Send message"
           >
             <Send size={20} />
