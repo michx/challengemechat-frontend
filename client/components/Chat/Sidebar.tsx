@@ -12,12 +12,13 @@ import {
   Database,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { CATEGORY_GROUPS } from "@/config/categories";
+import { CategoryGroup } from "@/config/categories";
 
 interface SidebarProps {
   onModelSelect: (provider: string, model: string) => void;
   onCategoryItemSelect: (item: string) => void;
   selectedModel: string;
+  categoryGroups: CategoryGroup[];
   selectedProvider: string;
   onFontSizeChange?: (size: "sm" | "base" | "lg" | "xl") => void;
   onClearChat?: () => void;
@@ -75,6 +76,7 @@ const FONT_LABELS = [
 export function Sidebar({
   onModelSelect,
   onCategoryItemSelect,
+  categoryGroups,
   selectedModel,
   selectedProvider,
   onFontSizeChange,
@@ -147,7 +149,7 @@ export function Sidebar({
           Categories
         </h3>
         <div className="space-y-2">
-        {CATEGORY_GROUPS.map(
+        {categoryGroups.map(
             (group) => (
               <div key={group.name}>
                 <button

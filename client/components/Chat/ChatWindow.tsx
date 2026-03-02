@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, ShieldCheck, ShieldAlert, Bot, User } from "lucide-react";
-import { CATEGORY_GROUPS } from "@/config/categories";
+import { CategoryGroup } from "@/config/categories";
 
 interface Message {
   id: string;
@@ -15,6 +15,7 @@ interface Message {
 interface ChatWindowProps {
   selectedModel: string;
   selectedProvider: string;
+  categoryGroups: CategoryGroup[];
   selectedCategory?: string;
   fontSize: "sm" | "base" | "lg" | "xl";
   onClearChat?: number;
@@ -25,6 +26,7 @@ interface ChatWindowProps {
 export function ChatWindow({
   selectedModel,
   selectedProvider,
+  categoryGroups,
   selectedCategory,
   fontSize,
   onClearChat,
@@ -47,7 +49,7 @@ export function ChatWindow({
 
   useEffect(() => {
     if (selectedCategory) {
-      const selectedItem = CATEGORY_GROUPS.flatMap((g) => g.items).find(
+      const selectedItem = categoryGroups.flatMap((g) => g.items).find(
         (i) => i.name === selectedCategory,
       );
       const textToInsert = selectedItem ? selectedItem.text : selectedCategory;

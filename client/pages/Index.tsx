@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Sidebar } from "@/components/Chat/Sidebar";
@@ -6,6 +6,7 @@ import { ChatWindow } from "@/components/Chat/ChatWindow";
 import { RightSidebar } from "@/components/Chat/RightSidebar";
 import { UserMenu } from "@/components/Chat/UserMenu";
 import { Button } from "@/components/ui/button";
+import { getDynamicCategoryGroups, CategoryGroup } from "@/config/categories";
 import SettingsPage from "./Settings";
 
 export default function Index() {
@@ -19,7 +20,16 @@ export default function Index() {
   const [chatState, setChatState] = useState({ isLoading: false, isScanning: false });
   const [scanResult, setScanResult] = useState<any>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [categoryGroups, setCategoryGroups] = useState<CategoryGroup[]>([]);
 
+  useEffect(() => {
+    setCategoryGroups(getDynamicCategoryGroups());
+  }, []);
+
+  const handleSettingsClose = () => {
+    setIsSettingsOpen(false);
+    setCategoryGroups(getDynamicCategoryGroups());
+  };
 
   const handleModelSelect = (provider: string, model: string) => {
     setSelectedProvider(provider);
@@ -84,6 +94,7 @@ export default function Index() {
             onCategoryItemSelect={handleCategoryItemSelect}
             selectedModel={selectedModel}
             selectedProvider={selectedProvider}
+            categoryGroups={categoryGroups}
             onFontSizeChange={setFontSize}
             onClearChat={handleClearChat}
             currentFontSize={fontSize}
@@ -104,6 +115,7 @@ export default function Index() {
                 onCategoryItemSelect={handleCategoryItemSelect}
                 selectedModel={selectedModel}
                 selectedProvider={selectedProvider}
+                categoryGroups={categoryGroups}
                 onFontSizeChange={setFontSize}
                 onClearChat={handleClearChat}
                 currentFontSize={fontSize}
@@ -128,6 +140,7 @@ export default function Index() {
                 selectedModel={selectedModel}
                 selectedProvider={selectedProvider}
                 selectedCategory={selectedCategory}
+                categoryGroups={categoryGroups}
                 fontSize={fontSize}
                 onClearChat={clearChatTrigger}
                 onStateChange={setChatState}
@@ -137,6 +150,7 @@ export default function Index() {
 
           {/* Right Sidebar */}
           <RightSidebar 
+            categoryGroups={categoryGroups}
             selectedCategory={selectedCategory} 
             isLoading={chatState.isLoading}
             isScanning={chatState.isScanning}
@@ -151,7 +165,7 @@ export default function Index() {
           <div className="bg-background w-full max-w-5xl h-[85vh] shadow-2xl overflow-hidden relative flex flex-col border border-border animate-in fade-in zoom-in-95 duration-200 rounded-none">
             <div className="absolute top-4 right-4 z-50">
               <button
-                onClick={() => setIsSettingsOpen(false)}
+                onClick={handleSettingsClose}
                 className="p-2 rounded-full bg-secondary hover:bg-secondary/80 text-foreground transition-colors shadow-sm"
               >
                 <X size={20} />

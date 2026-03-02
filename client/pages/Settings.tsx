@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Save, Eye, EyeOff, Check, Bot, Shield, Globe, Database } from "lucide-react";
+import { Save, Eye, EyeOff, Check, Bot, Shield, Globe, Database, Library } from "lucide-react";
+import { getCategoryItems, saveCategoryItems } from "@/config/categories";
 
 interface APIKeys {
   openaiKey: string;
@@ -92,6 +93,11 @@ export default function Settings() {
     }
   });
 
+  const [categoryItemsJson, setCategoryItemsJson] = useState(() => {
+    const items = getCategoryItems();
+    return JSON.stringify(items, null, 2);
+  });
+
   const [models, setModels] = useState<ModelSelection>(() => {
     try {
       const saved = localStorage.getItem("modelSelection");
@@ -127,6 +133,14 @@ export default function Settings() {
       localStorage.setItem("apiKeys", JSON.stringify(apiKeys));
       localStorage.setItem("modelSelection", JSON.stringify(models));
 
+      try {
+        const parsedItems = JSON.parse(categoryItemsJson);
+        saveCategoryItems(parsedItems);
+      } catch (e) {
+        setError("Invalid JSON format for category items.");
+        return;
+      }
+
       // Send to backend to set environment variables
       const response = await fetch("/api/settings/save-keys", {
         method: "POST",
@@ -138,7 +152,7 @@ export default function Settings() {
       });
 
       if (!response.ok) {
-        setError("Failed to save settings");
+        setError((prev) => prev ? prev + " | Failed to save API keys to server." : "Failed to save API keys to server.");
         return;
       }
 
@@ -506,6 +520,32 @@ export default function Settings() {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
                     />
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Custom Prompts */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
+                <Library className="w-5 h-5 text-orange-600" />
+                <h2 className="font-semibold text-gray-900">Prompt Library</h2>
+              </div>
+              <div className="p-6 space-y-4">
+                <div className="p-3 bg-blue-50 text-blue-800 text-xs rounded-lg">
+                  Edit the JSON below to customize the prompt categories (Ethics, Cyber, Toxic).
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Category Items (JSON)
+                  </label>
+                  <textarea
+                    value={categoryItemsJson}
+                    onChange={(e) =>
+                      setCategoryItemsJson(e.target.value)
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition font-mono text-sm"
+                    rows={15}
+                  />
                 </div>
               </div>
             </div>

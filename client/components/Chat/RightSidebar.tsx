@@ -1,9 +1,10 @@
 import { AlertCircle, Info, Loader2, Scan, CheckCircle, AlertTriangle, Siren } from "lucide-react";
-import { CATEGORY_GROUPS } from "@/config/categories";
+import { CategoryGroup } from "@/config/categories";
 
 interface RightSidebarProps {
   selectedCategory?: string;
   isLoading?: boolean;
+  categoryGroups: CategoryGroup[];
   isScanning?: boolean;
   scanResult?: any;
 }
@@ -21,8 +22,8 @@ const DEFAULT_EXPLANATION = {
   ],
 };
 
-export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResult }: RightSidebarProps) {
-  const selectedItem = CATEGORY_GROUPS.flatMap((g) => g.items).find(
+export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResult, categoryGroups }: RightSidebarProps) {
+  const selectedItem = categoryGroups.flatMap((g) => g.items).find(
     (i) => i.name === selectedCategory,
   );
 
