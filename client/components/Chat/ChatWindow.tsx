@@ -100,6 +100,14 @@ export function ChatWindow({
         return;
       }
 
+      const infoMessage: Message = {
+        id: (Date.now() + 3).toString(),
+        content: `ℹ️ A security check has been sent to Prisma AIRS.`,
+        role: "ai",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, infoMessage]);
+
       const payload = {
         ai_profile: {
           profile_name: prismaAirsProfileName || undefined,
