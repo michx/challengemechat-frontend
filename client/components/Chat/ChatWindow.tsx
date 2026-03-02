@@ -93,10 +93,10 @@ export function ChatWindow({
       const parsedKeys = JSON.parse(savedKeys);
       if (parsedKeys.enableSecurityCheck === false) return;
 
-      const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId } = parsedKeys;
+      const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId, prismaAirsEndpoint } = parsedKeys;
       
-      if (!prismaAirsKey || (!prismaAirsProfileName && !prismaAirsProfileId)) {
-        console.warn("Prisma AIRS credentials missing. Skipping security scan.");
+      if (!prismaAirsKey || (!prismaAirsProfileName && !prismaAirsProfileId) || !prismaAirsEndpoint) {
+        console.warn("Prisma AIRS credentials or endpoint missing. Skipping security scan.");
         return;
       }
 
@@ -116,7 +116,7 @@ export function ChatWindow({
       };
 
       const scanResponse = await fetch(
-        "http://localhost:5001/chat",
+        `${prismaAirsEndpoint}/chat`,
         {
           method: "POST",
           headers: {

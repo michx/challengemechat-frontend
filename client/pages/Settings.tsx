@@ -15,6 +15,7 @@ interface APIKeys {
   customEndpoint: string;
   customHeaders: string;
   enableSecurityCheck: boolean;
+  prismaAirsEndpoint: string;
 }
 
 interface ModelSelection {
@@ -73,6 +74,7 @@ export default function Settings() {
         prismaAirsProfileName: "",
         prismaAirsProfileId: "",
         enableSecurityCheck: true,
+        prismaAirsEndpoint: "http://localhost:5001",
       };
       const saved = localStorage.getItem("apiKeys");
       return saved ? { ...defaults, ...JSON.parse(saved) } : defaults;
@@ -89,6 +91,7 @@ export default function Settings() {
         prismaAirsProfileName: "",
         prismaAirsProfileId: "",
         enableSecurityCheck: true,
+        prismaAirsEndpoint: "http://localhost:5001",
       };
     }
   });
@@ -520,6 +523,20 @@ export default function Settings() {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
                     />
                   </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Prisma AIRS Endpoint
+                  </label>
+                  <input
+                    type="text"
+                    value={apiKeys.prismaAirsEndpoint}
+                    onChange={(e) =>
+                      handleKeyChange("prismaAirsEndpoint", e.target.value)
+                    }
+                    placeholder="http://localhost:5001"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                  />
                 </div>
               </div>
             </div>
