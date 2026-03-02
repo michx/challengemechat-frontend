@@ -214,13 +214,21 @@ export function ChatWindow({
 
       // Perform Security Scan
       const scanResult = await performSecurityScan(userMessage.content, aiResponse.content);
-      if (scanResult && scanResult !== "error") {
+      if (scanResult === "error") {
+        const warningMessage: Message = {
+          id: (Date.now() + 2).toString(),
+          content: `⚠️ **Warning:** Could not contact Prisma AIRS backend for security scan. Please check your endpoint in Settings and ensure the service is running.`,
+          role: "ai",
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, warningMessage]);
+      } else if (scanResult) {
         onScanComplete?.(scanResult);
         const status = scanResult.action && scanResult.action === "allow" ? "safe" : "threat";
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === aiResponse.id ? { ...msg, securityStatus: status } : msg
-          )
+          ),
         );
       }
     } catch (err) {
