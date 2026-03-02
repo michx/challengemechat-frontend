@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, ShieldCheck, ShieldAlert, Bot, User } from "lucide-react";
+import { toast } from "sonner";
 import { CategoryGroup } from "@/config/categories";
 
 interface Message {
@@ -100,14 +101,7 @@ export function ChatWindow({
         return;
       }
 
-      const infoMessage: Message = {
-        id: (Date.now() + 3).toString(),
-        content: `ℹ️ A security check has been sent to Prisma AIRS.`,
-        role: "ai",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, infoMessage]);
-
+      toast.info("A security check has been sent to Prisma AIRS.");
       const payload = {
         ai_profile: {
           profile_name: prismaAirsProfileName || undefined,
@@ -223,13 +217,9 @@ export function ChatWindow({
       // Perform Security Scan
       const scanResult = await performSecurityScan(userMessage.content, aiResponse.content);
       if (scanResult === "error") {
-        const warningMessage: Message = {
-          id: (Date.now() + 2).toString(),
-          content: `⚠️ **Warning:** Could not contact Prisma AIRS backend for security scan. Please check your endpoint in Settings and ensure the service is running.`,
-          role: "ai",
-          timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, warningMessage]);
+        toast.warning("Could not contact Prisma AIRS backend.", {
+          description: "Please check your endpoint in Settings and ensure the service is running.",
+        });
       } else if (scanResult) {
         onScanComplete?.(scanResult);
         const status = scanResult.action && scanResult.action === "allow" ? "safe" : "threat";
