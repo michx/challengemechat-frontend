@@ -22,6 +22,7 @@ interface ChatWindowProps {
   onClearChat?: number;
   onStateChange?: (state: { isLoading: boolean; isScanning: boolean }) => void;
   onScanComplete?: (result: any) => void;
+  onTokenCountChange?: (count: number) => void;
 }
 
 export function ChatWindow({
@@ -32,7 +33,8 @@ export function ChatWindow({
   fontSize,
   onClearChat,
   onStateChange,
-  onScanComplete, 
+  onScanComplete,
+  onTokenCountChange,
 }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -85,6 +87,12 @@ export function ChatWindow({
   useEffect(() => {
     onStateChange?.({ isLoading, isScanning });
   }, [isLoading, isScanning, onStateChange]);
+
+  useEffect(() => {
+    const totalChars = messages.reduce((acc, msg) => acc + msg.content.length, 0);
+    const estimatedTokens = Math.ceil(totalChars / 4); // 1 token ~ 4 chars
+    onTokenCountChange?.(estimatedTokens);
+  }, [messages, onTokenCountChange]);
 
   const performSecurityScan = async (prompt: string, response: string) => {
     try {

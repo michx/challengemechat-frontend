@@ -1,4 +1,4 @@
-import { AlertCircle, Info, Loader2, Scan, CheckCircle, AlertTriangle, Siren } from "lucide-react";
+import { AlertCircle, Info, Loader2, Scan, CheckCircle, AlertTriangle, Siren, Sigma } from "lucide-react";
 import { CategoryGroup } from "@/config/categories";
 
 interface RightSidebarProps {
@@ -7,6 +7,7 @@ interface RightSidebarProps {
   categoryGroups: CategoryGroup[];
   isScanning?: boolean;
   scanResult?: any;
+  totalTokens?: number;
 }
 
 
@@ -22,7 +23,7 @@ const DEFAULT_EXPLANATION = {
   ],
 };
 
-export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResult, categoryGroups }: RightSidebarProps) {
+export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResult, categoryGroups, totalTokens }: RightSidebarProps) {
   const selectedItem = categoryGroups.flatMap((g) => g.items).find(
     (i) => i.name === selectedCategory,
   );
@@ -71,6 +72,13 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
         <div className="mt-4 border-t border-gray-200 pt-4">
           <h3 className="text-sm font-bold text-foreground mb-3">Chat Status</h3>
           
+          {/* Token Counter */}
+          <div className="flex items-center gap-3 p-3 bg-secondary border border-border rounded-lg mb-3">
+            <Sigma size={20} className="text-primary flex-shrink-0" />
+            <span className="text-sm font-medium text-muted-foreground flex-1">Conversation Tokens</span>
+            <span className="text-sm font-bold text-foreground">{totalTokens || 0}</span>
+          </div>
+
           {/* Good Status */}
           {(!scanResult || (scanResult.action === "allow" && scanResult.category === "benign")) && (
             <div className="flex items-center gap-2 p-3 bg-green-900/30 border border-green-500/20 rounded-lg">

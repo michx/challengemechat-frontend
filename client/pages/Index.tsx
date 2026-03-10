@@ -22,6 +22,7 @@ export default function Index() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [categoryGroups, setCategoryGroups] = useState<CategoryGroup[]>([]);
 
+  const [totalTokens, setTotalTokens] = useState(0);
   useEffect(() => {
     setCategoryGroups(getDynamicCategoryGroups());
   }, []);
@@ -144,6 +145,7 @@ export default function Index() {
                 fontSize={fontSize}
                 onClearChat={clearChatTrigger}
                 onStateChange={setChatState}
+                onTokenCountChange={setTotalTokens}
                 onScanComplete={setScanResult}
               />
             </div>
@@ -155,6 +157,7 @@ export default function Index() {
             isLoading={chatState.isLoading}
             isScanning={chatState.isScanning}
             scanResult={scanResult}
+            totalTokens={totalTokens}
           />
         </div>
       </div>
