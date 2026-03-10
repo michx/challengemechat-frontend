@@ -70,7 +70,7 @@ export default function Index() {
       </div>
       <div className="flex items-center gap-3">
         <div className="hidden md:flex items-center border-r border-border pr-6 mr-2">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Palo_Alto_Networks_logo.svg" alt="Palo Alto Networks Logo" className="h-4 invert" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/PaloAltoNetworks_2020_Logo.svg" alt="Palo Alto Networks Logo" className="h-4 invert" />
         </div>
         <UserMenu 
           onLogout={handleLogout} 
