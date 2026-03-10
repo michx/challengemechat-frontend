@@ -64,8 +64,8 @@ export default function Index() {
             <span className="text-xs font-bold tracking-widest text-primary">NET_ACTIVE</span>
         </div>
         <h1 className="text-xl font-bold text-foreground tracking-tight uppercase">
-            ZEN<span className="text-primary">_</span>HUB
-            <span className="text-xs text-muted-foreground ml-2 font-normal">v2.0.4</span>
+            CMC<span className="text-primary">_</span>HUB
+            <span className="text-xs text-muted-foreground ml-2 font-normal">Challenge Me Chat</span>
         </h1>
       </div>
       <div className="flex items-center gap-3">
