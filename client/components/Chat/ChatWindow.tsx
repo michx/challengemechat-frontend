@@ -120,7 +120,7 @@ export function ChatWindow({
           response: response,
         }],
         metadata: {
-          app_name: "AI Chat Hub",
+          app_name: "CMC - Challenge Me Chat",
           model: selectedModel,
         },
       };

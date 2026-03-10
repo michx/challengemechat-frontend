@@ -13,7 +13,7 @@ interface RightSidebarProps {
 
 
 const DEFAULT_EXPLANATION = {
-  title: "Welcome to AI Chat Hub",
+  title: "Welcome to CMC - Challenge Me Chat",
   description:
     "Select a category from the left sidebar to explore different AI capabilities and features.",
   details: [
