@@ -375,7 +375,7 @@ export default function Login() {
               </p>
               <p className="text-xs text-gray-400">
                 This demo uses OTP verification via Twilio SMS. For testing, use
-                any valid phone number format (e.g., +1234567890).<br><b>To bypass it simply input number +19999999999"</b>
+                any valid phone number format (e.g., +1234567890).<b>To bypass it simply input number +19999999999"</b>
               </p>
             </div>
           )}
