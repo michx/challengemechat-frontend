@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Mail, Lock, Sparkles, Phone, Check } from "lucide-react";
+import { Mail, Lock, Bot, Phone, Check } from "lucide-react";
 
 type AuthStep = "phone" | "email-password" | "otp";
 
@@ -132,42 +130,48 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen flex items-center justify-center bg-background font-mono dark" style={{
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.pexels.com/photos/163100/matrix-wallpaper-163100.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
       <div className="w-full max-w-md">
         {/* Logo Section */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="p-3 bg-blue-600 rounded-full">
-              <Sparkles size={28} className="text-white" />
+            <div className="p-3 bg-green-600 rounded-full">
+              <Bot size={28} className="text-white" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">AI Chat Hub</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className="text-3xl font-bold text-foreground tracking-tight uppercase">
+            Challenge<span className="text-primary">_</span>Me<span className="text-primary">_</span>Chat
+          </h1>
+          <p className="text-muted-foreground mt-2">
             Access your conversations with multiple AI models
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-black/60 backdrop-blur-md border border-green-500/30 rounded-2xl shadow-xl p-8">
           {/* Progress Indicator */}
           <div className="flex gap-2 mb-6">
             <div
               className={`flex-1 h-2 rounded-full transition-colors ${
                 step === "phone" || step === "otp" || step === "email-password"
-                  ? "bg-blue-600"
-                  : "bg-gray-300"
+                  ? "bg-green-500"
+                  : "bg-gray-700"
               }`}
             />
             <div
               className={`flex-1 h-2 rounded-full transition-colors ${
                 step === "otp" || step === "email-password"
-                  ? "bg-blue-600"
-                  : "bg-gray-300"
+                  ? "bg-green-500"
+                  : "bg-gray-700"
               }`}
             />
             <div
               className={`flex-1 h-2 rounded-full transition-colors ${
-                step === "email-password" ? "bg-blue-600" : "bg-gray-300"
+                step === "email-password" ? "bg-green-500" : "bg-gray-700"
               }`}
             />
           </div>
@@ -176,23 +180,23 @@ export default function Login() {
           {step === "phone" && (
             <form onSubmit={handleSendOTP} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-gray-100 mb-2">
                   Phone Number
                 </label>
                 <div className="relative">
                   <Phone
                     size={18}
-                    className="absolute left-3 top-3 text-gray-400"
+                    className="absolute left-3 top-3 text-green-400/50"
                   />
                   <input
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+1 (555) 123-4567"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                    className="w-full pl-10 pr-4 py-2 bg-black/40 border-green-500/30 text-green-400 placeholder:text-green-700/50 focus:ring-green-500/50 rounded-lg transition"
                   />
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-400 mt-2">
                   We'll send a verification code to this number
                 </p>
               </div>
@@ -206,7 +210,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1 active:translate-y-0 disabled:cursor-not-allowed"
+                className="w-full py-2.5 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 disabled:bg-gray-800 disabled:text-gray-500 transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1 active:translate-y-0 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -224,10 +228,10 @@ export default function Login() {
           {step === "otp" && (
             <form onSubmit={handleVerifyOTP} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-gray-100 mb-2">
                   Verification Code
                 </label>
-                <p className="text-xs text-gray-500 mb-3">
+                <p className="text-xs text-gray-400 mb-3">
                   Enter the 6-digit code sent to {phone}
                 </p>
                 <input
@@ -236,7 +240,7 @@ export default function Login() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                   placeholder="000000"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition text-center text-2xl letter-spacing tracking-widest font-mono"
+                  className="w-full px-4 py-3 bg-black/40 border-green-500/30 text-green-400 placeholder:text-green-700/50 focus:ring-green-500/50 rounded-lg transition text-center text-2xl tracking-widest font-mono"
                 />
               </div>
 
@@ -249,7 +253,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1 active:translate-y-0 disabled:cursor-not-allowed"
+                className="w-full py-2.5 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 disabled:bg-gray-800 disabled:text-gray-500 transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1 active:translate-y-0 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -268,7 +272,7 @@ export default function Login() {
                   setOtp("");
                   setError("");
                 }}
-                className="w-full py-2 text-blue-600 font-medium hover:text-blue-700 transition"
+                className="w-full py-2 text-green-400 font-medium hover:text-green-300 transition"
               >
                 Back
               </button>
@@ -278,49 +282,49 @@ export default function Login() {
           {/* Step 3: Email & Password */}
           {step === "email-password" && (
             <form onSubmit={handleLogin} className="space-y-4">
-              <div className="p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2 mb-4">
-                <Check size={18} className="text-green-600" />
-                <p className="text-sm text-green-700 font-medium">
+              <div className="p-3 bg-green-900/30 border border-green-500/20 rounded-lg flex items-center gap-2 mb-4">
+                <Check size={18} className="text-green-500" />
+                <p className="text-sm text-green-300 font-medium">
                   Phone verified! Complete your account setup.
                 </p>
               </div>
 
               {/* Email Field */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-gray-100 mb-2">
                   Email Address
                 </label>
                 <div className="relative">
                   <Mail
                     size={18}
-                    className="absolute left-3 top-3 text-gray-400"
+                    className="absolute left-3 top-3 text-green-400/50"
                   />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                    className="w-full pl-10 pr-4 py-2 bg-black/40 border-green-500/30 text-green-400 placeholder:text-green-700/50 focus:ring-green-500/50 rounded-lg transition"
                   />
                 </div>
               </div>
 
               {/* Password Field */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-gray-100 mb-2">
                   Password
                 </label>
                 <div className="relative">
                   <Lock
                     size={18}
-                    className="absolute left-3 top-3 text-gray-400"
+                    className="absolute left-3 top-3 text-green-400/50"
                   />
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                    className="w-full pl-10 pr-4 py-2 bg-black/40 border-green-500/30 text-green-400 placeholder:text-green-700/50 focus:ring-green-500/50 rounded-lg transition"
                   />
                 </div>
               </div>
@@ -335,7 +339,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1 active:translate-y-0 disabled:cursor-not-allowed"
+                className="w-full py-2.5 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 disabled:bg-gray-800 disabled:text-gray-500 transition-all duration-200 shadow-md hover:shadow-lg -translate-y-0 hover:-translate-y-1 active:translate-y-0 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -356,7 +360,7 @@ export default function Login() {
                   setOtpSent(false);
                   setError("");
                 }}
-                className="w-full py-2 text-blue-600 font-medium hover:text-blue-700 transition"
+                className="w-full py-2 text-green-400 font-medium hover:text-green-300 transition"
               >
                 Start Over
               </button>
@@ -365,11 +369,11 @@ export default function Login() {
 
           {/* Demo Info */}
           {step !== "email-password" && (
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-xs font-semibold text-gray-700 mb-2">
+            <div className="mt-6 p-4 bg-green-900/20 border border-green-500/20 rounded-lg">
+              <p className="text-xs font-semibold text-gray-300 mb-2">
                 Demo Mode:
               </p>
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-gray-400">
                 This demo uses OTP verification via Twilio SMS. For testing, use
                 any valid phone number format (e.g., +1234567890).
               </p>
@@ -378,8 +382,8 @@ export default function Login() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-sm text-gray-600 mt-6">
-          © 2024 AI Chat Hub. All rights reserved.
+        <p className="text-center text-sm text-gray-400 mt-6">
+          © 2024 Challenge Me Chat. All rights reserved.
         </p>
       </div>
     </div>
