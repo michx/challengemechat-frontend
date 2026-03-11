@@ -4,6 +4,7 @@ interface APIKeys {
   openaiKey?: string;
   geminiKey?: string;
   claudeKey?: string;
+  huggingfaceKey?: string;
   customEndpoint?: string;
   ollamaEndpoint?: string;
   customHeaders?: string;
@@ -43,6 +44,9 @@ export const saveAPIKeys: RequestHandler = async (req, res) => {
     }
     if (keys.geminiKey) {
       process.env.GEMINI_API_KEY = keys.geminiKey;
+    }
+    if (keys.huggingfaceKey) {
+      process.env.HUGGINGFACE_API_KEY = keys.huggingfaceKey;
     }
     if (keys.claudeKey) {
       process.env.CLAUDE_API_KEY = keys.claudeKey;

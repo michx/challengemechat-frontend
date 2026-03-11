@@ -1,10 +1,30 @@
 import { Request, Response } from "express";
+import { getStoredKeys } from "./settings";
 
 export const handleChat = async (req: Request, res: Response) => {
-  const { messages, provider, model, apiKey, endpoint } = req.body;
+  const { messages, provider, model, endpoint } = req.body;
+  const storedKeys = getStoredKeys();
+  let apiKey;
 
-  if (!apiKey && provider !== "custom" && provider !== "ollama") {
-    return res.status(400).json({ error: "API Key is missing. Please configure it in Settings." });
+  switch (provider) {
+    case "openai":
+      apiKey = storedKeys.openaiKey;
+      break;
+    case "claude":
+      apiKey = storedKeys.claudeKey;
+      break;
+    case "gemini":
+      apiKey = storedKeys.geminiKey;
+      break;
+    case "custom":
+      if (model === "huggingface-malicious") {
+        apiKey = storedKeys.huggingfaceKey;
+      }
+      break;
+  }
+
+  if (!apiKey && provider !== "ollama") {
+    return res.status(400).json({ error: `API Key for provider '${provider}' is missing. Please configure it in Settings.` });
   }
  
   try {
@@ -12,13 +32,13 @@ export const handleChat = async (req: Request, res: Response) => {
 
     switch (provider) {
       case "openai":
-        result = await handleOpenAI(messages, model, apiKey);
+        result = await handleOpenAI(messages, model, apiKey!);
         break;
       case "claude":
-        result = await handleClaude(messages, model, apiKey);
+        result = await handleClaude(messages, model, apiKey!);
         break;
       case "gemini":
-        result = await handleGemini(messages, model, apiKey);
+        result = await handleGemini(messages, model, apiKey!);
         break;
       case "ollama":
         result = await handleOllama(messages, model, endpoint);
@@ -26,7 +46,7 @@ export const handleChat = async (req: Request, res: Response) => {
       case "custom":
         if (model === "huggingface-malicious") {
           // Using a standard uncensored/instruct model as a proxy for the "malicious" intent test
-          result = await handleHuggingFace(messages, "mistralai/Mistral-7B-Instruct-v0.2", apiKey);
+          result = await handleHuggingFace(messages, "mistralai/Mistral-7B-Instruct-v0.2", apiKey!);
         } else {
           return res.status(501).json({ error: "Custom provider logic not fully implemented" });
         }

@@ -194,7 +194,6 @@ export function ChatWindow({
             messages: apiMessages,
             provider: selectedProvider,
             model: selectedModel,
-            apiKey: apiKeys.geminiKey,
             endpoint: selectedProvider === "ollama" ? apiKeys.ollamaEndpoint : undefined,
           }),
         });
