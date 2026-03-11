@@ -18,46 +18,6 @@ interface APIKeys {
   prismaAirsEndpoint: string;
 }
 
-interface ModelSelection {
-  openaiModel: string;
-  geminiModel: string;
-  claudeModel: string;
-  ollamaModel: string;
-}
-
-const DEFAULT_MODELS: ModelSelection = {
-  openaiModel: "gpt-4o",
-  geminiModel: "gemini-2.0-flash",
-  claudeModel: "claude-3-5-sonnet-20241022",
-  ollamaModel: "llama3",
-};
-
-const PROVIDER_MODELS = {
-  openai: [
-    { label: "GPT-4o", value: "gpt-4o" },
-    { label: "GPT-4 Turbo", value: "gpt-4-turbo" },
-    { label: "GPT-4", value: "gpt-4" },
-    { label: "GPT-3.5 Turbo", value: "gpt-3.5-turbo" },
-  ],
-  gemini: [
-    { label: "Gemini 2.0 Flash", value: "gemini-2.0-flash" },
-    { label: "Gemini 1.5 Pro", value: "gemini-1.5-pro" },
-    { label: "Gemini 1.5 Flash", value: "gemini-1.5-flash" },
-  ],
-  claude: [
-    { label: "Claude 3.5 Sonnet", value: "claude-3-5-sonnet-20241022" },
-    { label: "Claude 3 Opus", value: "claude-3-opus-20240229" },
-    { label: "Claude 3 Sonnet", value: "claude-3-sonnet-20240229" },
-    { label: "Claude 3 Haiku", value: "claude-3-haiku-20240307" },
-  ],
-  ollama: [
-    { label: "Llama 3", value: "llama3" },
-    { label: "Mistral", value: "mistral" },
-    { label: "Gemma", value: "gemma" },
-    { label: "Phi 3", value: "phi3" },
-  ],
-};
-
 export default function Settings() {
   const navigate = useNavigate();
   const [apiKeys, setApiKeys] = useState<APIKeys>(() => {
@@ -101,21 +61,12 @@ export default function Settings() {
     return JSON.stringify(items, null, 2);
   });
 
-  const [models, setModels] = useState<ModelSelection>(() => {
-    try {
-      const saved = localStorage.getItem("modelSelection");
-      return saved ? JSON.parse(saved) : DEFAULT_MODELS;
-    } catch {
-      return DEFAULT_MODELS;
-    }
-  });
-
   const [showKeys, setShowKeys] = useState({
     openai: false,
     gemini: false,
     claude: false,
     huggingface: false,
-    prismaAirs: false,   
+    prismaAirs: false,
   });
 
   const [saved, setSaved] = useState(false);
@@ -126,15 +77,10 @@ export default function Settings() {
     setError("");
   };
 
-  const handleModelChange = (provider: keyof ModelSelection, value: string) => {
-    setModels((prev) => ({ ...prev, [provider]: value }));
-  };
-
   const handleSave = async () => {
     try {
       // Save to localStorage
       localStorage.setItem("apiKeys", JSON.stringify(apiKeys));
-      localStorage.setItem("modelSelection", JSON.stringify(models));
 
       try {
         const parsedItems = JSON.parse(categoryItemsJson);
@@ -150,7 +96,6 @@ export default function Settings() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           keys: apiKeys,
-          models: models,
         }),
       });
 
@@ -203,50 +148,8 @@ export default function Settings() {
                 <h2 className="font-semibold text-gray-900">AI Providers</h2>
               </div>
               <div className="p-6 space-y-8">
-                {/* OpenAI */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    OpenAI
-                  </label>
-                  <div className="space-y-3">
-                    <div className="relative">
-                      <input
-                        type={showKeys.openai ? "text" : "password"}
-                        value={apiKeys.openaiKey}
-                        onChange={(e) => handleKeyChange("openaiKey", e.target.value)}
-                        placeholder="sk-..."
-                        className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                      />
-                      <button
-                        onClick={() =>
-                          setShowKeys((prev) => ({ ...prev, openai: !prev.openai }))
-                        }
-                        className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
-                      >
-                        {showKeys.openai ? <EyeOff size={18} /> : <Eye size={18} />}
-                      </button>
-                    </div>
-                    <select
-                      value={models.openaiModel}
-                      onChange={(e) =>
-                        handleModelChange("openaiModel", e.target.value)
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-gray-50"
-                    >
-                      {PROVIDER_MODELS.openai.map((model) => (
-                        <option key={model.value} value={model.value}>
-                          {model.label}
-                        </option>
-                      ))}
-                    </select>
-                    <p className="text-xs text-gray-500">
-                      Get key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">platform.openai.com</a>
-                    </p>
-                  </div>
-                </div>
-
                 {/* Google Gemini */}
-                <div className="pt-6 border-t border-gray-100">
+                <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2">
                     Google Gemini
                   </label>
@@ -268,124 +171,10 @@ export default function Settings() {
                         {showKeys.gemini ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
-                    <select
-                      value={models.geminiModel}
-                      onChange={(e) =>
-                        handleModelChange("geminiModel", e.target.value)
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-gray-50"
-                    >
-                      {PROVIDER_MODELS.gemini.map((model) => (
-                        <option key={model.value} value={model.value}>
-                          {model.label}
-                        </option>
-                      ))}
-                    </select>
                     <p className="text-xs text-gray-500">
                       Get key from <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">aistudio.google.com</a>
                     </p>
-                  </div>
-                </div>
-
-                {/* Anthropic Claude */}
-                <div className="pt-6 border-t border-gray-100">
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    Anthropic Claude
-                  </label>
-                  <div className="space-y-3">
-                    <div className="relative">
-                      <input
-                        type={showKeys.claude ? "text" : "password"}
-                        value={apiKeys.claudeKey}
-                        onChange={(e) => handleKeyChange("claudeKey", e.target.value)}
-                        placeholder="sk-ant-..."
-                        className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                      />
-                      <button
-                        onClick={() =>
-                          setShowKeys((prev) => ({ ...prev, claude: !prev.claude }))
-                        }
-                        className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
-                      >
-                        {showKeys.claude ? <EyeOff size={18} /> : <Eye size={18} />}
-                      </button>
-                    </div>
-                    <select
-                      value={models.claudeModel}
-                      onChange={(e) =>
-                        handleModelChange("claudeModel", e.target.value)
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-gray-50"
-                    >
-                      {PROVIDER_MODELS.claude.map((model) => (
-                        <option key={model.value} value={model.value}>
-                          {model.label}
-                        </option>
-                      ))}
-                    </select>
-                    <p className="text-xs text-gray-500">
-                      Get key from <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">console.anthropic.com</a>
-                    </p>
-                  </div>
-                </div>
-
-                {/* Ollama */}
-                <div className="pt-6 border-t border-gray-100">
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    Ollama (Local)
-                  </label>
-                  <div className="space-y-3">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={apiKeys.ollamaEndpoint}
-                        onChange={(e) => handleKeyChange("ollamaEndpoint", e.target.value)}
-                        placeholder="http://localhost:11434"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                      />
-                    </div>
-                    <select
-                      value={models.ollamaModel}
-                      onChange={(e) =>
-                        handleModelChange("ollamaModel", e.target.value)
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-gray-50"
-                    >
-                      {PROVIDER_MODELS.ollama.map((model) => (
-                        <option key={model.value} value={model.value}>
-                          {model.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* HuggingFace */}
-                <div className="pt-6 border-t border-gray-100">
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    HuggingFace
-                  </label>
-                  <div className="space-y-3">
-                    <div className="relative">
-                      <input
-                        type={showKeys.huggingface ? "text" : "password"}
-                        value={apiKeys.huggingfaceKey}
-                        onChange={(e) => handleKeyChange("huggingfaceKey", e.target.value)}
-                        placeholder="hf_..."
-                        className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                      />
-                      <button
-                        onClick={() =>
-                          setShowKeys((prev) => ({ ...prev, huggingface: !prev.huggingface }))
-                        }
-                        className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
-                      >
-                        {showKeys.huggingface ? <EyeOff size={18} /> : <Eye size={18} />}
-                      </button>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      Get key from <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">huggingface.co</a>
-                    </p>
+                    <p className="text-xs text-gray-500">Model: Gemini 2.0 Flash (hardcoded)</p>
                   </div>
                 </div>
               </div>
@@ -394,44 +183,6 @@ export default function Settings() {
 
           {/* Right Column: Custom & Security */}
           <div className="space-y-6">
-            {/* Custom API */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
-                <Globe className="w-5 h-5 text-purple-600" />
-                <h2 className="font-semibold text-gray-900">Custom Endpoints</h2>
-              </div>
-              <div className="p-6 space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    Endpoint URL
-                  </label>
-                  <input
-                    type="text"
-                    value={apiKeys.customEndpoint}
-                    onChange={(e) =>
-                      handleKeyChange("customEndpoint", e.target.value)
-                    }
-                    placeholder="https://api.example.com/v1/chat"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    Headers (JSON)
-                  </label>
-                  <textarea
-                    value={apiKeys.customHeaders}
-                    onChange={(e) =>
-                      handleKeyChange("customHeaders", e.target.value)
-                    }
-                    placeholder='{"Authorization": "Bearer token"}'
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition font-mono text-sm"
-                    rows={3}
-                  />
-                </div>
-              </div>
-            </div>
-
             {/* Prisma Cloud AI Runtime Security */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">

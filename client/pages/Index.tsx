@@ -11,8 +11,8 @@ import SettingsPage from "./Settings";
 
 export default function Index() {
   const navigate = useNavigate();
-  const [selectedProvider, setSelectedProvider] = useState("openai");
-  const [selectedModel, setSelectedModel] = useState("gpt-4o");
+  const selectedProvider = "gemini";
+  const selectedModel = "gemini-2.0-flash";
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">("base");
@@ -30,12 +30,6 @@ export default function Index() {
   const handleSettingsClose = () => {
     setIsSettingsOpen(false);
     setCategoryGroups(getDynamicCategoryGroups());
-  };
-
-  const handleModelSelect = (provider: string, model: string) => {
-    setSelectedProvider(provider);
-    setSelectedModel(model);
-    setMobileDrawerOpen(false);
   };
 
   const handleCategoryItemSelect = (item: string) => {
@@ -90,10 +84,7 @@ export default function Index() {
         {/* Desktop Left Sidebar */}
         <div className="hidden md:block w-64 border-r border-border flex-shrink-0">
           <Sidebar
-            onModelSelect={handleModelSelect}
             onCategoryItemSelect={handleCategoryItemSelect}
-            selectedModel={selectedModel}
-            selectedProvider={selectedProvider}
             categoryGroups={categoryGroups}
             onFontSizeChange={setFontSize}
             onClearChat={handleClearChat}
@@ -111,10 +102,7 @@ export default function Index() {
             />
             <div className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar-background border-r border-sidebar-border z-50 md:hidden overflow-y-auto">
               <Sidebar
-                onModelSelect={handleModelSelect}
                 onCategoryItemSelect={handleCategoryItemSelect}
-                selectedModel={selectedModel}
-                selectedProvider={selectedProvider}
                 categoryGroups={categoryGroups}
                 onFontSizeChange={setFontSize}
                 onClearChat={handleClearChat}

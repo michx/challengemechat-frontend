@@ -194,11 +194,7 @@ export function ChatWindow({
             messages: apiMessages,
             provider: selectedProvider,
             model: selectedModel,
-            apiKey: 
-              selectedProvider === "openai" ? apiKeys.openaiKey :
-              selectedProvider === "gemini" ? apiKeys.geminiKey :
-              selectedProvider === "claude" ? apiKeys.claudeKey :
-              selectedModel === "huggingface-malicious" ? apiKeys.huggingfaceKey : undefined,
+            apiKey: apiKeys.geminiKey,
             endpoint: selectedProvider === "ollama" ? apiKeys.ollamaEndpoint : undefined,
           }),
         });
