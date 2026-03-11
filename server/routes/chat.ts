@@ -25,7 +25,7 @@ export const handleChat = async (req: Request, res: Response) => {
       apiKey = storedKeys.prismaAirsKey;
       break;
   }
-  console.log("Test apiKey:", apiKey);
+
   if (!apiKey && provider !== "ollama" && provider !== "prisma-airs") {
     return res.status(400).json({ error: `API Key for provider '${provider}' is missing. Please configure it in Settings.` });
   }
