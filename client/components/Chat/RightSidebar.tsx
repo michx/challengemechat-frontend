@@ -31,7 +31,14 @@ export function RightSidebar({ selectedCategory, isLoading, isScanning, scanResu
   const explanation = selectedItem ? selectedItem.description : DEFAULT_EXPLANATION;
 
   return (
-    <div className="hidden lg:block w-80 bg-background border-l border-border flex flex-col overflow-hidden relative">
+    <div
+      className="hidden lg:block w-80 border-l border-border flex flex-col overflow-hidden relative"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1280')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Header */}
       <div className="border-b border-border px-6 py-4 bg-transparent">
         <div className="flex items-start gap-2">
