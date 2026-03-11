@@ -14,8 +14,6 @@ export default function Settings() {
 
   const handleSave = async () => {
     try {
-      localStorage.setItem("apiKeys", JSON.stringify(apiSettings));
-
       try {
         const parsedItems = JSON.parse(categoryItemsJson);
         saveCategoryItems(parsedItems);

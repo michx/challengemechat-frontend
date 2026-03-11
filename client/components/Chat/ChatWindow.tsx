@@ -96,46 +96,18 @@ export function ChatWindow({
 
   const performSecurityScan = async (prompt: string, response: string) => {
     try {
-      const savedKeys = localStorage.getItem("apiKeys");
-      if (!savedKeys) return;
-      
-      const parsedKeys = JSON.parse(savedKeys);
-      if (parsedKeys.enableSecurityCheck === false) return;
-
-      const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId, prismaAirsEndpoint } = parsedKeys;
-      
-      if (!prismaAirsKey || (!prismaAirsProfileName && !prismaAirsProfileId) || !prismaAirsEndpoint) {
-        console.warn("Prisma AIRS credentials or endpoint missing. Skipping security scan.");
-        return;
-      }
-
       toast.info("A security check has been sent to Prisma AIRS.");
-      const payload = {
-        ai_profile: {
-          profile_name: prismaAirsProfileName || undefined,
-          profile_id: prismaAirsProfileId || undefined,
-        },
-        contents: [{
-          prompt: prompt,
-          response: response,
-        }],
-        metadata: {
-          app_name: "CMC - Challenge Me Chat",
+      
+      const scanResponse = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          provider: "prisma-airs",
           model: selectedModel,
-        },
-      };
-
-      const scanResponse = await fetch(
-        `${prismaAirsEndpoint}/chat`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-pan-token" : prismaAirsKey,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+          prompt: prompt,
+          response: response
+        }),
+      });
 
       const data = await scanResponse.json();
       console.log("Security Scan Result:", data);
@@ -175,10 +147,6 @@ export function ChatWindow({
         content: userMessage.content,
       });
 
-      // Get API keys from local storage
-      const savedKeys = localStorage.getItem("apiKeys");
-      const apiKeys = savedKeys ? JSON.parse(savedKeys) : {};
-
       let response;
       if (selectedModel === "vulnerable-agent") {
         response = await fetch("http://127.0.0.1:5001/ssh", {
@@ -194,7 +162,6 @@ export function ChatWindow({
             messages: apiMessages,
             provider: selectedProvider,
             model: selectedModel,
-            endpoint: selectedProvider === "ollama" ? apiKeys.ollamaEndpoint : undefined,
           }),
         });
       }

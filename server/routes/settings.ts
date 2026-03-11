@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-interface APIKeys {
+export interface APIKeys {
   openaiKey?: string;
   geminiKey?: string;
   claudeKey?: string;
@@ -8,6 +8,11 @@ interface APIKeys {
   customEndpoint?: string;
   ollamaEndpoint?: string;
   customHeaders?: string;
+  prismaAirsKey?: string;
+  prismaAirsProfileName?: string;
+  prismaAirsProfileId?: string;
+  prismaAirsEndpoint?: string;
+  enableSecurityCheck?: boolean;
 }
 
 interface ModelSelection {

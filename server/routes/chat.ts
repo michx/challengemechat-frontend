@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { getStoredKeys } from "./settings";
+import { getStoredKeys, APIKeys } from "./settings";
 
 export const handleChat = async (req: Request, res: Response) => {
-  const { messages, provider, model, endpoint } = req.body;
+  const { messages, provider, model, endpoint, prompt, response: aiResponse } = req.body;
   const storedKeys = getStoredKeys();
   let apiKey;
 
@@ -21,9 +21,12 @@ export const handleChat = async (req: Request, res: Response) => {
         apiKey = storedKeys.huggingfaceKey;
       }
       break;
+    case "prisma-airs":
+      apiKey = storedKeys.prismaAirsKey;
+      break;
   }
 
-  if (!apiKey && provider !== "ollama") {
+  if (!apiKey && provider !== "ollama" && provider !== "prisma-airs") {
     return res.status(400).json({ error: `API Key for provider '${provider}' is missing. Please configure it in Settings.` });
   }
  
@@ -41,7 +44,7 @@ export const handleChat = async (req: Request, res: Response) => {
         result = await handleGemini(messages, model, apiKey!);
         break;
       case "ollama":
-        result = await handleOllama(messages, model, endpoint);
+        result = await handleOllama(messages, model, endpoint || storedKeys.ollamaEndpoint);
         break;
       case "custom":
         if (model === "huggingface-malicious") {
@@ -50,6 +53,9 @@ export const handleChat = async (req: Request, res: Response) => {
         } else {
           return res.status(501).json({ error: "Custom provider logic not fully implemented" });
         }
+        break;
+      case "prisma-airs":
+        result = await handlePrismaAIRS(prompt, aiResponse, model, storedKeys);
         break;
       default:
         return res.status(400).json({ error: `Provider ${provider} not supported` });
@@ -206,4 +212,50 @@ async function handleHuggingFace(messages: any[], model: string, apiKey: string)
   const data = await response.json();
   const generatedText = Array.isArray(data) ? data[0].generated_text : data.generated_text;
   return { message: generatedText };
+}
+
+async function handlePrismaAIRS(prompt: string, response: string, model: string, keys: APIKeys) {
+  if (keys.enableSecurityCheck === false) {
+    return null;
+  }
+
+  const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId, prismaAirsEndpoint } = keys;
+
+  if (!prismaAirsKey || (!prismaAirsProfileName && !prismaAirsProfileId) || !prismaAirsEndpoint) {
+    console.warn("Prisma AIRS credentials or endpoint missing on server. Skipping security scan.");
+    return null;
+  }
+
+  const payload = {
+    ai_profile: {
+      profile_name: prismaAirsProfileName || undefined,
+      profile_id: prismaAirsProfileId || undefined,
+    },
+    contents: [{
+      prompt: prompt,
+      response: response,
+    }],
+    metadata: {
+      app_name: "CMC - Challenge Me Chat",
+      model: model,
+    },
+  };
+
+  const scanResponse = await fetch(
+    `${prismaAirsEndpoint}/chat`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-pan-token" : prismaAirsKey,
+      },
+      body: JSON.stringify(payload),
+    }
+  );
+
+  if (!scanResponse.ok) {
+    throw new Error(`Prisma AIRS Scan Failed: ${scanResponse.statusText}`);
+  }
+
+  return await scanResponse.json();
 }
