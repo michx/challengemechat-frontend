@@ -147,7 +147,7 @@ export default function Login() {
             Challenge<span className="text-primary">_</span>Me<span className="text-primary">_</span>Chat
           </h1>
           <p className="text-muted-foreground mt-2">
-            Access your conversations with multiple AI models
+            Do your best to hack this chat!!
           </p>
         </div>
 
