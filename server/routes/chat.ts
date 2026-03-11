@@ -4,7 +4,7 @@ import { getStoredKeys, APIKeys } from "./settings";
 export const handleChat = async (req: Request, res: Response) => {
   const { messages, provider, model, endpoint, prompt, response: aiResponse } = req.body;
   const storedKeys = getStoredKeys();
-  let apiKey;
+  let apiKey: string | undefined;
 
   switch (provider) {
     case "openai":
