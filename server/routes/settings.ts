@@ -98,5 +98,21 @@ export const getAPIKeys: RequestHandler = async (req, res) => {
   }
 };
 
-export const getStoredKeys = () => apiKeysStore["default"] || {};
+export const getStoredKeys = () => {
+  const keys = apiKeysStore["default"] || {};
+  return {
+    openaiKey: keys.openaiKey || process.env.OPENAI_API_KEY,
+    geminiKey: keys.geminiKey || process.env.GEMINI_API_KEY,
+    claudeKey: keys.claudeKey || process.env.CLAUDE_API_KEY,
+    huggingfaceKey: keys.huggingfaceKey || process.env.HUGGINGFACE_API_KEY,
+    ollamaEndpoint: keys.ollamaEndpoint || process.env.OLLAMA_ENDPOINT || "http://localhost:11434",
+    customEndpoint: keys.customEndpoint || process.env.CUSTOM_API_ENDPOINT,
+    customHeaders: keys.customHeaders || process.env.CUSTOM_API_HEADERS,
+    prismaAirsKey: keys.prismaAirsKey || process.env.PRISMA_AIRS_KEY,
+    prismaAirsProfileName: keys.prismaAirsProfileName || process.env.PRISMA_AIRS_PROFILE_NAME,
+    prismaAirsProfileId: keys.prismaAirsProfileId || process.env.PRISMA_AIRS_PROFILE_ID,
+    prismaAirsEndpoint: keys.prismaAirsEndpoint || process.env.PRISMA_AIRS_ENDPOINT || "http://localhost:5001",
+    enableSecurityCheck: keys.enableSecurityCheck ?? (process.env.ENABLE_SECURITY_CHECK !== "false"),
+  };
+};
 export const getStoredModels = () => modelsStore["default"] || {};

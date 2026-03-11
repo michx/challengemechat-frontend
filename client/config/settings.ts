@@ -14,14 +14,14 @@ export interface APIKeys {
 }
 
 export const apiSettings: APIKeys = {
-  openaiKey: "",
-  geminiKey: "",
-  claudeKey: "",
+  openaiKey: "", // Enter your OpenAI API Key here
+  geminiKey: "", // Enter your Gemini API Key here
+  claudeKey: "", // Enter your Claude API Key here
   ollamaEndpoint: "http://localhost:11434",
-  huggingfaceKey: "",
+  huggingfaceKey: "", // Enter your Hugging Face API Key here
   customEndpoint: "",
   customHeaders: "",
-  prismaAirsKey: "",
+  prismaAirsKey: "", // Enter your Prisma Cloud API Key here
   prismaAirsProfileName: "",
   prismaAirsProfileId: "",
   enableSecurityCheck: true,
