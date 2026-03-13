@@ -3,14 +3,10 @@ export interface APIKeys {
   geminiKey: string;
   claudeKey: string;
   huggingfaceKey: string;
-  prismaAirsKey: string;
   ollamaEndpoint: string;
-  prismaAirsProfileName: string;
-  prismaAirsProfileId: string;
   customEndpoint: string;
   customHeaders: string;
   enableSecurityCheck: boolean;
-  prismaAirsEndpoint: string;
 }
 
 export const apiSettings: APIKeys = {
@@ -21,9 +17,5 @@ export const apiSettings: APIKeys = {
   huggingfaceKey: "", // Enter your Hugging Face API Key here
   customEndpoint: "",
   customHeaders: "",
-  prismaAirsKey: "", // Enter your Prisma Cloud API Key here
-  prismaAirsProfileName: "",
-  prismaAirsProfileId: "",
   enableSecurityCheck: true,
-  prismaAirsEndpoint: "http://localhost:5001",
 };

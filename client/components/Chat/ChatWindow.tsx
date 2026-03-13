@@ -98,13 +98,10 @@ export function ChatWindow({
     try {
       toast.info("A security check has been sent to Prisma AIRS.");
       
-      const apiKey = localStorage.getItem("prismaApiKey");
-
       const scanResponse = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(apiKey ? { "x-prisma-api-key": apiKey } : {}),
         },
         body: JSON.stringify({
           provider: "prisma-airs",
@@ -157,8 +154,6 @@ export function ChatWindow({
         content: userMessage.content,
       });
 
-      const apiKey = localStorage.getItem("prismaApiKey");
-
       let response;
       if (selectedModel === "vulnerable-agent") {
         response = await fetch("http://127.0.0.1:5001/ssh", {
@@ -171,7 +166,6 @@ export function ChatWindow({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            ...(apiKey ? { "x-prisma-api-key": apiKey } : {}),
           },
           body: JSON.stringify({
             messages: apiMessages,

@@ -65,15 +65,6 @@ export const saveAPIKeys: RequestHandler = async (req, res) => {
     if (keys.customHeaders) {
       process.env.CUSTOM_API_HEADERS = keys.customHeaders;
     }
-    if (keys.prismaAirsKey) {
-      process.env.PRISMA_AIRS_KEY = keys.prismaAirsKey;
-    }
-    if (keys.prismaAirsEndpoint) {
-      process.env.PRISMA_AIRS_ENDPOINT = keys.prismaAirsEndpoint;
-    }
-    if (keys.prismaAirsProfileId) {
-      process.env.PRISMA_AIRS_PROFILE_ID = keys.prismaAirsProfileId;
-    }
 
     res.json({
       success: true,
