@@ -102,7 +102,7 @@ export const getAPIKeys: RequestHandler = async (req, res) => {
 export const getStoredKeys = () => {
   const keys = apiKeysStore["default"] || {};
   return {
-    // Prioritize environment variables over keys from the in-memory store
+    // Prioritize .. environment variables over keys from the in-memory store
     openaiKey: process.env.OPENAI_API_KEY || keys.openaiKey,
     geminiKey: process.env.GEMINI_API_KEY,
     claudeKey: process.env.CLAUDE_API_KEY || keys.claudeKey,
