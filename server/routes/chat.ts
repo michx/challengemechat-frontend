@@ -148,7 +148,7 @@ async function handleGemini(messages: any[], model: string, apiKey: string) {
     fs.appendFileSync(logPath, logEntryRequest);
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" , "x-goog-api-key": apiKey },
