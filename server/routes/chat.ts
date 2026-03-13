@@ -135,27 +135,46 @@ async function handleClaude(messages: any[], model: string, apiKey: string) {
 }
 
 async function handleGemini(messages: any[], model: string, apiKey: string) {
+  const logPath = path.join(process.cwd(), "gemini_debug.log");
   const contents = messages.map((m: any) => ({
     role: m.role === "ai" ? "model" : "user",
     parts: [{ text: m.content }],
   }));
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents }),
+  const payload = { contents };
+
+  try {
+    const logEntryRequest = `\n[${new Date().toISOString()}]\nREQUEST to https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent\nPayload:\n${JSON.stringify(payload, null, 2)}\n`;
+    fs.appendFileSync(logPath, logEntryRequest);
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const responseText = await response.text();
+    const logEntryResponse = `RESPONSE (${response.status} ${response.statusText}):\n${responseText}\n----------------------------------------\n`;
+    fs.appendFileSync(logPath, logEntryResponse);
+
+    if (!response.ok) {
+      const errorData = JSON.parse(responseText);
+      throw new Error(errorData.error?.message || `Gemini Error: ${response.statusText}`);
     }
-  );
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error?.message || `Gemini Error: ${response.statusText}`);
+    const data = JSON.parse(responseText);
+    return { message: data.candidates?.[0]?.content?.parts?.[0]?.text || "No response" };
+  } catch (error: any) {
+    try {
+      fs.appendFileSync(logPath, `\nEXCEPTION: ${error.message}\n----------------------------------------\n`);
+    } catch (e) {
+      console.error("Failed to write to log file:", e);
+    }
+    throw error;
   }
-
-  const data = await response.json();
-  return { message: data.candidates?.[0]?.content?.parts?.[0]?.text || "No response" };
 }
 
 async function handleOllama(messages: any[], model: string, endpoint: string) {
@@ -221,6 +240,7 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
     return null;
   }
 
+  const logPath = path.join(process.cwd(), "prisma_airs_debug.log");
   const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId, prismaAirsEndpoint } = keys;
 
   if (!prismaAirsKey || (!prismaAirsProfileName && !prismaAirsProfileId) || !prismaAirsEndpoint) {
@@ -228,7 +248,14 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
     if (!prismaAirsKey) missing.push("Key");
     if (!prismaAirsProfileName && !prismaAirsProfileId) missing.push("Profile Name/ID");
     if (!prismaAirsEndpoint) missing.push("Endpoint");
-    throw new Error(`Prisma AIRS configuration missing: ${missing.join(", ")}`);
+
+    const errorMsg = `Prisma AIRS configuration missing: ${missing.join(", ")}`;
+    try {
+      fs.appendFileSync(logPath, `\n[${new Date().toISOString()}] CONFIG ERROR: ${errorMsg}\n`);
+    } catch (e) {
+      console.error("Failed to write to log file:", e);
+    }
+    throw new Error(errorMsg);
   }
 
   const payload = {
@@ -246,31 +273,41 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
     },
   };
 
-  const scanResponse = await fetch(
-    `${prismaAirsEndpoint}/chat`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-pan-token" : prismaAirsKey,
-      },
-      body: JSON.stringify(payload),
-    }
-  );
-
-  if (!scanResponse.ok) {
-    throw new Error(`Prisma AIRS Scan Failed: ${scanResponse.statusText}`);
-  }
-
-  const data = await scanResponse.json();
-
   try {
-    const logPath = path.join(process.cwd(), "prisma_airs_debug.log");
-    const logEntry = `\n[${new Date().toISOString()}]\nREQUEST:\n${JSON.stringify(payload, null, 2)}\nRESPONSE:\n${JSON.stringify(data, null, 2)}\n----------------------------------------\n`;
-    fs.appendFileSync(logPath, logEntry);
-  } catch (err) {
-    console.error("Failed to write to local log file:", err);
-  }
+    const logEntryRequest = `\n[${new Date().toISOString()}]\nREQUEST to ${prismaAirsEndpoint}/chat\nPayload:\n${JSON.stringify(payload, null, 2)}\n`;
+    fs.appendFileSync(logPath, logEntryRequest);
 
-  return data;
+    const scanResponse = await fetch(
+      `${prismaAirsEndpoint}/chat`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-pan-token": prismaAirsKey,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const responseText = await scanResponse.text();
+    const logEntryResponse = `RESPONSE (${scanResponse.status} ${scanResponse.statusText}):\n${responseText}\n----------------------------------------\n`;
+    fs.appendFileSync(logPath, logEntryResponse);
+
+    if (!scanResponse.ok) {
+      throw new Error(`Prisma AIRS Scan Failed: ${scanResponse.statusText} - ${responseText}`);
+    }
+
+    try {
+      return JSON.parse(responseText);
+    } catch (e) {
+      return { raw: responseText };
+    }
+  } catch (error: any) {
+    try {
+      fs.appendFileSync(logPath, `\nEXCEPTION: ${error.message}\n----------------------------------------\n`);
+    } catch (e) {
+      console.error("Failed to write to log file:", e);
+    }
+    throw error;
+  }
 }

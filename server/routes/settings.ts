@@ -109,7 +109,7 @@ export const getStoredKeys = () => {
     ollamaEndpoint: process.env.OLLAMA_ENDPOINT || keys.ollamaEndpoint || "http://localhost:11434",
     customEndpoint: process.env.CUSTOM_API_ENDPOINT || keys.customEndpoint,
     customHeaders: process.env.CUSTOM_API_HEADERS || keys.customHeaders,
-    prismaAirsKey: process.env.PRISMA_AIRS_KEY,
+    prismaAirsKey: process.env.PRISMA_AIRS_KEY?.trim(),
     prismaAirsProfileName: process.env.PRISMA_AIRS_PROFILE_NAME,
     prismaAirsProfileId: process.env.PRISMA_AIRS_PROFILE_ID,
     prismaAirsEndpoint: process.env.PRISMA_AIRS_ENDPOINT,
