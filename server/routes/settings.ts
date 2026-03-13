@@ -103,16 +103,16 @@ export const getStoredKeys = () => {
   return {
     // Prioritize environment variables over keys from the in-memory store
     openaiKey: process.env.OPENAI_API_KEY || keys.openaiKey,
-    geminiKey: process.env.GEMINI_API_KEY || keys.geminiKey,
+    geminiKey: process.env.GEMINI_API_KEY,
     claudeKey: process.env.CLAUDE_API_KEY || keys.claudeKey,
     huggingfaceKey: process.env.HUGGINGFACE_API_KEY || keys.huggingfaceKey,
     ollamaEndpoint: process.env.OLLAMA_ENDPOINT || keys.ollamaEndpoint || "http://localhost:11434",
     customEndpoint: process.env.CUSTOM_API_ENDPOINT || keys.customEndpoint,
     customHeaders: process.env.CUSTOM_API_HEADERS || keys.customHeaders,
-    prismaAirsKey: process.env.PRISMA_AIRS_KEY || keys.prismaAirsKey,
-    prismaAirsProfileName: process.env.PRISMA_AIRS_PROFILE_NAME || keys.prismaAirsProfileName,
-    prismaAirsProfileId: process.env.PRISMA_AIRS_PROFILE_ID || keys.prismaAirsProfileId,
-    prismaAirsEndpoint: process.env.PRISMA_AIRS_ENDPOINT || keys.prismaAirsEndpoint || "http://localhost:5001",
+    prismaAirsKey: process.env.PRISMA_AIRS_KEY,
+    prismaAirsProfileName: process.env.PRISMA_AIRS_PROFILE_NAME,
+    prismaAirsProfileId: process.env.PRISMA_AIRS_PROFILE_ID,
+    prismaAirsEndpoint: process.env.PRISMA_AIRS_ENDPOINT,
     // For boolean, give precedence to a stored value, then fallback to env
     enableSecurityCheck: keys.enableSecurityCheck ?? (process.env.ENABLE_SECURITY_CHECK !== "false"),
   };
