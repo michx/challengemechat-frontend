@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Send, ShieldCheck, ShieldAlert, Bot, User } from "lucide-react";
 import { toast } from "sonner";
 import { CategoryGroup } from "@/config/categories";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 interface Message {
   id: string;
@@ -237,10 +238,19 @@ export function ChatWindow({
 
   return (
     <div className="flex flex-col h-full bg-transparent relative">
+      {/* Mobile Header */}
+      <div className="flex items-center justify-between p-4 border-b border-green-900/30 md:hidden bg-black/20 backdrop-blur-sm">
+        <div className="flex items-center gap-2">
+          <Bot size={20} className="text-green-500" />
+          <span className="text-green-500 font-bold">Zen</span>
+        </div>
+        <SidebarTrigger className="text-green-500" />
+      </div>
+
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto p-6 space-y-4"
+        className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4"
       >
         {messages.map((message) => (
           <div
@@ -257,7 +267,7 @@ export function ChatWindow({
                 message.role === "user"
                   ? "chat-message-user"
                   : "chat-message-ai"
-                } max-w-[80%]`}
+                } max-w-[90%] md:max-w-[80%]`}
             >
               <div className={`text-${fontSize} leading-relaxed whitespace-pre-wrap break-words`}>
                 {message.content}
@@ -305,7 +315,7 @@ export function ChatWindow({
 
 
       {/* Input Area */}
-      <div className="border-t border-green-900/30 p-6 bg-black/60 backdrop-blur-md">
+      <div className="border-t border-green-900/30 p-3 md:p-6 bg-black/60 backdrop-blur-md">
         <div className="flex gap-3">
           <div className="relative flex-1">
             <Input
@@ -314,11 +324,11 @@ export function ChatWindow({
               onKeyDown={handleKeyDown}
               placeholder="Type your message..."
               disabled={isLoading}
-              className="w-full pr-40 bg-black/40 border-green-500/30 text-green-400 placeholder:text-green-700/50 focus-visible:ring-green-500/50 font-mono"
+              className="w-full pr-12 md:pr-40 bg-black/40 border-green-500/30 text-green-400 placeholder:text-green-700/50 focus-visible:ring-green-500/50 font-mono"
             />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-green-900/30 text-green-400 text-xs px-3 py-1.5 rounded-full border border-green-500/30 font-medium pointer-events-none select-none flex items-center gap-1.5 max-w-[150px]">
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-green-900/30 text-green-400 text-xs px-2 md:px-3 py-1.5 rounded-full border border-green-500/30 font-medium pointer-events-none select-none flex items-center gap-1.5 max-w-[150px]">
               <Bot size={12} className="flex-shrink-0" />
-              <span className="truncate">{selectedModel}</span>
+              <span className="truncate hidden md:inline">{selectedModel}</span>
             </div>
           </div>
           <button

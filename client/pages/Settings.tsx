@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Save, Check, Library, Key } from "lucide-react";
 import { getCategoryItems, saveCategoryItems } from "@/config/categories";
 import { apiSettings } from "@/config/settings";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Settings() {
   const [categoryItemsJson, setCategoryItemsJson] = useState(() => {
@@ -51,11 +52,16 @@ export default function Settings() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Settings</h1>
-            <p className="text-gray-500 mt-1">
-              Configure your prompt library
-            </p>
+          <div className="flex items-center gap-4">
+            <div className="md:hidden">
+              <SidebarTrigger />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Settings</h1>
+              <p className="text-gray-500 mt-1">
+                Configure your prompt library
+              </p>
+            </div>
           </div>
           <button
             onClick={handleSave}

@@ -104,7 +104,7 @@ export const getStoredKeys = () => {
   return {
     // Prioritize .. environment variables over keys from the in-memory store
     openaiKey: process.env.OPENAI_API_KEY || keys.openaiKey,
-    geminiKey: process.env.GEMINI_API_KEY,
+    geminiKey: process.env.GEMINI_API_KEY || keys.geminiKey,
     claudeKey: process.env.CLAUDE_API_KEY || keys.claudeKey,
     huggingfaceKey: process.env.HUGGINGFACE_API_KEY || keys.huggingfaceKey,
     ollamaEndpoint: process.env.OLLAMA_ENDPOINT || keys.ollamaEndpoint || "http://localhost:11434",
