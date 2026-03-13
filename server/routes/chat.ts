@@ -151,7 +151,7 @@ async function handleGemini(messages: any[], model: string, apiKey: string) {
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" , "x-goog-api-key": apiKey },
         body: JSON.stringify(payload),
       }
     );
