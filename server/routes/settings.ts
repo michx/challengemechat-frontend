@@ -101,17 +101,19 @@ export const getAPIKeys: RequestHandler = async (req, res) => {
 export const getStoredKeys = () => {
   const keys = apiKeysStore["default"] || {};
   return {
-    openaiKey: keys.openaiKey || process.env.OPENAI_API_KEY,
-    geminiKey: keys.geminiKey || process.env.GEMINI_API_KEY,
-    claudeKey: keys.claudeKey || process.env.CLAUDE_API_KEY,
-    huggingfaceKey: keys.huggingfaceKey || process.env.HUGGINGFACE_API_KEY,
-    ollamaEndpoint: keys.ollamaEndpoint || process.env.OLLAMA_ENDPOINT || "http://localhost:11434",
-    customEndpoint: keys.customEndpoint || process.env.CUSTOM_API_ENDPOINT,
-    customHeaders: keys.customHeaders || process.env.CUSTOM_API_HEADERS,
-    prismaAirsKey: keys.prismaAirsKey || process.env.PRISMA_AIRS_KEY,
-    prismaAirsProfileName: keys.prismaAirsProfileName || process.env.PRISMA_AIRS_PROFILE_NAME,
-    prismaAirsProfileId: keys.prismaAirsProfileId || process.env.PRISMA_AIRS_PROFILE_ID,
-    prismaAirsEndpoint: keys.prismaAirsEndpoint || process.env.PRISMA_AIRS_ENDPOINT || "http://localhost:5001",
+    // Prioritize environment variables over keys from the in-memory store
+    openaiKey: process.env.OPENAI_API_KEY || keys.openaiKey,
+    geminiKey: process.env.GEMINI_API_KEY || keys.geminiKey,
+    claudeKey: process.env.CLAUDE_API_KEY || keys.claudeKey,
+    huggingfaceKey: process.env.HUGGINGFACE_API_KEY || keys.huggingfaceKey,
+    ollamaEndpoint: process.env.OLLAMA_ENDPOINT || keys.ollamaEndpoint || "http://localhost:11434",
+    customEndpoint: process.env.CUSTOM_API_ENDPOINT || keys.customEndpoint,
+    customHeaders: process.env.CUSTOM_API_HEADERS || keys.customHeaders,
+    prismaAirsKey: process.env.PRISMA_AIRS_KEY || keys.prismaAirsKey,
+    prismaAirsProfileName: process.env.PRISMA_AIRS_PROFILE_NAME || keys.prismaAirsProfileName,
+    prismaAirsProfileId: process.env.PRISMA_AIRS_PROFILE_ID || keys.prismaAirsProfileId,
+    prismaAirsEndpoint: process.env.PRISMA_AIRS_ENDPOINT || keys.prismaAirsEndpoint || "http://localhost:5001",
+    // For boolean, give precedence to a stored value, then fallback to env
     enableSecurityCheck: keys.enableSecurityCheck ?? (process.env.ENABLE_SECURITY_CHECK !== "false"),
   };
 };
