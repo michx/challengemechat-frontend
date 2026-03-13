@@ -53,13 +53,13 @@ export default function Index() {
     {/* Global Header */}
     <div className="flex-none border-b border-border px-4 py-2 bg-background flex items-center justify-between z-20 relative">
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2 px-2 py-1 bg-primary/10 border border-primary/20">
+        <div className="hidden sm:flex items-center gap-2 px-2 py-1 bg-primary/10 border border-primary/20">
             <div className="w-2 h-2 bg-green-500 animate-pulse" />
             <span className="text-xs font-bold tracking-widest text-primary">NET_ACTIVE</span>
         </div>
-        <h1 className="text-xl font-bold text-foreground tracking-tight uppercase">
+        <h1 className="text-lg md:text-xl font-bold text-foreground tracking-tight uppercase">
             Challenge<span className="text-primary">_</span>ME<span className="text-primary">_</span>Chat
-            <span className="text-xs text-muted-foreground ml-2 font-normal">by Palo Alto Networks</span>
+            <span className="hidden md:inline text-xs text-muted-foreground ml-2 font-normal">by Palo Alto Networks</span>
         </h1>
       </div>
       <div className="flex items-center gap-3">
@@ -134,7 +134,6 @@ export default function Index() {
                 onStateChange={setChatState}
                 onTokenCountChange={setTotalTokens}
                 onScanComplete={setScanResult}
-                onOpenMobileSidebar={() => setMobileDrawerOpen(true)}
               />
             </div>
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, ShieldCheck, ShieldAlert, Bot, User, Menu } from "lucide-react";
+import { Send, ShieldCheck, ShieldAlert, Bot, User } from "lucide-react";
 import { toast } from "sonner";
 import { CategoryGroup } from "@/config/categories";
 
@@ -23,7 +23,6 @@ interface ChatWindowProps {
   onStateChange?: (state: { isLoading: boolean; isScanning: boolean }) => void;
   onScanComplete?: (result: any) => void;
   onTokenCountChange?: (count: number) => void;
-  onOpenMobileSidebar?: () => void;
 }
 
 export function ChatWindow({
@@ -36,7 +35,6 @@ export function ChatWindow({
   onStateChange,
   onScanComplete,
   onTokenCountChange,
-  onOpenMobileSidebar,
 }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -239,17 +237,6 @@ export function ChatWindow({
 
   return (
     <div className="flex flex-col h-full bg-transparent relative">
-      {/* Mobile Header */}
-      <div className="flex items-center justify-between p-4 border-b border-green-900/30 md:hidden bg-black/20 backdrop-blur-sm">
-        <div className="flex items-center gap-2">
-          <Bot size={20} className="text-green-500" />
-          <span className="text-green-500 font-bold">Zen</span>
-        </div>
-        <Button variant="ghost" size="icon" className="md:hidden text-green-500" onClick={onOpenMobileSidebar}>
-          <Menu size={20} />
-        </Button>
-      </div>
-
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}

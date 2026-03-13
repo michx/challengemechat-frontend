@@ -152,7 +152,7 @@ export default function Login() {
         </div>
 
         {/* Login Card */}
-        <div className="bg-black/60 backdrop-blur-md border border-green-500/30 rounded-2xl shadow-xl p-8">
+        <div className="bg-black/60 backdrop-blur-md border border-green-500/30 rounded-2xl shadow-xl p-6 md:p-8">
           {/* Progress Indicator */}
           <div className="flex gap-2 mb-6">
             <div

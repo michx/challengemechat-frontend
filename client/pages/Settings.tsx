@@ -94,8 +94,7 @@ export default function Settings() {
                 onChange={(e) =>
                   setCategoryItemsJson(e.target.value)
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition font-mono text-sm"
-                rows={15}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition font-mono text-sm h-80 md:h-[500px]"
               />
             </div>
           </div>
