@@ -12,7 +12,7 @@ import SettingsPage from "./Settings";
 export default function Index() {
   const navigate = useNavigate();
   const selectedProvider = "gemini";
-  const selectedModel = "gemini-2.5-flash-latest";
+  const selectedModel = "gemini-2.5-flash-lite";
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">("base");
