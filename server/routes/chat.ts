@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { getStoredKeys, APIKeys } from "./settings";
+import * as fs from "fs";
+import * as path from "path";
 
 export const handleChat = async (req: Request, res: Response) => {
   const { messages, provider, model, endpoint, prompt, response: aiResponse } = req.body;
@@ -260,5 +262,15 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
     throw new Error(`Prisma AIRS Scan Failed: ${scanResponse.statusText}`);
   }
 
-  return await scanResponse.json();
+  const data = await scanResponse.json();
+
+  try {
+    const logPath = path.join(process.cwd(), "prisma_airs_debug.log");
+    const logEntry = `\n[${new Date().toISOString()}]\nREQUEST:\n${JSON.stringify(payload, null, 2)}\nRESPONSE:\n${JSON.stringify(data, null, 2)}\n----------------------------------------\n`;
+    fs.appendFileSync(logPath, logEntry);
+  } catch (err) {
+    console.error("Failed to write to local log file:", err);
+  }
+
+  return data;
 }
