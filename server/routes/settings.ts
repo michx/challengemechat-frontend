@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import process from "process";
 
 export interface APIKeys {
   openaiKey?: string;
