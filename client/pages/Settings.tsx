@@ -10,6 +10,8 @@ export default function Settings() {
   });
 
   const [prismaApiKey, setPrismaApiKey] = useState(() => localStorage.getItem("prismaApiKey") || "");
+  const [prismaAirsEndpoint, setPrismaAirsEndpoint] = useState(() => localStorage.getItem("prismaAirsEndpoint") || "");
+  const [prismaAirsProfileId, setPrismaAirsProfileId] = useState(() => localStorage.getItem("prismaAirsProfileId") || "");
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
 
@@ -19,6 +21,8 @@ export default function Settings() {
         const parsedItems = JSON.parse(categoryItemsJson);
         saveCategoryItems(parsedItems);
         localStorage.setItem("prismaApiKey", prismaApiKey);
+        localStorage.setItem("prismaAirsEndpoint", prismaAirsEndpoint);
+        localStorage.setItem("prismaAirsProfileId", prismaAirsProfileId);
       } catch (e) {
         setError("Invalid JSON format for category items.");
         return;
@@ -32,6 +36,8 @@ export default function Settings() {
           keys: {
             ...apiSettings,
             prismaAirsKey: prismaApiKey,
+            prismaAirsEndpoint: prismaAirsEndpoint,
+            prismaAirsProfileId: prismaAirsProfileId,
           },
           models: {},
         }),
@@ -84,16 +90,40 @@ export default function Settings() {
             <h2 className="font-semibold text-gray-900">API Configuration</h2>
           </div>
           <div className="p-6">
-            <div className="space-y-2">
-              <label className="block text-sm font-semibold text-gray-900">Prisma AIRS API Key</label>
-              <input
-                type="password"
-                value={prismaApiKey}
-                onChange={(e) => setPrismaApiKey(e.target.value)}
-                placeholder="Enter your Prisma Cloud API Key"
-                className="w-full max-w-xl px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition text-sm font-mono"
-              />
-              <p className="text-xs text-gray-500">Required for real-time security scanning.</p>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-900">Prisma AIRS API Key</label>
+                <input
+                  type="password"
+                  value={prismaApiKey}
+                  onChange={(e) => setPrismaApiKey(e.target.value)}
+                  placeholder="Enter your Prisma Cloud API Key"
+                  className="w-full max-w-xl px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition text-sm font-mono"
+                />
+                <p className="text-xs text-gray-500">Required for real-time security scanning.</p>
+              </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-900">Prisma AIRS API URL</label>
+                <input
+                  type="text"
+                  value={prismaAirsEndpoint}
+                  onChange={(e) => setPrismaAirsEndpoint(e.target.value)}
+                  placeholder="e.g., http://localhost:5001"
+                  className="w-full max-w-xl px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition text-sm font-mono"
+                />
+                <p className="text-xs text-gray-500">The endpoint for the Prisma AIRS service.</p>
+              </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-900">Prisma AIRS Profile ID</label>
+                <input
+                  type="text"
+                  value={prismaAirsProfileId}
+                  onChange={(e) => setPrismaAirsProfileId(e.target.value)}
+                  placeholder="Enter your Prisma AIRS Profile ID"
+                  className="w-full max-w-xl px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition text-sm font-mono"
+                />
+                <p className="text-xs text-gray-500">The security profile ID to use for scanning.</p>
+              </div>
             </div>
           </div>
         </div>
