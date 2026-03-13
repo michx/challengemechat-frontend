@@ -90,7 +90,7 @@ export default function Index() {
             onClearChat={handleClearChat}
             currentFontSize={fontSize}
           />
-    </div>
+        </div>
 
 
         {/* Mobile Sidebar Overlay */}
@@ -109,7 +109,7 @@ export default function Index() {
                 currentFontSize={fontSize}
               />
             </div>
-            </>
+        </>
         )}
 
         {/* Main Chat Area */}
@@ -121,7 +121,7 @@ export default function Index() {
             backgroundPosition: "center",
           }}
         >
-        <div className="flex-1 flex min-w-0 overflow-hidden">
+          <div className="flex-1 flex min-w-0 overflow-hidden">
             {/* Chat Window */}
             <div className="flex-1 flex flex-col min-w-0">
               <ChatWindow
@@ -134,6 +134,7 @@ export default function Index() {
                 onStateChange={setChatState}
                 onTokenCountChange={setTotalTokens}
                 onScanComplete={setScanResult}
+                onOpenMobileSidebar={() => setMobileDrawerOpen(true)}
               />
             </div>
 
@@ -146,8 +147,8 @@ export default function Index() {
             scanResult={scanResult}
             totalTokens={totalTokens}
           />
+          </div>
         </div>
-      </div>
       </div>
       {/* Settings Modal */}
       {isSettingsOpen && (
