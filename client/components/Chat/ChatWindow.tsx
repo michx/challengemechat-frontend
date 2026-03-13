@@ -14,7 +14,7 @@ interface Message {
 }
 
 interface ChatWindowProps {
-  selectedModel: string;
+  selectedModel: "gemini-2.5-flash-latest";
   selectedProvider: string;
   categoryGroups: CategoryGroup[];
   selectedCategory?: string;
@@ -66,7 +66,7 @@ export function ChatWindow({
     setMessages([
       {
         id: "1",
-        content: `Hi! I'm using ${selectedModel}. How can I help you today?`,
+        content: `Hi! My name is Zen and I'm your AI assistant. How can I help you today?`,
         role: "ai",
         timestamp: new Date(),
       },
