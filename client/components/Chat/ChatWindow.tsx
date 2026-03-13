@@ -39,7 +39,7 @@ export function ChatWindow({
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: `Hi! I'm using ${selectedModel}. How can I help you today?`,
+      content: `Hi! My name is Zen and I'm your AI assistant. How can I help you today?`,
       role: "ai",
       timestamp: new Date(),
     },
