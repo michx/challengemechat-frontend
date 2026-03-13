@@ -26,7 +26,7 @@ export const handleChat = async (req: Request, res: Response) => {
       break;
   }
 
-  if (!apiKey && provider !== "ollama" && provider !== "prisma-airs") {
+  if (!apiKey && provider !== "ollama") {
     return res.status(400).json({ error: `API Key for provider '${provider}' is missing. Please configure it in Settings.` });
   }
  
@@ -222,8 +222,11 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
   const { prismaAirsKey, prismaAirsProfileName, prismaAirsProfileId, prismaAirsEndpoint } = keys;
 
   if (!prismaAirsKey || (!prismaAirsProfileName && !prismaAirsProfileId) || !prismaAirsEndpoint) {
-    console.warn("Prisma AIRS credentials or endpoint missing on server. Skipping security scan.");
-    return null;
+    const missing = [];
+    if (!prismaAirsKey) missing.push("Key");
+    if (!prismaAirsProfileName && !prismaAirsProfileId) missing.push("Profile Name/ID");
+    if (!prismaAirsEndpoint) missing.push("Endpoint");
+    throw new Error(`Prisma AIRS configuration missing: ${missing.join(", ")}`);
   }
 
   const payload = {

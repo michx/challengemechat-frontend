@@ -109,6 +109,11 @@ export function ChatWindow({
         }),
       });
 
+      if (!scanResponse.ok) {
+        const err = await scanResponse.json();
+        throw new Error(err.error || "Scan failed");
+      }
+
       const data = await scanResponse.json();
       console.log("Security Scan Result:", data);
       
