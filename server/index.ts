@@ -1,5 +1,8 @@
 import "dotenv/config";
 import express from "express";
+import fs from "fs";
+import https from "https";
+import path from "path";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { sendOTP, verifyOTP } from "./routes/auth";
@@ -9,6 +12,23 @@ import { handleChat } from "./routes/chat";
 
 export function createServer() {
   const app = express();
+
+  // SSL certificates for https
+  const keyPath = path.join(__dirname, 'ssl', 'server.key');
+  const certPath = path.join(__dirname, 'ssl', 'server.cert');
+
+  let httpsServer;
+  try {
+      const key = fs.readFileSync(keyPath);
+      const cert = fs.readFileSync(certPath);
+
+      httpsServer = https.createServer({ key: key, cert: cert }, app);
+  } catch (error: any) {
+      console.warn("Warning: SSL certificates not found. Starting in HTTP mode.");
+  }
+
+
+
 
   // Middleware
   app.use(cors());
