@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 export const handleChat = async (req: Request, res: Response) => {
-  const { messages, provider, model, endpoint, prompt, response: aiResponse } = req.body;
+  const { messages, provider, model, endpoint, prompt, response: aiResponse, user } = req.body;
   const storedKeys = getStoredKeys();
   let apiKey: string | undefined;
 
@@ -57,7 +57,7 @@ export const handleChat = async (req: Request, res: Response) => {
         }
         break;
       case "prisma-airs":
-        result = await handlePrismaAIRS(prompt, aiResponse, model, storedKeys);
+        result = await handlePrismaAIRS(prompt, aiResponse, model, storedKeys, user);
         break;
       default:
         return res.status(400).json({ error: `Provider ${provider} not supported` });
@@ -235,7 +235,7 @@ async function handleHuggingFace(messages: any[], model: string, apiKey: string)
   return { message: generatedText };
 }
 
-async function handlePrismaAIRS(prompt: string, response: string, model: string, keys: APIKeys) {
+async function handlePrismaAIRS(prompt: string, response: string, model: string, keys: APIKeys, user?: string) {
   if (keys.enableSecurityCheck === false) {
     return null;
   }
@@ -270,6 +270,7 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
     metadata: {
       app_name: "CMC - Challenge Me Chat",
       model: model,
+      app_user: user,
     },
   };
 

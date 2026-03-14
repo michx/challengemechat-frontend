@@ -107,7 +107,8 @@ export function ChatWindow({
           provider: "prisma-airs",
           model: selectedModel,
           prompt: prompt,
-          response: response
+          response: response,
+          user: localStorage.getItem("userEmail")
         }),
       });
 

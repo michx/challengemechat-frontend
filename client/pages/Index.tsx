@@ -21,10 +21,16 @@ export default function Index() {
   const [scanResult, setScanResult] = useState<any>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [categoryGroups, setCategoryGroups] = useState<CategoryGroup[]>([]);
+  const [userEmail, setUserEmail] = useState("");
 
   const [totalTokens, setTotalTokens] = useState(0);
   useEffect(() => {
     setCategoryGroups(getDynamicCategoryGroups());
+  }, []);
+
+  useEffect(() => {
+    const email = localStorage.getItem("userEmail");
+    if (email) setUserEmail(email);
   }, []);
 
   const handleSettingsClose = () => {
@@ -66,6 +72,11 @@ export default function Index() {
         <div className="hidden md:flex items-center border-r border-border pr-6 mr-2">
             <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/PaloAltoNetworks_2020_Logo.svg" alt="Palo Alto Networks Logo" className="h-4 invert" />
         </div>
+        {userEmail && (
+          <span className="hidden md:inline-block text-sm text-green-400 font-mono mr-2">
+            {userEmail}
+          </span>
+        )}
         <UserMenu 
           onLogout={handleLogout} 
           onOpenSettings={() => setIsSettingsOpen(true)}
