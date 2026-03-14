@@ -275,17 +275,18 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
   };
 
   try {
-    const logEntryRequest = `\n[${new Date().toISOString()}]\nREQUEST to ${prismaAirsEndpoint}/chat\nPayload:\n${JSON.stringify(payload, null, 2)}\n`;
+    const hdrs =  {
+          "Content-Type": "application/json",
+          "x-pan-token": prismaAirsKey,
+        };
+    const logEntryRequest = `\n[${new Date().toISOString()}]\nREQUEST to ${prismaAirsEndpoint}\nhdrs\nPayload:\n${JSON.stringify(payload, null, 2)}\n`;
     fs.appendFileSync(logPath, logEntryRequest);
 
     const scanResponse = await fetch(
       `${prismaAirsEndpoint}`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-pan-token": prismaAirsKey,
-        },
+        headers: hdrs,
         body: JSON.stringify(payload),
       }
     );
