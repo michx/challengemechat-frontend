@@ -286,7 +286,7 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
       `${prismaAirsEndpoint}`,
       {
         method: "POST",
-        headers: JSON.stringify(hdrs),
+        headers: hdrs,
         body: JSON.stringify(payload),
       }
     );
