@@ -103,13 +103,13 @@ export const getStoredKeys = () => {
   const keys = apiKeysStore["default"] || {};
   return {
     // Prioritize .. environment variables over keys from the in-memory store
-    openaiKey: process.env.OPENAI_API_KEY || keys.openaiKey,
-    geminiKey: process.env.GEMINI_API_KEY || keys.geminiKey,
-    claudeKey: process.env.CLAUDE_API_KEY || keys.claudeKey,
-    huggingfaceKey: process.env.HUGGINGFACE_API_KEY || keys.huggingfaceKey,
-    ollamaEndpoint: process.env.OLLAMA_ENDPOINT || keys.ollamaEndpoint || "http://localhost:11434",
-    customEndpoint: process.env.CUSTOM_API_ENDPOINT || keys.customEndpoint,
-    customHeaders: process.env.CUSTOM_API_HEADERS || keys.customHeaders,
+    openaiKey: process.env.OPENAI_API_KEY,
+    geminiKey: process.env.GEMINI_API_KEY,
+    claudeKey: process.env.CLAUDE_API_KEY,
+    huggingfaceKey: process.env.HUGGINGFACE_API_KEY,
+    ollamaEndpoint: process.env.OLLAMA_ENDPOINT,
+    customEndpoint: process.env.CUSTOM_API_ENDPOINT,
+    customHeaders: process.env.CUSTOM_API_HEADERS,
     prismaAirsKey: process.env.PRISMA_AIRS_KEY?.trim(),
     prismaAirsProfileName: process.env.PRISMA_AIRS_PROFILE_NAME,
     prismaAirsProfileId: process.env.PRISMA_AIRS_PROFILE_ID,
