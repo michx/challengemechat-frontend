@@ -279,7 +279,7 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
           "Content-Type": "application/json",
           "x-pan-token": prismaAirsKey,
         };
-    const logEntryRequest = `\n[${new Date().toISOString()}]\nREQUEST to ${prismaAirsEndpoint}\nhdrs\nPayload:\n${JSON.stringify(payload, null, 2)}\n`;
+    const logEntryRequest = `\n[${new Date().toISOString()}]\nREQUEST to ${prismaAirsEndpoint}\Headers\n${JSON.stringify(hdrs, null, 2)}\nPayload:\n${JSON.stringify(payload, null, 2)}\n`;
     fs.appendFileSync(logPath, logEntryRequest);
 
     const scanResponse = await fetch(
