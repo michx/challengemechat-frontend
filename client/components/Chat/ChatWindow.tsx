@@ -306,7 +306,7 @@ export function ChatWindow({
 
 
       {/* Input Area */}
-      <div className="border-t border-green-900/30 p-3 md:p-6 bg-black/60 backdrop-blur-md">
+      <div className="border-t border-green-900/30 p-3 md:p-6 bg-black/60 backdrop-blur-md pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
         <div className="flex gap-3">
           <div className="relative flex-1">
             <Input

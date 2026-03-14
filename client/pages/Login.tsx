@@ -138,7 +138,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background font-mono dark" style={{
+    <div className="min-h-[100dvh] flex items-center justify-center bg-background font-mono dark" style={{
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.pexels.com/photos/163100/matrix-wallpaper-163100.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`,
       backgroundSize: "cover",
       backgroundPosition: "center",
