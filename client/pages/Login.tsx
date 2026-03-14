@@ -113,20 +113,28 @@ export default function Login() {
       return;
     }
 
-    if (password !== "P4loch4t") {
-      setError("Invalid password");
-      return;
-    }
-
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Invalid password");
+      }
+
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", username);
       localStorage.setItem("userPhone", phone);
-      setIsLoading(false);
       navigate("/");
-    }, 800);
+    } catch (err) {
+      setError("Invalid password");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
