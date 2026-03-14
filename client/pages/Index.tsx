@@ -111,7 +111,7 @@ export default function Index() {
               className="fixed inset-0 bg-black/50 z-40 md:hidden"
               onClick={() => setMobileDrawerOpen(false)}
             />
-            <div className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar-background border-r border-sidebar-border z-50 md:hidden overflow-y-auto">
+            <div className="fixed left-0 top-0 bottom-0 w-64 bg-sidebar-background border-r border-sidebar-border z-50 md:hidden">
               <Sidebar
                 onCategoryItemSelect={handleCategoryItemSelect}
                 categoryGroups={categoryGroups}
