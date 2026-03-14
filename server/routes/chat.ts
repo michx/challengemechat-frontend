@@ -278,7 +278,7 @@ async function handlePrismaAIRS(prompt: string, response: string, model: string,
     fs.appendFileSync(logPath, logEntryRequest);
 
     const scanResponse = await fetch(
-      `${prismaAirsEndpoint}/chat`,
+      `${prismaAirsEndpoint}`,
       {
         method: "POST",
         headers: {
