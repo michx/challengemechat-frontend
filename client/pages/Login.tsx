@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Lock, Bot, Phone, Check } from "lucide-react";
+import { User, Lock, Bot, Phone, Check } from "lucide-react";
 
 type AuthStep = "phone" | "email-password" | "otp";
 
 export default function Login() {
   const [step, setStep] = useState<AuthStep>("phone");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
@@ -108,13 +108,13 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
-    if (!email || !password) {
+    if (!username || !password) {
       setError("Please fill in all fields");
       return;
     }
 
-    if (!email.includes("@")) {
-      setError("Please enter a valid email");
+    if (password !== "P4loch4t") {
+      setError("Invalid password");
       return;
     }
 
@@ -122,7 +122,7 @@ export default function Login() {
 
     setTimeout(() => {
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userEmail", username);
       localStorage.setItem("userPhone", phone);
       setIsLoading(false);
       navigate("/");
@@ -289,21 +289,21 @@ export default function Login() {
                 </p>
               </div>
 
-              {/* Email Field */}
+              {/* Username Field */}
               <div>
                 <label className="block text-sm font-semibold text-gray-100 mb-2">
-                  Email Address
+                  Username
                 </label>
                 <div className="relative">
-                  <Mail
+                  <User
                     size={18}
                     className="absolute left-3 top-3 text-green-400/50"
                   />
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="username"
                     className="w-full pl-10 pr-4 py-2 bg-black/40 border-green-500/30 text-green-400 placeholder:text-green-700/50 focus:ring-green-500/50 rounded-lg transition"
                   />
                 </div>
