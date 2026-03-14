@@ -6,7 +6,7 @@ import { createServer } from "./index";
 import express from "express";
 
 const app = createServer();
-const port = process.env.PORT || 3000;
+const port = 443;
 
 // In production, serve the built SPA files
 const __dirname = import.meta.dirname;
@@ -46,6 +46,7 @@ app.get("*", (req, res) => {
 // Graceful shutdown
 process.on("SIGTERM", () => {
   console.log("🛑 Received SIGTERM, shutting down gracefully");
+
   process.exit(0);
 });
 
