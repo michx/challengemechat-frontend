@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { sendOTP, verifyOTP } from "./routes/auth";
+import { handleLogin } from "./routes/auth-login";
 import { saveAPIKeys, getAPIKeys } from "./routes/settings";
 import { handleChat } from "./routes/chat";
 
@@ -25,6 +26,7 @@ export function createServer() {
   // Authentication routes
   app.post("/api/auth/send-otp", sendOTP);
   app.post("/api/auth/verify-otp", verifyOTP);
+  app.post("/api/auth/login", handleLogin);
 
   // Settings routes
   app.post("/api/settings/save-keys", saveAPIKeys);
